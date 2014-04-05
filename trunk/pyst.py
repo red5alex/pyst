@@ -31,7 +31,6 @@ class PestCtrlFile:
 class JacTestResultsFile:
     paramValues = []
     obsValues = {}
-    slopes = {}
     def __init__(self,filename):
         self.load(filename)
 
@@ -53,9 +52,10 @@ class JacTestResultsFile:
             self.obsValues[obs_name] = obs_values
 
     def calcSlopes(self):
+        slopes = {}
         for ob in self.obsValues:
             ov = self.obsValues[ob]
-            self.slopes[ob] = []
+            slopes[ob] = []
             for v in ov:
                 i = ov.index(v)
                 if i == len(ov)-1:
@@ -66,6 +66,8 @@ class JacTestResultsFile:
                    p1 = self.paramValues[i]
                    p2 = self.paramValues[i+1]
                    slope = (o2 - o1) / (p2 - p1)
-                   self.slopes[ob].append(slope) # append the slope to the list
+                   slopes[ob].append(slope) # append the slope to the list
+
+        return slopes
 
 
