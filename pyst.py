@@ -7,15 +7,76 @@ class Observation:
         self.weight = weight
         self.group = group
 
+class _pestVarProperty:
+    name = ''
+    type = ''
+    value = ''
+    description = ''
+
+    def __init(self, name, type, value, description):
+        self.name = name
+        self.type = type
+        self.value = value
+        self.description = description
+
+class _pestVarDescription:
+    desc = {}
+
+    def __init__(self,filename):
+        descFile = open(filename)
+        lines = descFile.readlines()
+        for line in lines:
+            name, type, value, description = line.split()
+            self.descr[name] = _pestVarProperty(name, type, value, description)
+        descFile.close()
+
 class PestCtrlFile:
     obs = {}
-
+    ctd = {}
     def __init__(self):
         pass
 
     def __init__(self,filename):
         self.load(filename)
 
+    def parseWords(self,words,names,types,counts):
+        if len(words) in counts:
+            for word in words:
+                name = names[words.index(word)].strip('[',']')
+                if types[name] == 'str':
+                    self.ctd[names] = word
+                if types[name] == 'int':
+                    self.ctd[names] = int(word)
+                if types[name] == 'float':
+                    self.ctd[names] = float(word)
+        else:
+            print('wrong number of args found in line:')
+            print(words)
+            raise('wrong number of args')
+
+   # load control data
+   # def load(self,filename):
+   #     pstfile = open(filename)
+   #     #import
+   #     self.ctd = {}
+   #     while pstfile.readline() != "* control data\n":
+   #         pass
+   #
+   #     #line 1
+   #     names = ['RSTFLE','PESTMODE']
+   #     types = ['str'   ,'str']
+   #     counts = [2]
+   #     words = pstfile.readline().split()
+   #     self.parseWords(words,names,types,counts)
+   #
+   #     #line 2
+   #     self.parseWords(pstfile.readline().split(),
+   #                     "NPAR NOBS NPARGP NPRIOR NOBSGP [MAXCOMPDIM]".split(),
+   #                     "int  int  int    int    int     int".split(),
+   #                     [5,6])
+
+
+   # load observation data
     def load(self,filename):
         pstfile = open(filename)
         #import observations
