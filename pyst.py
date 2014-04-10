@@ -23,7 +23,18 @@ class _pestVariable:
 
 
 class PestDefinitions:
+    """This object is a kind of database that contains information about the definition of different
+    entities in PEST.
+    Members:
+    - pestVariables:        Dictionary containing information about variables used in PEST; includes
+                            name, type, a description, allowed values and the location where it is stored.
+                            Example: PestDefinitions.pestVariables['NPAR'] = "number of parameters".
+    - fileFormatsTemplates: Dictionary containing the contents of file templates, e.g. of the pst file format
+
+    """
+
     pestVariables = {}
+    fileFormatTemplates = {}
 
     def loadVarDef(self,filename):
         descFile = open(filename)
@@ -35,11 +46,21 @@ class PestDefinitions:
             self.pestVariables[name] = _pestVariable(name, type, value, description.strip(), section)
         descFile.close()
 
+    def loadFileFormatTemplate(self, filename):
+        defFile = open(filename)
+        extension = filename.split('.')[0]
+        lines = defFile.readlines()
+        self.fileFormatTemplates[extension] = [item.strip() for item in lines]
+        defFile.close()
+
     def __init__(self):
         pestVariables = {}
         self.loadVarDef('controlData.vardef.txt')
+        self.loadFileFormatTemplate('pst.fileDef.txt')
+
 
 class PestCtrlFile:
+    _pstDefInfo = PestDefinitions()
     obs = {}
     ctd = {}
     def __init__(self):
@@ -48,28 +69,34 @@ class PestCtrlFile:
     def __init__(self,filename):
         self.load(filename)
 
-    def parseWords(self,words,names,types,counts):
+    def _parseWords(self,words,names,counts):
         if len(words) in counts:
             for word in words:
                 name = names[words.index(word)].strip('[',']')
-                if types[name] == 'str':
+                type = _pstDefInfo.pestVariables[name].type
+                if type == 'text':
                     self.ctd[names] = word
-                if types[name] == 'int':
+                if type == 'integer':
                     self.ctd[names] = int(word)
-                if types[name] == 'float':
+                if type == 'real':
                     self.ctd[names] = float(word)
         else:
             print('wrong number of args found in line:')
             print(words)
             raise('wrong number of args')
 
+    #TODO: subdivide the whole string list in sections, and make these accesible through a disctionary
+
+
    # load control data
-   # def load(self,filename):
-   #     pstfile = open(filename)
-   #     #import
-   #     self.ctd = {}
-   #     while pstfile.readline() != "* control data\n":
-   #         pass
+    def load(self,filename):
+        pstfile = open(filename)
+        #import
+   #       self.ctd = {}
+   #       while pstfile.readline() != "* control data\n":
+   #            pass
+   #
+   #      controlDataStart = self._pstDefInfo.fileFormatTemplates['pst'].index('* control data')
    #
    #     #line 1
    #     names = ['RSTFLE','PESTMODE']
@@ -86,8 +113,8 @@ class PestCtrlFile:
 
 
    # load observation data
-    def load(self,filename):
-        pstfile = open(filename)
+   # def load(self,filename):
+   #     pstfile = open(filename)
         #import observations
         while pstfile.readline() != "* observation data\n":
             pass
