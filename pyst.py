@@ -7,28 +7,37 @@ class Observation:
         self.weight = weight
         self.group = group
 
-class _pestVarProperty:
+class _pestVariable:
     name = ''
     type = ''
     value = ''
     description = ''
+    section = ''
 
-    def __init(self, name, type, value, description):
+    def __init__(self, name, type, values, description, section):
         self.name = name
         self.type = type
-        self.value = value
+        self.value = values
         self.description = description
+        self.section = section
 
-class _pestVarDescription:
-    desc = {}
 
-    def __init__(self,filename):
+class PestDefinitions:
+    pestVariables = {}
+
+    def loadVarDef(self,filename):
         descFile = open(filename)
-        lines = descFile.readlines()
+        section = descFile.readline().strip()
+        descFile.readline() #jump table header
+        lines = descFile.readlines() #read all other
         for line in lines:
-            name, type, value, description = line.split()
-            self.descr[name] = _pestVarProperty(name, type, value, description)
+            name, type, value, description = line.split('\t')
+            self.pestVariables[name] = _pestVariable(name, type, value, description.strip(), section)
         descFile.close()
+
+    def __init__(self):
+        pestVariables = {}
+        self.loadVarDef('controlData.vardef.txt')
 
 class PestCtrlFile:
     obs = {}
