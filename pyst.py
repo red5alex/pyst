@@ -121,7 +121,7 @@ class PestCtrlFile:
         line = pstfile.readline()
         while line.__len__() > 0 and line[0] != "*":
             name, value, weight, group = line.split()
-            pstCtrl.obs[name] = Observation(name,float(value), float(weight), group)
+            self.obs[name] = Observation(name,float(value), float(weight), group)
             line = pstfile.readline()
         pstfile.close()
 
