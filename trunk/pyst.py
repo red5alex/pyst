@@ -1,5 +1,23 @@
 __author__ = 'are'
 
+class ToolBox:
+    def loadblocks(self,lines):
+        names = []
+        contents = {}
+        current = "__header__"
+        for line in lines:
+            if line[0] == "*":
+                current = line.strip("*").strip()
+                names.append(current)
+                contents[current] = []
+                continue
+            if current != "":
+                contents[current].append(line)
+                continue
+        return names, contents
+
+#TODO: use this general code instead of local implementation
+
 class Observation:
     def __init__(self,name,value, weight, group):
         self.name = name
@@ -84,7 +102,6 @@ class PestCtrlFile:
             print('wrong number of args found in line:')
             print(words)
             raise('wrong number of args')
-
 
     def loadBlocks(self,filename):
         pstfile = open(filename)
