@@ -21,7 +21,6 @@ class _pestVariable:
         self.description = description
         self.section = section
 
-
 class PestDefinitions:
     """This object is a kind of database that contains information about the definition of different
     entities in PEST.
@@ -58,9 +57,10 @@ class PestDefinitions:
         self.loadVarDef('controlData.vardef.txt')
         self.loadFileFormatTemplate('pst.fileDef.txt')
 
-
 class PestCtrlFile:
     _pstDefInfo = PestDefinitions()
+    blockNames = []
+    blockContents = {}
     obs = {}
     ctd = {}
     def __init__(self):
@@ -85,11 +85,30 @@ class PestCtrlFile:
             print(words)
             raise('wrong number of args')
 
-    #TODO: subdivide the whole string list in sections, and make these accesible through a disctionary
+
+    def loadBlocks(self,filename):
+        pstfile = open(filename)
+        currentBlock = ""
+        for line in pstfile:
+            if line[0] == "*":
+                currentBlock = line.strip("*").strip()
+                self.blockNames.append(currentBlock)
+                self.blockContents[currentBlock] = []
+                continue
+            if currentBlock != "":
+                self.blockContents[currentBlock].append(line)
+                continue
+
+
+    #TODO: use the above routine to read blocks first, then process them selectively
+
 
 
    # load control data
     def load(self,filename):
+
+        self.loadBlocks(filename)
+
         pstfile = open(filename)
         #import
    #       self.ctd = {}
