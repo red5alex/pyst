@@ -1,4 +1,17 @@
 __author__ = 'are'
+import math
+
+class PestObservationGroup:
+    def __init__(self,OBGNME, GTARG = float('nan'), COVFLE = ""):
+        pd = PestDefinitions()
+
+        self.OBGNME = pd.pestcast("OBGNME",OBGNME)
+
+        if not math.isnan(GTARG):
+            self.GTARG = pd.pestcast("GTARG",GTARG)
+
+        if COVFLE != "":
+            self.COVFLE = pd.pestcast("COVFLE",COVFLE)
 
 class PestObservation:
     def __init__(self,name,value, weight, group):
@@ -7,6 +20,31 @@ class PestObservation:
         self.value = value
         self.weight = weight
         self.group = group
+
+class PestParameterGroup:
+    def __init__(self,PARGPNME, INCTYP, DERINC, DERINCLB, FORCEN, DERINCMUL, DERMTHD, SPLITTHRESH=float('nan'), SPLITRELDIFF=float('nan'), SPLITACTION=""):
+        pd = PestDefinitions()
+
+        self.PARGPNME = pd.pestcast("PARGPNME",PARGPNME)
+        self.INCTYP = pd.pestcast("INCTYP",INCTYP)
+        self.DERINC = pd.pestcast("DERINC",DERINC)
+        self.DERINCLB = pd.pestcast("DERINCLB",DERINCLB)
+        self.FORCEN = pd.pestcast("FORCEN",FORCEN)
+        self.DERINCMUL = pd.pestcast("DERINCMUL",DERINCMUL)
+        self.DERMTHD = pd.pestcast("DERMTHD",DERMTHD)
+
+        if not math.isnan(SPLITTHRESH):
+            self.SPLITTHRESH = pd.pestcast("SPLITTHRESH",SPLITTHRESH)
+            self.SPLITRELDIFF = pd.pestcast("SPLITRELDIFF",SPLITRELDIFF)
+            self.SPLITACTION = pd.pestcast("SPLITACTION",SPLITACTION)
+
+        # TODO: This would be generalized code, but eval does not work ...
+        # for v in ['PARNME', 'PARTRANS', 'PARCHGLIM', 'PARVAL1', 'PARLBND', 'PARUBND', 'PARGP', 'SCALE', 'OFFSET', 'DERCOM']:
+        #    command = 'self.'+v+' = pd.pestcast("'+v+'",'+v+')'
+        #    eval(command)
+        #
+        # example for command with v = PARNME:
+        # self.PARNME = pd.pestcast("PARNME",PARNME)
 
 class PestParameter:
     def __init__(self,PARNME, PARTRANS, PARCHGLIM, PARVAL1, PARLBND, PARUBND, PARGP, SCALE, OFFSET, DERCOM):
@@ -131,9 +169,17 @@ class PestDefinitions:
         self.fileFormatTemplatesBlocks[extension] = BlockFile(filename)
 
     def __init__(self):
-        self.loadVarDef('controlData.vardef.txt')
-        self.loadVarDef('parameterData.vardef.txt')
-        self.loadVarDef('observationData.vardef.txt')
+
+        # load variable definitions
+        listOfVarDefFiles = [ 'controlData.vardef.txt',
+                            'parameterData.vardef.txt',
+                            'observationData.vardef.txt',
+                            'parameterGroupData.vardef.txt',
+                            'observationGroupData.vardef.txt']
+        for VarDefFile in listOfVarDefFiles:
+            self.loadVarDef(VarDefFile)
+
+        # load file definitions of block-type file formats
         self.loadBlockFileFormatTemplate('pst.fileDef.txt')
 
     def pestcast(self,varName,value):
@@ -147,17 +193,21 @@ class PestDefinitions:
 
 class PestCtrlFile(BlockFile):
 
-    vars = {}   #dictionary of variables
-    obs = {}    #dictionary of observations
-    params = {} #dictionary of observations
+    vars = {}        #dictionary of variables
+    obs = {}         #dictionary of observations
+    obsGroups = {}   #dictionary of observations groups
+    params = {}      #dictionary of parameters
+    paramGroups = {} #dictionary of parameter groups
 
     _pstDefInfo = PestDefinitions()
 
     def __init__(self,filename):
         BlockFile.__init__(self,filename)
         self.loadControlData()
-        self.loadObs()
+        self.loadParamGroups()
         self.loadParams()
+        self.loadObservationGroups()
+        self.loadObs()
 
     def loadControlData(self):
 
@@ -179,6 +229,12 @@ class PestCtrlFile(BlockFile):
                 name = names[index].strip('[]')
                 self.vars[name] = self._pstDefInfo.pestcast(name,value) #
 
+    def loadObservationGroups(self):
+        for line in self.fileBlocksDict["observation groups"].content:
+            words = line.split()
+            name = words[0]
+            self.obsGroups[name] = PestObservationGroup(*words)
+
     def loadObs(self):
         for line in self.fileBlocksDict["observation data"].content:
             name, value, weight, group = line.split()
@@ -189,6 +245,12 @@ class PestCtrlFile(BlockFile):
             words = line.split()
             name = words[0]
             self.params[name] = PestParameter(*words)
+
+    def loadParamGroups(self):
+        for line in self.fileBlocksDict["parameter groups"].content:
+            words = line.split()
+            name = words[0]
+            self.paramGroups[name] = PestParameterGroup(*words)
 
 class JacTestResultsFile:
     paramValues = []
