@@ -2,14 +2,34 @@ __author__ = 'are'
 
 class PestObservation:
     def __init__(self,name,value, weight, group):
+        pd = PestDefinitions()
         self.name = name
         self.value = value
         self.weight = weight
         self.group = group
 
 class PestParameter:
-    def __init__(self,name,value, weight, group):
-        pass
+    def __init__(self,PARNME, PARTRANS, PARCHGLIM, PARVAL1, PARLBND, PARUBND, PARGP, SCALE, OFFSET, DERCOM):
+        pd = PestDefinitions()
+
+        self.PARNME = pd.pestcast("PARNME",PARNME)
+        self.PARTRANS = pd.pestcast("PARTRANS",PARTRANS)
+        self.PARCHGLIM = pd.pestcast("PARCHGLIM",PARCHGLIM)
+        self.PARVAL1 = pd.pestcast("PARVAL1",PARVAL1)
+        self.PARLBND = pd.pestcast("PARLBND",PARLBND)
+        self.PARUBND = pd.pestcast("PARUBND",PARUBND)
+        self.PARGP = pd.pestcast("PARGP",PARGP)
+        self.SCALE = pd.pestcast("SCALE",SCALE)
+        self.OFFSET = pd.pestcast("OFFSET",OFFSET)
+        self.DERCOM = pd.pestcast("DERCOM",DERCOM)
+
+        # TODO: This would be generalized code, but eval does not work ...
+        # for v in ['PARNME', 'PARTRANS', 'PARCHGLIM', 'PARVAL1', 'PARLBND', 'PARUBND', 'PARGP', 'SCALE', 'OFFSET', 'DERCOM']:
+        #    command = 'self.'+v+' = pd.pestcast("'+v+'",'+v+')'
+        #    eval(command)
+        #
+        # example for command with v = PARNME:
+        # self.PARNME = pd.pestcast("PARNME",PARNME)
 
 class PestVariable:
     name = ''
@@ -24,41 +44,6 @@ class PestVariable:
         self.value = values
         self.description = description
         self.section = section
-
-class PestDefinitions:
-    """This object is a kind of database that contains information about the definition of different
-    entities in PEST.
-    Members:
-    - pestVariables:        Dictionary containing information about variables used in PEST; includes
-                            name, type, a description, allowed values and the location where it is stored.
-                            Example: PestDefinitions.pestVariables['NPAR'] = "number of parameters".
-    - fileFormatsTemplates: Dictionary containing the contents of file templates, e.g. of the pst file format
-
-    """
-
-    pestVariables = {}
-    fileFormatTemplates = {}
-
-    def loadVarDef(self,filename):
-        descFile = open(filename)
-        section = descFile.readline().strip()
-        descFile.readline() #jump table header
-        lines = descFile.readlines() #read all other
-        for line in lines:
-            name, type, value, description = line.split('\t')
-            self.pestVariables[name] = PestVariable(name, type, value, description.strip(), section)
-        descFile.close()
-
-    def loadFileFormatTemplate(self, filename):
-        defFile = open(filename)
-        extension = filename.split('.')[0]
-        lines = defFile.readlines()
-        self.fileFormatTemplates[extension] = [item.strip() for item in lines]
-        defFile.close()
-
-    def __init__(self):
-        self.loadVarDef('controlData.vardef.txt')
-        self.loadFileFormatTemplate('pst.fileDef.txt')
 
 class BlockFile:
 
@@ -109,6 +94,57 @@ class BlockFile:
         self._loadblocks(lines)
         self._createBlockDict()
 
+class PestDefinitions:
+    """This object is a kind of database that contains information about the definition of different
+    entities in PEST.
+    Members:
+    - pestVariables:        Dictionary containing information about variables used in PEST; includes
+                            name, type, a description, allowed values and the location where it is stored.
+                            Example: PestDefinitions.pestVariables['NPAR'] = "number of parameters".
+    - fileFormatsTemplates: Dictionary containing the contents of file templates, e.g. of the pst file format
+
+    """
+
+    pestVariables = {}
+    fileFormatTemplates = {}
+    fileFormatTemplatesBlocks = {}
+
+    def loadVarDef(self,filename):
+        descFile = open(filename)
+        section = descFile.readline().strip()
+        descFile.readline() #jump table header
+        lines = descFile.readlines() #read all other
+        for line in lines:
+            name, type, value, description = line.split('\t')
+            self.pestVariables[name] = PestVariable(name, type, value, description.strip(), section)
+        descFile.close()
+
+    def loadFileFormatTemplate(self, filename):
+        defFile = open(filename)
+        extension = filename.split('.')[0]
+        lines = defFile.readlines()
+        self.fileFormatTemplates[extension] = [item.strip() for item in lines]
+        defFile.close()
+
+    def loadBlockFileFormatTemplate(self, filename):
+        extension = filename.split('.')[0]
+        self.fileFormatTemplatesBlocks[extension] = BlockFile(filename)
+
+    def __init__(self):
+        self.loadVarDef('controlData.vardef.txt')
+        self.loadVarDef('parameterData.vardef.txt')
+        self.loadVarDef('observationData.vardef.txt')
+        self.loadBlockFileFormatTemplate('pst.fileDef.txt')
+
+    def pestcast(self,varName,value):
+            varType = self.pestVariables[varName].type
+            if varType == 'text':
+                return value
+            if varType == 'integer':
+                return int(value)
+            if varType == 'real':
+                return float(value)
+
 class PestCtrlFile(BlockFile):
 
     vars = {}   #dictionary of variables
@@ -119,7 +155,29 @@ class PestCtrlFile(BlockFile):
 
     def __init__(self,filename):
         BlockFile.__init__(self,filename)
+        self.loadControlData()
         self.loadObs()
+        self.loadParams()
+
+    def loadControlData(self):
+
+        # this reads the values from the pst control file and automatically
+        # assigns them to the correct variable name in the correct type (both using the information stored in the
+        # _pstDefInfo object
+
+        data = self.fileBlocksDict["control data"].content
+        template = self._pstDefInfo.fileFormatTemplatesBlocks['pst'].fileBlocksDict['control data'].content
+
+        for data_line in data:
+            template_line = template[data.index(data_line)]
+
+            values = data_line.split()
+            names  = template_line.split()
+
+            for value in values:
+                index =  values.index(value)
+                name = names[index].strip('[]')
+                self.vars[name] = self._pstDefInfo.pestcast(name,value) #
 
     def loadObs(self):
         for line in self.fileBlocksDict["observation data"].content:
@@ -127,97 +185,10 @@ class PestCtrlFile(BlockFile):
             self.obs[name] = PestObservation(name,float(value), float(weight), group)
 
     def loadParams(self):
-        for line in self.fileBlocksDict["observation data"].content:
-            name, value, weight, group = line.split()
-            self.obs[name] = PestObservation(name,float(value), float(weight), group)
-
-
-
-class PestCtrlFile2:
-    _pstDefInfo = PestDefinitions()
-    blockNames = []
-    blockContents = {}
-    obs = {}
-    ctd = {}
-    def __init__(self):
-        pass
-
-    def __init__(self,filename):
-        self.load(filename)
-
-    def _parseWords(self,words,names,counts):
-        if len(words) in counts:
-            for word in words:
-                name = names[words.index(word)].strip('[',']')
-                type = self._pstDefInfo.pestVariables[name].type
-                if type == 'text':
-                    self.ctd[names] = word
-                if type == 'integer':
-                    self.ctd[names] = int(word)
-                if type == 'real':
-                    self.ctd[names] = float(word)
-        else:
-            print('wrong number of args found in line:')
-            print(words)
-            raise('wrong number of args')
-
-    def loadBlocks(self,filename):
-        pstfile = open(filename)
-        currentBlock = ""
-        for line in pstfile:
-            if line[0] == "*":
-                currentBlock = line.strip("*").strip()
-                self.blockNames.append(currentBlock)
-                self.blockContents[currentBlock] = []
-                continue
-            if currentBlock != "":
-                self.blockContents[currentBlock].append(line)
-                continue
-
-
-    #TODO: use the above routine to read blocks first, then process them selectively
-
-
-
-   # load control data
-    def load(self,filename):
-
-        self.loadBlocks(filename)
-
-        pstfile = open(filename)
-        #import
-   #       self.ctd = {}
-   #       while pstfile.readline() != "* control data\n":
-   #            pass
-   #
-   #      controlDataStart = self._pstDefInfo.fileFormatTemplates['pst'].index('* control data')
-   #
-   #     #line 1
-   #     names = ['RSTFLE','PESTMODE']
-   #     types = ['str'   ,'str']
-   #     counts = [2]
-   #     words = pstfile.readline().split()
-   #     self.parseWords(words,names,types,counts)
-   #
-   #     #line 2
-   #     self.parseWords(pstfile.readline().split(),
-   #                     "NPAR NOBS NPARGP NPRIOR NOBSGP [MAXCOMPDIM]".split(),
-   #                     "int  int  int    int    int     int".split(),
-   #                     [5,6])
-
-
-   # load observation data
-   # def load(self,filename):
-   #     pstfile = open(filename)
-        #import observations
-        while pstfile.readline() != "* observation data\n":
-            pass
-        line = pstfile.readline()
-        while line.__len__() > 0 and line[0] != "*":
-            name, value, weight, group = line.split()
-            self.obs[name] = PestObservation(name,float(value), float(weight), group)
-            line = pstfile.readline()
-        pstfile.close()
+        for line in self.fileBlocksDict["parameter data"].content:
+            words = line.split()
+            name = words[0]
+            self.params[name] = PestParameter(*words)
 
 class JacTestResultsFile:
     paramValues = []
