@@ -1,0 +1,3 @@
+PRECIS DPOINT
+PARNME PARVAL1 SCALE OFFSET
+(one of these lines for each parameter)
