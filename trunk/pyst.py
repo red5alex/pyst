@@ -1,31 +1,17 @@
 __author__ = 'are'
 
-class ToolBox:
-    def loadblocks(self,lines):
-        names = []
-        contents = {}
-        current = "__header__"
-        for line in lines:
-            if line[0] == "*":
-                current = line.strip("*").strip()
-                names.append(current)
-                contents[current] = []
-                continue
-            if current != "":
-                contents[current].append(line)
-                continue
-        return names, contents
-
-#TODO: use this general code instead of local implementation
-
-class Observation:
+class PestObservation:
     def __init__(self,name,value, weight, group):
         self.name = name
         self.value = value
         self.weight = weight
         self.group = group
 
-class _pestVariable:
+class PestParameter:
+    def __init__(self,name,value, weight, group):
+        pass
+
+class PestVariable:
     name = ''
     type = ''
     value = ''
@@ -60,7 +46,7 @@ class PestDefinitions:
         lines = descFile.readlines() #read all other
         for line in lines:
             name, type, value, description = line.split('\t')
-            self.pestVariables[name] = _pestVariable(name, type, value, description.strip(), section)
+            self.pestVariables[name] = PestVariable(name, type, value, description.strip(), section)
         descFile.close()
 
     def loadFileFormatTemplate(self, filename):
@@ -71,11 +57,83 @@ class PestDefinitions:
         defFile.close()
 
     def __init__(self):
-        pestVariables = {}
         self.loadVarDef('controlData.vardef.txt')
         self.loadFileFormatTemplate('pst.fileDef.txt')
 
-class PestCtrlFile:
+class BlockFile:
+
+    class fileBlock:
+        name = ""
+        content = []
+        def __init__(self,name = ""):
+            self.name = name
+            self.content = []
+
+    fileHeader = []
+    fileBlocks = []
+    fileBlocksDict = {}
+
+    def _loadblocks(self,lines):
+        self.fileHeader = []
+        self.fileBlocks = []
+        bname = "__header__"
+        for line in lines:
+            if line[0] == "*":
+                bname = line.strip("*").strip()
+                self.fileBlocks.append(self.fileBlock(bname)) #add a new block
+                continue
+
+            if bname == "__header__":
+                #add the line to the fileHeader
+                self.fileHeader.append(line.strip())
+            else:
+                #add the line to the content of the last (current) block
+                self.fileBlocks[-1].content.append(line.strip())
+
+    def _createBlockDict(self):
+        self.fileBlocksDict = {}
+
+        for block in self.fileBlocks:
+            if block.name in self.fileBlocksDict == "multiple instances!":
+                continue
+
+            if block.name in self.fileBlocksDict:
+                self.fileBlocksDict[block.name] = "multiple instances!"
+            else:
+                self.fileBlocksDict[block.name] = block
+
+    def __init__(self,filename):
+        bfile = open(filename)
+        lines = bfile.readlines()
+        bfile.close()
+        self._loadblocks(lines)
+        self._createBlockDict()
+
+class PestCtrlFile(BlockFile):
+
+    vars = {}   #dictionary of variables
+    obs = {}    #dictionary of observations
+    params = {} #dictionary of observations
+
+    _pstDefInfo = PestDefinitions()
+
+    def __init__(self,filename):
+        BlockFile.__init__(self,filename)
+        self.loadObs()
+
+    def loadObs(self):
+        for line in self.fileBlocksDict["observation data"].content:
+            name, value, weight, group = line.split()
+            self.obs[name] = PestObservation(name,float(value), float(weight), group)
+
+    def loadParams(self):
+        for line in self.fileBlocksDict["observation data"].content:
+            name, value, weight, group = line.split()
+            self.obs[name] = PestObservation(name,float(value), float(weight), group)
+
+
+
+class PestCtrlFile2:
     _pstDefInfo = PestDefinitions()
     blockNames = []
     blockContents = {}
@@ -157,7 +215,7 @@ class PestCtrlFile:
         line = pstfile.readline()
         while line.__len__() > 0 and line[0] != "*":
             name, value, weight, group = line.split()
-            self.obs[name] = Observation(name,float(value), float(weight), group)
+            self.obs[name] = PestObservation(name,float(value), float(weight), group)
             line = pstfile.readline()
         pstfile.close()
 
