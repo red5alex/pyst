@@ -1,0 +1,12 @@
+parameter group data
+Variable	Type	Values	Description
+PARGPNME	text	12 characters or less	parameter group name
+INCTYP	text	relative, "absolute", "rel_to_max"	method by which parameter increments are calculated
+DERINC	real	greater than zero	absolute or relative parameter increment
+DERINCLB	real	zero or greater	absolute lower bound of relative parameter increment
+FORCEN	text	switch, "always_2", "always_3", "switch_5", "always_5"	determines whether central derivatives calculation is undertaken, and whether three points or four points are employed in central derivatives calculation
+DERINCMUL	real	greater than zero	derivative increment multiplier when undertaking central derivatives calculation
+DERMTHD	text	parabolic, "outside_pts", "best_fit", "minvar", "maxprec"	method of central derivatives calculation
+SPLITTHRESH	real	greater than zero (or zero to deactive)	slope threshold for split slope analysis
+SPLITRELDIFF	real	greater than zero	relative slope difference threshold for action
+SPLITACTION	text	text	smaller, "zero" or "previous"
