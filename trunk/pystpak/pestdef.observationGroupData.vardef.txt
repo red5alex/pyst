@@ -1,0 +1,1 @@
+observation group dataVariable	Type	Values	DescriptionOBGNME	text	12 characters or less	observation group nameGTARG	real	positive	group-specific target measurement objective functionCOVFILE	text	a filename	optional covariance matrix file associated with group
