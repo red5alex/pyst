@@ -51,7 +51,7 @@ class PestDef:
         defFile.close()
 
     def loadBlockFileFormatTemplate(self, filename):
-        extension = filename.split('\\')[-1].split('.')[0]
+        extension = filename.split('\\')[-1].split('.')[1]
         self.fileFormatTemplatesBlocks[extension] = BlockFile(filename)
 
     def __init__(self):
