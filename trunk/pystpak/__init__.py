@@ -12,5 +12,7 @@ from pystpak.pestparametergroup import PestParameterGroup
 del pestparametergroup
 from pystpak.paramvaluefile import ParamValueFile
 del paramvaluefile
+from pystpak.pstfile import PestCtrlFile
+del pstfile
 from pystpak.runrecordfile import RunRecordFile
 del runrecordfile
