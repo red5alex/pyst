@@ -1,0 +1,11 @@
+
+           PEST RUN RECORD: CASE ..\example_files\dam_jactest
+
+
+PEST Version: 13.2
+
+******************************************************************************
+Error condition prevents continued PEST execution:-
+
+Cannot open instruction file dam_jactest.ins.
+******************************************************************************

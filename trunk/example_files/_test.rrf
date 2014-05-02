@@ -1,0 +1,463 @@
+* PEST control file
+"dam_jactest.pst"
+* case dimensions
+         3        28         2         0         2
+* parameter group names
+congp
+dumygp
+* parameter names
+con-sealing
+con-body
+dumy
+* observation group names
+budgp
+heagp
+* observation names
+bud-air-~s
+hea-0
+hea-1
+hea-2
+hea-3
+hea-4
+hea-5
+hea-6
+hea-7
+hea-8
+hea-9
+hea-10
+hea-11
+hea-12
+hea-13
+hea-14
+hea-15
+hea-16
+hea-17
+hea-18
+hea-19
+hea-20
+hea-21
+hea-22
+hea-23
+hea-24
+hea-25
+hea-26
+* parameter set index 
+1
+* parameter values source
+file "_test1.par"
+* parameter values
+ 8.6400000E-02
+  8.640000    
+  1.000000    
+* model output values
+ -1.939040    
+  3.476125    
+  3.357294    
+  3.585478    
+  2.203490    
+  3.082870    
+  2.539514    
+  2.986661    
+  4.533323    
+  4.022893    
+  3.990909    
+  3.918670    
+  3.696779    
+  3.687828    
+  5.181611    
+  3.933916    
+  4.275909    
+  11.52310    
+  5.641822    
+  6.387609    
+  11.16353    
+  8.765449    
+  10.15673    
+  11.99915    
+  11.99710    
+  11.94862    
+  11.98237    
+  11.98900    
+* total objective function
+  8.637993    
+* observation group objective functions
+  8.637958    
+ 3.5349534E-05
+* parameter set index 
+2
+* parameter values source
+file "_test2.par"
+* parameter values
+ 8.6400000E-02
+  8.640000    
+  1.000000    
+* model output values
+ -1.939040    
+  3.476125    
+  3.357294    
+  3.585478    
+  2.203490    
+  3.082870    
+  2.539514    
+  2.986661    
+  4.533323    
+  4.022893    
+  3.990909    
+  3.918670    
+  3.696779    
+  3.687828    
+  5.181611    
+  3.933916    
+  4.275909    
+  11.52310    
+  5.641822    
+  6.387609    
+  11.16353    
+  8.765449    
+  10.15673    
+  11.99915    
+  11.99710    
+  11.94862    
+  11.98237    
+  11.98900    
+* total objective function
+  8.637993    
+* observation group objective functions
+  8.637958    
+ 3.5349534E-05
+* parameter set index 
+3
+* parameter values source
+file "_test3.par"
+* parameter values
+ 8.6400000E-02
+  8.640000    
+  1.000000    
+* model output values
+ -1.939040    
+  3.476125    
+  3.357294    
+  3.585478    
+  2.203490    
+  3.082870    
+  2.539514    
+  2.986661    
+  4.533323    
+  4.022893    
+  3.990909    
+  3.918670    
+  3.696779    
+  3.687828    
+  5.181611    
+  3.933916    
+  4.275909    
+  11.52310    
+  5.641822    
+  6.387609    
+  11.16353    
+  8.765449    
+  10.15673    
+  11.99915    
+  11.99710    
+  11.94862    
+  11.98237    
+  11.98900    
+* total objective function
+  8.637993    
+* observation group objective functions
+  8.637958    
+ 3.5349534E-05
+* parameter set index 
+4
+* parameter values source
+file "_test4.par"
+* parameter values
+ 8.6400000E-02
+  8.640000    
+  1.000000    
+* model output values
+ -1.939040    
+  3.476125    
+  3.357294    
+  3.585478    
+  2.203490    
+  3.082870    
+  2.539514    
+  2.986661    
+  4.533323    
+  4.022893    
+  3.990909    
+  3.918670    
+  3.696779    
+  3.687828    
+  5.181611    
+  3.933916    
+  4.275909    
+  11.52310    
+  5.641822    
+  6.387609    
+  11.16353    
+  8.765449    
+  10.15673    
+  11.99915    
+  11.99710    
+  11.94862    
+  11.98237    
+  11.98900    
+* total objective function
+  8.637993    
+* observation group objective functions
+  8.637958    
+ 3.5349534E-05
+* parameter set index 
+5
+* parameter values source
+file "_test5.par"
+* parameter values
+ 8.6400000E-02
+  8.640000    
+  1.000000    
+* model output values
+ -1.939040    
+  3.476125    
+  3.357294    
+  3.585478    
+  2.203490    
+  3.082870    
+  2.539514    
+  2.986661    
+  4.533323    
+  4.022893    
+  3.990909    
+  3.918670    
+  3.696779    
+  3.687828    
+  5.181611    
+  3.933916    
+  4.275909    
+  11.52310    
+  5.641822    
+  6.387609    
+  11.16353    
+  8.765449    
+  10.15673    
+  11.99915    
+  11.99710    
+  11.94862    
+  11.98237    
+  11.98900    
+* total objective function
+  8.637993    
+* observation group objective functions
+  8.637958    
+ 3.5349534E-05
+* parameter set index 
+6
+* parameter values source
+file "_test6.par"
+* parameter values
+ 8.6400000E-02
+  8.640000    
+  1.000000    
+* model output values
+ -1.939040    
+  3.476125    
+  3.357294    
+  3.585478    
+  2.203490    
+  3.082870    
+  2.539514    
+  2.986661    
+  4.533323    
+  4.022893    
+  3.990909    
+  3.918670    
+  3.696779    
+  3.687828    
+  5.181611    
+  3.933916    
+  4.275909    
+  11.52310    
+  5.641822    
+  6.387609    
+  11.16353    
+  8.765449    
+  10.15673    
+  11.99915    
+  11.99710    
+  11.94862    
+  11.98237    
+  11.98900    
+* total objective function
+  8.637993    
+* observation group objective functions
+  8.637958    
+ 3.5349534E-05
+* parameter set index 
+7
+* parameter values source
+file "_test7.par"
+* parameter values
+ 8.6400000E-02
+  8.640000    
+  1.000000    
+* model output values
+ -1.939040    
+  3.476125    
+  3.357294    
+  3.585478    
+  2.203490    
+  3.082870    
+  2.539514    
+  2.986661    
+  4.533323    
+  4.022893    
+  3.990909    
+  3.918670    
+  3.696779    
+  3.687828    
+  5.181611    
+  3.933916    
+  4.275909    
+  11.52310    
+  5.641822    
+  6.387609    
+  11.16353    
+  8.765449    
+  10.15673    
+  11.99915    
+  11.99710    
+  11.94862    
+  11.98237    
+  11.98900    
+* total objective function
+  8.637993    
+* observation group objective functions
+  8.637958    
+ 3.5349534E-05
+* parameter set index 
+8
+* parameter values source
+file "_test8.par"
+* parameter values
+ 8.6400000E-02
+  8.640000    
+  1.000000    
+* model output values
+ -1.939040    
+  3.476125    
+  3.357294    
+  3.585478    
+  2.203490    
+  3.082870    
+  2.539514    
+  2.986661    
+  4.533323    
+  4.022893    
+  3.990909    
+  3.918670    
+  3.696779    
+  3.687828    
+  5.181611    
+  3.933916    
+  4.275909    
+  11.52310    
+  5.641822    
+  6.387609    
+  11.16353    
+  8.765449    
+  10.15673    
+  11.99915    
+  11.99710    
+  11.94862    
+  11.98237    
+  11.98900    
+* total objective function
+  8.637993    
+* observation group objective functions
+  8.637958    
+ 3.5349534E-05
+* parameter set index 
+9
+* parameter values source
+file "_test9.par"
+* parameter values
+ 8.6400000E-02
+  8.640000    
+  1.000000    
+* model output values
+ -1.939040    
+  3.476125    
+  3.357294    
+  3.585478    
+  2.203490    
+  3.082870    
+  2.539514    
+  2.986661    
+  4.533323    
+  4.022893    
+  3.990909    
+  3.918670    
+  3.696779    
+  3.687828    
+  5.181611    
+  3.933916    
+  4.275909    
+  11.52310    
+  5.641822    
+  6.387609    
+  11.16353    
+  8.765449    
+  10.15673    
+  11.99915    
+  11.99710    
+  11.94862    
+  11.98237    
+  11.98900    
+* total objective function
+  8.637993    
+* observation group objective functions
+  8.637958    
+ 3.5349534E-05
+* parameter set index 
+10
+* parameter values source
+file "_test10.par"
+* parameter values
+ 8.6400000E-02
+  8.640000    
+  1.000000    
+* model output values
+ -1.939040    
+  3.476125    
+  3.357294    
+  3.585478    
+  2.203490    
+  3.082870    
+  2.539514    
+  2.986661    
+  4.533323    
+  4.022893    
+  3.990909    
+  3.918670    
+  3.696779    
+  3.687828    
+  5.181611    
+  3.933916    
+  4.275909    
+  11.52310    
+  5.641822    
+  6.387609    
+  11.16353    
+  8.765449    
+  10.15673    
+  11.99915    
+  11.99710    
+  11.94862    
+  11.98237    
+  11.98900    
+* total objective function
+  8.637993    
+* observation group objective functions
+  8.637958    
+ 3.5349534E-05
