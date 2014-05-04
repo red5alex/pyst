@@ -1,6 +1,6 @@
 __author__ = 'are'
 
-import pystpak
+import pyst
 
 example_pstfile = "example_files//dam_jactest.pst"
 
@@ -10,7 +10,7 @@ example_pstfile = "example_files//dam_jactest.pst"
 
 #testBfile = pyst.BlockFile(example_pstfile)
 
-testPstFile = pystpak.PestCtrlFile(example_pstfile)
+testPstFile = pyst.PestCtrlFile(example_pstfile)
 
 
 pass
