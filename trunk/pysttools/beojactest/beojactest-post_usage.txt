@@ -1,0 +1,12 @@
+
+ BeoJACTEST-post Version 12.3.0.
+
+ BeoJACTEST-post is run using the command:
+
+     beojactest.py runrecord outfile parname
+
+ where
+
+     runrecord  is the name of a run record file,
+     outfile    is the name of the JACTEST output file
+     parname    is the name of the parameter that is subject to the JACTEST study
