@@ -89,13 +89,14 @@ def writeparfiles(pestfile, parname, parlevels):
         filename = parname + str(i) + ".par"
         parFile.write(filename)
 
-def writePestInFile(basename, first, last, rrffilename = "", packagesize=-1, infilename="pest.in"):
+
+def writePestInFile(basename, first, last, rrffilename="", packagesize=-1, infilename="pest.in"):
     if packagesize == -1:
         packagesize = last - first + 1
     if rrffilename == "":
         rrffilename = basename + ".rrf"
 
-    file = open(infilename,"w")
+    file = open(infilename, "w")
     file.write(basename + "\n")
     file.write(str(first) + "\n")
     file.write(str(last) + "\n")
@@ -123,5 +124,3 @@ def main():
     print("BeoJACTEST pre-processing completed")
 
 main()
-
-
