@@ -56,21 +56,19 @@ class PestDef:
 
     def __init__(self):
 
-        # Get directory where this script is located.
-        # definition files are expected in the same directory
-        basePath = os.path.realpath(__file__).replace("pestdef.py", "")
+        defpath = os.path.dirname(__file__) + "\\"  # definition file are expected in the same dir as this script
 
-        # load variable definitions
+        # variable definitions files
         listOfVarDefFiles = ['pestdef.controlData.vardef.txt',
                              'pestdef.parameterData.vardef.txt',
                              'pestdef.observationData.vardef.txt',
                              'pestdef.parameterGroupData.vardef.txt',
                              'pestdef.observationGroupData.vardef.txt']
         for VarDefFile in listOfVarDefFiles:
-            self.loadVarDef(str(basePath) + VarDefFile)
+            self.loadVarDef(str(defpath) + VarDefFile)
 
-        # load file definitions of block-type file formats
-        self.loadBlockFileFormatTemplate(str(basePath) + 'pestdef.pst.bfileDef.txt')
+        # block file definition files
+        self.loadBlockFileFormatTemplate(str(defpath) + 'pestdef.pst.bfileDef.txt')
 
     def pestcast(self, varName, value):
         varType = self.pestVariables[varName].type
