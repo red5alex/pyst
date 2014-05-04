@@ -1,7 +1,5 @@
 __author__ = 'are'
 
-#TODO: test implementation of the class (after relocation to package)
-
 
 class JacTestResultsFile:
     paramValues = []
@@ -14,18 +12,23 @@ class JacTestResultsFile:
         obsfile = open(filename)
         #import observations
         line = obsfile.readline()  # header
-        null, *self.paramValues = line.split()
-        self.paramValues = list(map(float, self.paramValues))  # convert to float
+
+        self.paramValues = line.split()  # load all entries
+        self.paramValues.pop(0)  # remove first word of line (not a parameter value)
+        self.paramValues = list(map(float, self.paramValues))  # convert str to float
 
         #process lines
         lines = obsfile.readlines()
         obsfile.close()
         for line in lines:
             #add observations to observations list
-            obs_name, *obs_values = line.split()
+
+            obs_values = line.split()  # load all entries
+            obs_name = obs_values.pop(0)  # remove first word of line (not an observation value)
             obs_values = list(map(float, obs_values))  # convert to float
             self.obsValues[obs_name] = obs_values
 
+    #TODO: test implementation of the class in JACTEST postprocessing (after relocation to package)
     def calcSlopes(self):
         slopes = {}
         for ob in self.obsValues:
