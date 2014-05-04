@@ -1,1 +1,0 @@
-observation dataVariable	Type	Values	DescriptionOBSNME	text	20 characters or less	observation nameOBSVAL	real	any number	measured value of observationWEIGHT	real	zero or greater	observation weightOBGNME	text	12 characters or less	observation group to which observation assigned
