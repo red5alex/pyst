@@ -1,5 +1,7 @@
 __author__ = 'are'
 
+#TODO: should be reimplemented as a blockfile subclass
+
 import copy
 
 class RunRecordFile:
