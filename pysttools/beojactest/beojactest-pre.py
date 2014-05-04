@@ -1,4 +1,5 @@
 __author__ = 'are'
+
 import pyst
 import sys
 import os
@@ -67,7 +68,6 @@ def generateParameterLevels(pestfile, parname, n):
 
 
 def writeparfiles(pestfile, parname, parlevels):
-    workPath = "."
 
     n = len(parlevels)
 
@@ -86,14 +86,22 @@ def writeparfiles(pestfile, parname, parlevels):
 
             parFile.addPar(name, value, scale, offset)
 
-        parFile.write(parname + str(i) + ".par")
-
+        filename = parname + str(i) + ".par"
+        parFile.write(filename)
 
 def main():
 
+    print("BeoJACTEST pre-processing:")
     pestfile, parname, npar, outfile = readArguments()
+
+    filename = parname + "<n>.par"
+    print("generating parameter files " + filename)
+    print("with n = 1 .." + str(npar))
+
     parLevels = generateParameterLevels(pestfile, parname, npar)
     writeparfiles(pestfile, parname, parLevels)
+
+    print("BeoJACTEST pre-processing completed")
 
 main()
 
