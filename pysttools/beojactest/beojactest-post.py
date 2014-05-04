@@ -6,6 +6,6 @@ parname = "con-sealing"
 
 runRecord = pyst.RunRecordFile(parname+".rrf")
 
-runRecord.saveToDat(parname,"stabil-"+parname+".dat")
+runRecord.saveToDat(parname, "stabil-"+parname+".dat")
 
 pass
