@@ -31,8 +31,8 @@ def readArguments():
         return pestfile, parname, n, outfile
 
     except ValueError:
-        absPathThisPyScript = os.path.realpath(__file__)  # directory of THIS script
-        usage_file = open(absPathThisPyScript.replace("beojactest.py", "beojactest_usage.txt"))
+        path = os.path.dirname(__file__)  # directory of THIS script; help text expected in same dir
+        usage_file = open(path + "\\beojactest_usage.txt")
         print(usage_file.read())
         usage_file.close()
         os._exit(0)
