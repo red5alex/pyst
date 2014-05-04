@@ -4,18 +4,18 @@ from . import BlockFile
 from . import PestDef as PestDefinitions
 from . import PestObservationGroup, PestObservation, PestParameter, PestParameterGroup
 
-class PestCtrlFile(BlockFile):
 
-    vars = {}        #dictionary of variables
-    obs = {}         #dictionary of observations
-    obsGroups = {}   #dictionary of observations groups
-    params = {}      #dictionary of parameters
-    paramGroups = {} #dictionary of parameter groups
+class PestCtrlFile(BlockFile):
+    vars = {}  # dictionary of variables
+    obs = {}  # dictionary of observations
+    obsGroups = {}  # dictionary of observations groups
+    params = {}  # dictionary of parameters
+    paramGroups = {}  # dictionary of parameter groups
 
     _pstDefInfo = PestDefinitions()
 
-    def __init__(self,filename):
-        BlockFile.__init__(self,filename)
+    def __init__(self, filename):
+        BlockFile.__init__(self, filename)
         self.loadControlData()
         self.loadParamGroups()
         self.loadParams()
@@ -35,12 +35,12 @@ class PestCtrlFile(BlockFile):
             template_line = template[data.index(data_line)]
 
             values = data_line.split()
-            names  = template_line.split()
+            names = template_line.split()
 
             for value in values:
-                index =  values.index(value)
+                index = values.index(value)
                 name = names[index].strip('[]')
-                self.vars[name] = self._pstDefInfo.pestcast(name,value) #
+                self.vars[name] = self._pstDefInfo.pestcast(name, value)
 
     def loadObservationGroups(self):
         for line in self.fileBlocksDict["observation groups"].content:
@@ -51,7 +51,7 @@ class PestCtrlFile(BlockFile):
     def loadObs(self):
         for line in self.fileBlocksDict["observation data"].content:
             name, value, weight, group = line.split()
-            self.obs[name] = PestObservation(name,float(value), float(weight), group)
+            self.obs[name] = PestObservation(name, float(value), float(weight), group)
 
     def loadParams(self):
         for line in self.fileBlocksDict["parameter data"].content:

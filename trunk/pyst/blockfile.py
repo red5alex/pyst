@@ -1,11 +1,13 @@
 __author__ = 'are'
 
+
 class BlockFile:
 
-    class fileBlock:
+    class FileBlock:
         name = ""
         content = []
-        def __init__(self,name = ""):
+
+        def __init__(self, name=""):
             self.name = name
             self.content = []
 
@@ -13,14 +15,14 @@ class BlockFile:
     fileBlocks = []
     fileBlocksDict = {}
 
-    def _loadblocks(self,lines):
+    def _loadblocks(self, lines):
         self.fileHeader = []
         self.fileBlocks = []
         bname = "__header__"
         for line in lines:
             if line[0] == "*":
                 bname = line.strip("*").strip()
-                self.fileBlocks.append(self.fileBlock(bname)) #add a new block
+                self.fileBlocks.append(self.FileBlock(bname))  # add a new block
                 continue
 
             if bname == "__header__":
