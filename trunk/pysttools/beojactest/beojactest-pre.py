@@ -1,13 +1,13 @@
 __author__ = 'are'
 import sys, os, shutil
-import pystpak
+import pyst
 
 #READ PARAMETERS FROM COMMAND LINE:
 
 try:
     if len(sys.argv) in [4,5]:
         pestfilename = sys.argv[1]
-        pestfile = pystpak.PestCtrlFile(pestfilename)
+        pestfile = pyst.PestCtrlFile(pestfilename)
 
         parname = sys.argv[2]
         if not parname in pestfile.params:
@@ -72,7 +72,7 @@ workPath = "."
 #os.chdir(workPath)
 
 for i in range(0,n):
-    parFile = pystpak.ParamValueFile()
+    parFile = pyst.ParamValueFile()
     pp = pestfile.params
     for p in pp:
         name = p

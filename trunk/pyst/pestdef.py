@@ -1,7 +1,7 @@
 __author__ = 'are'
 
 import os
-from pystpak.blockfile import BlockFile
+from pyst.blockfile import BlockFile
 
 class PestDef:
     """This object is a kind of database that contains information about the definition of different
