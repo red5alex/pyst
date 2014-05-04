@@ -1,9 +1,9 @@
 
- BeoJACTEST Version 12.3.0.
+ BeoJACTEST Preprocessor Version 12.3.0.
 
  BeoJACTEST is run using the command:
 
-     beojactest.py pestfile parname n [outfile]
+     beojactest-pre.py pestfile parname n [outfile]
 
  where
 
