@@ -89,6 +89,22 @@ def writeparfiles(pestfile, parname, parlevels):
         filename = parname + str(i) + ".par"
         parFile.write(filename)
 
+def writePestInFile(basename, first, last, rrffilename = "", packagesize=-1, infilename="pest.in"):
+    if packagesize == -1:
+        packagesize = last - first + 1
+    if rrffilename == "":
+        rrffilename = basename + ".rrf"
+
+    file = open(infilename,"w")
+    file.write(basename + "\n")
+    file.write(str(first) + "\n")
+    file.write(str(last) + "\n")
+    file.write(str(packagesize) + "\n")
+    file.write(rrffilename)
+
+    file.close()
+
+
 def main():
 
     print("BeoJACTEST pre-processing:")
@@ -100,6 +116,9 @@ def main():
 
     parLevels = generateParameterLevels(pestfile, parname, npar)
     writeparfiles(pestfile, parname, parLevels)
+
+    print("Generating PEST keyboard input stream (pest.in)")
+    writePestInFile(parname, 1, npar)
 
     print("BeoJACTEST pre-processing completed")
 
