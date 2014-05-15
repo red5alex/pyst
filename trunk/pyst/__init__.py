@@ -18,3 +18,5 @@ from pyst.runrecordfile import RunRecordFile
 del runrecordfile
 from pyst.jactestresultfile import JacTestResultsFile
 del jactestresultfile
+from pyst.uncertaintyfile import UncertaintyFile
+del uncertaintyfile
