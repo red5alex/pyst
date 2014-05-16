@@ -11,3 +11,6 @@ del fepesttimeseries
 
 from pyst.feflow.fepestobstable import FePestObsTable
 del fepestobstable
+
+from pyst.feflow.fepestpartable import FePestParTable
+del fepestpartable
