@@ -29,6 +29,7 @@ class RunRecordFile:
     paramSets   = []  #list of Parameter Set objections
 
     def parsefrom(self,filename):
+        global index
         rrffile = open(filename)
 
         #skip line 1, read pest control file name from line 2
@@ -79,25 +80,25 @@ class RunRecordFile:
 
                 # read parameter source name
                 line = rrffile.readline()
-                line = rrffile.readline() #read parameter value source
+                line = rrffile.readline()  # read parameter value source
                 self.paramSets[-1].sourcefile = line.strip()
 
             # read PARAMETERS values list:
 
                 # read all lines of section:
-                line = rrffile.readline() # skip parameter values section header
+                line = rrffile.readline()  # skip parameter values section header
                 lines = []
                 line = rrffile.readline()
                 while not "* model output values" in line:
-                    lines.append(line)
+                    lines.append(copy.copy(line))
                     line = rrffile.readline()
 
                 # process the lines, store values in object
+                index = 0
                 for l in lines:
-                    index = lines.index(l)
                     name = self.parNames[index]
                     self.paramSets[-1].parVals[name] = float(l.strip())
-
+                    index += 1
 
             # read OBSERVATIONS values list:
 
@@ -109,11 +110,12 @@ class RunRecordFile:
                     line = rrffile.readline()
 
                 # process the lines, store values in object
+                index = 0
                 for l in lines:
-                    index = lines.index(l)
+                    #index = lines.index(l)
                     name = self.obsNames[index]
                     self.paramSets[-1].obsVals[name] = float(l.strip())
-
+                    index =+ 1
 
             # read total objective function
                 line = rrffile.readline()
@@ -142,6 +144,12 @@ class RunRecordFile:
     def __init__(self,filename):
         self.parsefrom(filename)
 
+    def save(self,parname, filename, fileformat = 'dat'):
+        if fileformat == 'dat':
+            self.saveToDat(parname, filename)
+        else:
+            raise ValueError('no support for fileformat "'+fileformat+'"')
+
     def saveToDat(self, parname, filename): #JACTESTRESULT
         outfile = open(filename,"w")
         #header
@@ -153,6 +161,27 @@ class RunRecordFile:
             outfile.write(obsname)
             for ps in self.paramSets:
                 outfile.write("\t"+str(ps.obsVals[obsname]))
+            outfile.write("\n")
+
+        outfile.close()
+
+    def saveMonteCarloResult(self, filename):
+        outfile = open(filename,"w")
+        # header:
+        outfile.write("RunID\tPhi")
+        for pn in self.parNames:  # write parameters to header
+            outfile.write("\t"+pn)
+        for on in self.obsNames:  # write observations to header
+            outfile.write("\t"+on)
+        outfile.write("\n")  # close header
+
+        for ps in self.paramSets:
+            outfile.write(str(ps.id) + "\t" + str(ps.phi))  # ID and Objective function
+
+            for pn in self.parNames:  # write parameters to header
+                outfile.write("\t"+str(ps.parVals[pn]))
+            for on in self.obsNames:  # write observations to header
+                outfile.write("\t"+str(ps.obsVals[on]))
             outfile.write("\n")
 
         outfile.close()
