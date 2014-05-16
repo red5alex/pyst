@@ -27,7 +27,7 @@ class ParamValueFile:
     def addPar(self, name, value, scale=1.0, offset=0.0):
         self.params.append(self.Param(name, value, scale, offset))
 
-    def write(self, filename):
+    def save(self, filename):
         outfile = open(filename, "w")
         outfile.write(self.precis + ' ' + self.dpoint + '\n')
         for p in self.params:
@@ -36,3 +36,7 @@ class ParamValueFile:
                           str(p.scale) + ' ' +
                           str(p.offset) + '\n')
         outfile.close()
+
+    def write(self, filename):
+        print("this function is deprecated. Use .save() instead!")
+        self.save(filename)
