@@ -31,7 +31,7 @@ def main():
     print("reading run record file " + runrecordfilename)
     runRecord = pyst.RunRecordFile(runrecordfilename)
     print("saving to results file " + datfilename)
-    runRecord.saveToDat(parname, datfilename)
+    runRecord.saveasjactest(parname, datfilename)
     print("BeoJACTEST post-processing completed")
 
 main()
