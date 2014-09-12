@@ -22,5 +22,5 @@ class PestParameter:
         #    command = 'self.'+v+' = pd.pestcast("'+v+'",'+v+')'
         #    eval(command)
         #
-        # example for command with v = PARNME:
+        # examples for command with v = PARNME:
         # self.PARNME = pd.pestcast("PARNME",PARNME)
