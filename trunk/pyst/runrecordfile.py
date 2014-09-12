@@ -4,15 +4,16 @@ __author__ = 'are'
 
 import copy
 
+
 class RunRecordFile:
 
     class ParameterSet:
         id = -1
-        sourcefile = ".par" #the filename of the pst file
-        parVals =   {}      #dict of parameter values (key -> parNames list)
-        obsVals =   {}      #dict of observation values (key ->obsNames list)
-        phi =       -1.     #total objective function of this run
-        phiObsGroup = {}      #list of obsgroup objective functions of this run
+        sourcefile = ".par"  # the filename of the pst file
+        parVals = {}  # dict of parameter values (key -> parNames list)
+        obsVals = {}  # dict of observation values (key ->obsNames list)
+        phi = -1.  # total objective function of this run
+        phiObsGroup = {}  # list of obsgroup objective functions of this run
 
         def __deepcopy__(self, memo):
             newSet = copy.copy(self)
@@ -22,13 +23,13 @@ class RunRecordFile:
             return newSet
 
     pstctrlfile = ""
-    parNames    = []  #list of parameters
-    obsNames    = []  #list of observations
-    obsGrpNames = []  #list of observation group names
-    parGrpNames = []  #list of parameter group names
-    paramSets   = []  #list of Parameter Set objections
+    parNames = []  # list of parameters
+    obsNames = []  # list of observations
+    obsGrpNames = []  # list of observation group names
+    parGrpNames = []  # list of parameter group names
+    paramSets = []  # list of Parameter Set objections
 
-    def parsefrom(self,filename):
+    def parsefrom(self, filename):
         global index
         rrffile = open(filename)
 
@@ -44,30 +45,30 @@ class RunRecordFile:
             line = rrffile.readline()
 
         #parse parameter group names until next section (parameter names) is reached
-        line = rrffile.readline() #skip section header
+        line = rrffile.readline()  # skip section header
         while not "* parameter names" in line:
             self.parGrpNames.append(line.strip())
             line = rrffile.readline()
 
         #parse parameter names until next section (observation group names) is reached
-        line = rrffile.readline() #skip section header
+        line = rrffile.readline()  # skip section header
         while not "* observation group names" in line:
             self.parNames.append(line.strip())
             line = rrffile.readline()
 
         #parse observation group names until next section (observation names) is reached
-        line = rrffile.readline() #skip section header
+        line = rrffile.readline()  # skip section header
         while not "* observation names" in line:
             self.obsGrpNames.append(line.strip())
             line = rrffile.readline()
 
         #parse observation names until next section (first parameter set index) is reached
-        line = rrffile.readline() #skip section header
+        line = rrffile.readline()  # skip section header
         while not "* parameter set index" in line:
             self.obsNames.append(line.strip())
             line = rrffile.readline()
 
-        while line != "": #run until a blank line or the end of file is found
+        while line != "":  # run until a blank line or the end of file is found
 
             if "* parameter set index" in line:
                 # read parameter index
@@ -75,8 +76,8 @@ class RunRecordFile:
                 newParamSet = copy.deepcopy(protoset)
 
                 self.paramSets.append(newParamSet)
-                line = rrffile.readline() #advance one line
-                self.paramSets[-1].id = int(line.strip()) # read index
+                line = rrffile.readline()  # advance one line
+                self.paramSets[-1].id = int(line.strip())  # read index
 
                 # read parameter source name
                 line = rrffile.readline()
@@ -115,7 +116,7 @@ class RunRecordFile:
                     #index = lines.index(l)
                     name = self.obsNames[index]
                     self.paramSets[-1].obsVals[name] = float(l.strip())
-                    index =+ 1
+                    index += 1
 
             # read total objective function
                 line = rrffile.readline()
@@ -144,14 +145,14 @@ class RunRecordFile:
     def __init__(self,filename):
         self.parsefrom(filename)
 
-    def save(self,parname, filename, fileformat = 'dat'):
+    def save(self, parname, filename, fileformat='dat'):
         if fileformat == 'dat':
-            self.saveToDat(parname, filename)
+            self.saveasjactest(parname, filename)
         else:
             raise ValueError('no support for fileformat "'+fileformat+'"')
 
-    def saveToDat(self, parname, filename): #JACTESTRESULT
-        outfile = open(filename,"w")
+    def saveasjactest(self, parname, filename):  # JACTESTRESULT
+        outfile = open(filename, "w")
         #header
         outfile.write("param_value")
         for ps in self.paramSets:
@@ -165,8 +166,8 @@ class RunRecordFile:
 
         outfile.close()
 
-    def saveMonteCarloResult(self, filename):
-        outfile = open(filename,"w")
+    def saveastable(self, filename):
+        outfile = open(filename, "w")
         # header:
         outfile.write("RunID\tPhi")
         for pn in self.parNames:  # write parameters to header
