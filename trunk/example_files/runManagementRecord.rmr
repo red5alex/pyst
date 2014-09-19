@@ -1,0 +1,360 @@
+             PEST RUN MANAGEMENT RECORD: CASE t2model11mc_basecase
+
+
+ ****************************************
+ RUN MANAGEMENT UNDERTAKEN USING BEOPEST.
+ COMMUNICATIONS PROTOCOL = TCP.
+ ****************************************
+
+
+ BEOPEST was either not able to find a run management file in the current
+ working directory or did not find a value for PARLAM in that file.
+
+ PARLAM has been assigned a value of 1. Hence Marquardt lambda search runs
+ will be parallelized.
+
+ SLOW RUN DECLARATION FACTOR   : 2.5000
+
+ RUNNING MODEL WITH INITIAL PARAMETER VALUES AND FOR FIRST JACOBIAN.....
+
+ Running model 114 times....
+   19 Sep 21:15:04.23:- index of 1 assigned to node at working directory "172.22.7.130\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-15~1".
+   19 Sep 21:15:04.23:- index of 2 assigned to node at working directory "172.22.7.130\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-15~4".
+   19 Sep 21:15:04.23:- index of 3 assigned to node at working directory "172.22.7.136\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS506~2".
+   19 Sep 21:15:04.23:- index of 4 assigned to node at working directory "172.22.7.125\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS508".
+   19 Sep 21:15:04.23:- index of 5 assigned to node at working directory "172.22.7.136\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS506~3".
+   19 Sep 21:15:04.23:- index of 6 assigned to node at working directory "172.22.7.130\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-15~2".
+   19 Sep 21:15:04.23:- index of 7 assigned to node at working directory "172.22.7.125\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS508~3".
+   19 Sep 21:15:04.23:- index of 8 assigned to node at working directory "172.22.7.137\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS507~2".
+   19 Sep 21:15:04.23:- index of 9 assigned to node at working directory "172.22.7.130\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-15".
+   19 Sep 21:15:04.23:- index of 10 assigned to node at working directory "172.22.7.137\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS507~4".
+   19 Sep 21:15:04.23:- index of 11 assigned to node at working directory "172.22.7.130\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-15~3".
+   19 Sep 21:15:04.23:- index of 12 assigned to node at working directory "172.22.7.137\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS507~5".
+   19 Sep 21:15:04.23:- index of 13 assigned to node at working directory "172.22.7.137\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS507~3".
+   19 Sep 21:15:04.23:- index of 14 assigned to node at working directory "172.22.7.125\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS508~1".
+   19 Sep 21:15:04.23:- index of 15 assigned to node at working directory "172.22.7.136\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS506~1".
+   19 Sep 21:15:04.23:- index of 16 assigned to node at working directory "172.22.7.136\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS506~5".
+   19 Sep 21:15:04.23:- index of 17 assigned to node at working directory "172.22.7.136\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS506".
+   19 Sep 21:15:04.23:- index of 18 assigned to node at working directory "172.22.7.125\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS508~4".
+   19 Sep 21:15:04.23:- index of 19 assigned to node at working directory "172.22.7.130\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-15~5".
+   19 Sep 21:15:04.23:- index of 20 assigned to node at working directory "172.22.7.137\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS507".
+   19 Sep 21:15:04.23:- index of 21 assigned to node at working directory "172.22.7.125\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS508~5".
+   19 Sep 21:15:04.23:- index of 22 assigned to node at working directory "172.22.7.125\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS508~2".
+   19 Sep 21:15:04.23:- index of 23 assigned to node at working directory "172.22.7.136\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS506~4".
+   19 Sep 21:15:04.23:- index of 24 assigned to node at working directory "172.22.7.137\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS507~1".
+   19 Sep 21:15:04.23:- index of 25 assigned to node at working directory "172.22.7.127\\S:\43801454_MorobeJV Modelling Support\dewateringModel\femdata\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-23".
+   19 Sep 21:15:04.23:- index of 26 assigned to node at working directory "172.22.7.127\\S:\43801454_MorobeJV Modelling Support\dewateringModel\femdata\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-23~1".
+   19 Sep 21:15:04.23:- index of 27 assigned to node at working directory "172.22.7.127\\S:\43801454_MorobeJV Modelling Support\dewateringModel\femdata\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-23~2".
+   19 Sep 21:15:04.23:- index of 28 assigned to node at working directory "172.22.7.127\\S:\43801454_MorobeJV Modelling Support\dewateringModel\femdata\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-23~3".
+   19 Sep 21:15:04.23:- index of 29 assigned to node at working directory "172.22.7.127\\S:\43801454_MorobeJV Modelling Support\dewateringModel\femdata\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-23~4".
+   19 Sep 21:15:04.23:- index of 30 assigned to node at working directory "172.22.7.127\\S:\43801454_MorobeJV Modelling Support\dewateringModel\femdata\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-23~5".
+   19 Sep 21:15:04.23:- index of 31 assigned to node at working directory "172.22.7.141\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS514".
+   19 Sep 21:15:04.23:- index of 32 assigned to node at working directory "172.22.7.141\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS514~1".
+   19 Sep 21:15:04.23:- index of 33 assigned to node at working directory "172.22.7.141\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS514~2".
+   19 Sep 21:15:04.23:- index of 34 assigned to node at working directory "172.22.7.141\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS514~3".
+   19 Sep 21:15:04.23:- index of 35 assigned to node at working directory "172.22.7.141\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS514~4".
+   19 Sep 21:15:04.23:- index of 36 assigned to node at working directory "172.22.7.141\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS514~5".
+   19 Sep 21:15:04.23:- index of 37 assigned to node at working directory "172.22.7.128\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS505".
+   19 Sep 21:15:04.23:- index of 38 assigned to node at working directory "172.22.7.128\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS505~1".
+   19 Sep 21:15:04.23:- index of 39 assigned to node at working directory "172.22.7.128\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS505~2".
+   19 Sep 21:15:04.23:- index of 40 assigned to node at working directory "172.22.7.128\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS505~3".
+   19 Sep 21:15:04.23:- index of 41 assigned to node at working directory "172.22.7.128\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS505~4".
+   19 Sep 21:15:04.23:- index of 42 assigned to node at working directory "172.22.7.128\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS505~5".
+   19 Sep 21:15:04.23:- index of 43 assigned to node at working directory "172.22.7.136\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS506".
+   19 Sep 21:15:04.23:- index of 44 assigned to node at working directory "172.22.7.136\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS506~2".
+   19 Sep 21:15:04.23:- index of 45 assigned to node at working directory "172.22.7.136\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS506~1".
+   19 Sep 21:15:04.23:- index of 46 assigned to node at working directory "172.22.7.136\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS506~3".
+   19 Sep 21:15:04.23:- index of 47 assigned to node at working directory "172.22.7.136\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS506~4".
+   19 Sep 21:15:04.23:- index of 48 assigned to node at working directory "172.22.7.136\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS506~5".
+   19 Sep 21:15:04.23:- index of 49 assigned to node at working directory "172.22.7.137\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS507".
+   19 Sep 21:15:04.23:- index of 50 assigned to node at working directory "172.22.7.137\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS507~1".
+   19 Sep 21:15:04.23:- index of 51 assigned to node at working directory "172.22.7.137\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS507~2".
+   19 Sep 21:15:04.23:- index of 52 assigned to node at working directory "172.22.7.137\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS507~3".
+   19 Sep 21:15:04.23:- index of 53 assigned to node at working directory "172.22.7.137\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS507~4".
+   19 Sep 21:15:04.23:- index of 54 assigned to node at working directory "172.22.7.137\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS507~5".
+   19 Sep 21:15:04.23:- index of 55 assigned to node at working directory "172.22.7.125\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS508".
+   19 Sep 21:15:04.23:- index of 56 assigned to node at working directory "172.22.7.125\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS508~1".
+   19 Sep 21:15:04.23:- index of 57 assigned to node at working directory "172.22.7.125\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS508~2".
+   19 Sep 21:15:04.23:- index of 58 assigned to node at working directory "172.22.7.125\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS508~3".
+   19 Sep 21:15:04.23:- index of 59 assigned to node at working directory "172.22.7.125\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS508~4".
+   19 Sep 21:15:04.23:- index of 60 assigned to node at working directory "172.22.7.125\\C:\Users\waguest.DHI\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@AUS508~5".
+   19 Sep 21:15:04.23:- index of 61 assigned to node at working directory "172.22.7.130\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-15".
+   19 Sep 21:15:04.23:- index of 62 assigned to node at working directory "172.22.7.130\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-15~1".
+   19 Sep 21:15:04.23:- index of 63 assigned to node at working directory "172.22.7.130\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-15~2".
+   19 Sep 21:15:04.23:- index of 64 assigned to node at working directory "172.22.7.130\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-15~3".
+   19 Sep 21:15:04.23:- index of 65 assigned to node at working directory "172.22.7.130\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-15~4".
+   19 Sep 21:15:04.23:- index of 66 assigned to node at working directory "172.22.7.130\\C:\Users\waguest\AppData\Local\Temp\.fepest62-p6d\pest\T2model11mc_baseCase_unsat_headBC_calibSLC1@WA-15~5".
+   19 Sep 21:15:04.23:- model run 1 commencing on node 10.
+   19 Sep 21:15:04.23:- model run 7 commencing on node 12.
+   19 Sep 21:15:04.23:- model run 8 commencing on node 13.
+   19 Sep 21:15:04.23:- model run 9 commencing on node 37.
+   19 Sep 21:15:04.23:- model run 10 commencing on node 39.
+   19 Sep 21:15:04.23:- model run 11 commencing on node 41.
+   19 Sep 21:15:04.23:- model run 12 commencing on node 42.
+   19 Sep 21:15:04.23:- model run 13 commencing on node 49.
+   19 Sep 21:15:04.23:- model run 14 commencing on node 51.
+   19 Sep 21:15:04.23:- model run 15 commencing on node 52.
+   19 Sep 21:15:04.23:- model run 16 commencing on node 54.
+   19 Sep 21:15:04.23:- model run 17 commencing on node 8.
+   19 Sep 21:15:04.23:- model run 18 commencing on node 20.
+   19 Sep 21:15:04.23:- model run 19 commencing on node 24.
+   19 Sep 21:15:04.23:- model run 20 commencing on node 38.
+   19 Sep 21:15:04.23:- model run 21 commencing on node 50.
+   19 Sep 21:15:04.23:- model run 22 commencing on node 53.
+   19 Sep 21:15:04.23:- model run 23 commencing on node 40.
+   19 Sep 21:15:04.23:- model run 24 commencing on node 34.
+   19 Sep 21:15:04.23:- model run 25 commencing on node 17.
+   19 Sep 21:15:04.23:- model run 26 commencing on node 21.
+   19 Sep 21:15:04.23:- model run 27 commencing on node 31.
+   19 Sep 21:15:04.23:- model run 28 commencing on node 46.
+   19 Sep 21:15:04.23:- model run 29 commencing on node 60.
+   19 Sep 21:15:04.23:- model run 30 commencing on node 3.
+   19 Sep 21:15:04.23:- model run 31 commencing on node 4.
+   19 Sep 21:15:04.23:- model run 32 commencing on node 5.
+   19 Sep 21:15:04.23:- model run 33 commencing on node 7.
+   19 Sep 21:15:04.23:- model run 34 commencing on node 14.
+   19 Sep 21:15:04.23:- model run 35 commencing on node 15.
+   19 Sep 21:15:04.23:- model run 36 commencing on node 16.
+   19 Sep 21:15:04.23:- model run 37 commencing on node 18.
+   19 Sep 21:15:04.23:- model run 38 commencing on node 22.
+   19 Sep 21:15:04.23:- model run 39 commencing on node 23.
+   19 Sep 21:15:04.23:- model run 40 commencing on node 32.
+   19 Sep 21:15:04.23:- model run 41 commencing on node 33.
+   19 Sep 21:15:04.23:- model run 42 commencing on node 35.
+   19 Sep 21:15:04.23:- model run 43 commencing on node 36.
+   19 Sep 21:15:04.23:- model run 44 commencing on node 43.
+   19 Sep 21:15:04.23:- model run 45 commencing on node 44.
+   19 Sep 21:15:04.23:- model run 46 commencing on node 47.
+   19 Sep 21:15:04.24:- model run 47 commencing on node 48.
+   19 Sep 21:15:04.24:- model run 48 commencing on node 55.
+   19 Sep 21:15:04.24:- model run 49 commencing on node 56.
+   19 Sep 21:15:04.24:- model run 50 commencing on node 57.
+   19 Sep 21:15:04.24:- model run 51 commencing on node 58.
+   19 Sep 21:15:04.24:- model run 52 commencing on node 59.
+   19 Sep 21:15:04.24:- model run 53 commencing on node 66.
+   19 Sep 21:15:04.24:- model run 54 commencing on node 1.
+   19 Sep 21:15:04.24:- model run 55 commencing on node 6.
+   19 Sep 21:15:04.24:- model run 56 commencing on node 9.
+   19 Sep 21:15:04.24:- model run 57 commencing on node 19.
+   19 Sep 21:15:04.24:- model run 58 commencing on node 25.
+   19 Sep 21:15:04.24:- model run 59 commencing on node 26.
+   19 Sep 21:15:04.24:- model run 60 commencing on node 29.
+   19 Sep 21:15:04.24:- model run 61 commencing on node 30.
+   19 Sep 21:15:04.24:- model run 62 commencing on node 45.
+   19 Sep 21:15:04.24:- model run 63 commencing on node 63.
+   19 Sep 21:15:04.24:- model run 64 commencing on node 64.
+   19 Sep 21:15:04.24:- model run 65 commencing on node 65.
+   19 Sep 21:15:04.24:- model run 66 commencing on node 2.
+   19 Sep 21:15:04.24:- model run 67 commencing on node 11.
+   19 Sep 21:15:04.24:- model run 68 commencing on node 27.
+   19 Sep 21:15:04.24:- model run 69 commencing on node 28.
+   19 Sep 21:15:04.24:- model run 70 commencing on node 61.
+   19 Sep 21:15:04.24:- model run 71 commencing on node 62.
+   19 Sep 21:15:04.24:- communications failure on node 52; model run 15 will be re-assigned to another node.
+   19 Sep 21:15:04.24:- communications failure on node 20; model run 18 will be re-assigned to another node.
+   19 Sep 21:15:04.24:- communications failure on node 12; model run 7 will be re-assigned to another node.
+   19 Sep 21:15:04.24:- communications failure on node 5; model run 32 will be re-assigned to another node.
+   19 Sep 21:15:04.24:- communications failure on node 24; model run 19 will be re-assigned to another node.
+   19 Sep 21:15:04.24:- communications failure on node 23; model run 39 will be re-assigned to another node.
+   19 Sep 21:15:04.24:- communications failure on node 60; model run 29 will be re-assigned to another node.
+   19 Sep 21:15:04.24:- communications failure on node 3; model run 30 will be re-assigned to another node.
+   19 Sep 21:15:04.24:- communications failure on node 43; model run 44 will be re-assigned to another node.
+   19 Sep 21:15:04.24:- communications failure on node 16; model run 36 will be re-assigned to another node.
+   19 Sep 21:15:04.24:- communications failure on node 59; model run 52 will be re-assigned to another node.
+   19 Sep 21:15:04.24:- communications failure on node 22; model run 38 will be re-assigned to another node.
+   19 Sep 21:15:04.25:- communications failure on node 6; model run 55 will be re-assigned to another node.
+   19 Sep 21:15:04.25:- communications failure on node 64; model run 64 will be re-assigned to another node.
+   19 Sep 21:15:04.25:- communications failure on node 66; model run 53 will be re-assigned to another node.
+   19 Sep 21:15:04.25:- communications failure on node 61; model run 70 will be re-assigned to another node.
+   19 Sep 21:15:04.25:- communications failure on node 65; model run 65 will be re-assigned to another node.
+   19 Sep 21:15:11.37:- communications failure on node 62; model run 71 will be re-assigned to another node.
+   19 Sep 21:15:11.40:- communications failure on node 55; model run 48 will be re-assigned to another node.
+   19 Sep 21:15:11.40:- communications failure on node 8; model run 17 will be re-assigned to another node.
+   19 Sep 21:15:11.42:- communications failure on node 58; model run 51 will be re-assigned to another node.
+   19 Sep 21:23:45.20:- model run 41 completed on node 33.
+   19 Sep 21:23:45.20:- model run 7 commencing on node 33.
+   19 Sep 21:23:45.67:- model run 20 completed on node 38.
+   19 Sep 21:23:45.67:- model run 15 commencing on node 38.
+   19 Sep 21:23:49.59:- model run 12 completed on node 42.
+   19 Sep 21:23:49.59:- model run 17 commencing on node 42.
+   19 Sep 21:23:58.23:- model run 24 completed on node 34.
+   19 Sep 21:23:58.23:- model run 18 commencing on node 34.
+   19 Sep 21:24:00.60:- model run 56 completed on node 9.
+   19 Sep 21:24:00.60:- model run 19 commencing on node 9.
+   19 Sep 21:24:03.61:- model run 27 completed on node 31.
+   19 Sep 21:24:03.61:- model run 29 commencing on node 31.
+   19 Sep 21:24:06.47:- model run 23 completed on node 40.
+   19 Sep 21:24:06.47:- model run 30 commencing on node 40.
+   19 Sep 21:24:08.21:- model run 9 completed on node 37.
+   19 Sep 21:24:08.21:- model run 32 commencing on node 37.
+   19 Sep 21:24:08.92:- model run 10 completed on node 39.
+   19 Sep 21:24:08.92:- model run 36 commencing on node 39.
+   19 Sep 21:24:09.12:- model run 11 completed on node 41.
+   19 Sep 21:24:09.12:- model run 38 commencing on node 41.
+   19 Sep 21:24:09.66:- model run 42 completed on node 35.
+   19 Sep 21:24:09.66:- model run 39 commencing on node 35.
+   19 Sep 21:24:10.26:- model run 40 completed on node 32.
+   19 Sep 21:24:10.26:- model run 44 commencing on node 32.
+   19 Sep 21:24:11.69:- model run 43 completed on node 36.
+   19 Sep 21:24:11.69:- model run 48 commencing on node 36.
+   19 Sep 21:24:15.47:- model run 54 completed on node 1.
+   19 Sep 21:24:15.47:- model run 51 commencing on node 1.
+   19 Sep 21:24:19.35:- model run 57 completed on node 19.
+   19 Sep 21:24:19.35:- model run 52 commencing on node 19.
+   19 Sep 21:24:20.88:- model run 16 completed on node 54.
+   19 Sep 21:24:20.88:- model run 53 commencing on node 54.
+   19 Sep 21:24:23.16:- model run 35 completed on node 15.
+   19 Sep 21:24:23.16:- model run 55 commencing on node 15.
+   19 Sep 21:24:24.80:- model run 34 completed on node 14.
+   19 Sep 21:24:24.80:- model run 64 commencing on node 14.
+   19 Sep 21:24:24.91:- model run 63 completed on node 63.
+   19 Sep 21:24:24.91:- model run 65 commencing on node 63.
+   19 Sep 21:24:25.62:- model run 67 completed on node 11.
+   19 Sep 21:24:25.62:- model run 70 commencing on node 11.
+   19 Sep 21:24:25.97:- model run 66 completed on node 2.
+   19 Sep 21:24:25.97:- model run 71 commencing on node 2.
+   19 Sep 21:24:26.97:- model run 31 completed on node 4.
+   19 Sep 21:24:26.97:- model run 72 commencing on node 4.
+   19 Sep 21:24:28.76:- model run 46 completed on node 47.
+   19 Sep 21:24:28.76:- model run 73 commencing on node 47.
+   19 Sep 21:24:29.27:- model run 45 completed on node 44.
+   19 Sep 21:24:29.27:- model run 74 commencing on node 44.
+   19 Sep 21:24:32.00:- model run 50 completed on node 57.
+   19 Sep 21:24:32.00:- model run 75 commencing on node 57.
+   19 Sep 21:24:32.11:- model run 1 completed on node 10.
+   19 Sep 21:24:32.11:- model run 76 commencing on node 10.
+   19 Sep 21:24:33.95:- model run 37 completed on node 18.
+   19 Sep 21:24:33.95:- model run 77 commencing on node 18.
+   19 Sep 21:24:35.34:- model run 22 completed on node 53.
+   19 Sep 21:24:35.34:- model run 78 commencing on node 53.
+   19 Sep 21:24:37.10:- model run 13 completed on node 49.
+   19 Sep 21:24:37.10:- model run 79 commencing on node 49.
+   19 Sep 21:24:37.10:- model run 28 completed on node 46.
+   19 Sep 21:24:37.12:- model run 80 commencing on node 46.
+   19 Sep 21:24:39.55:- model run 25 completed on node 17.
+   19 Sep 21:24:39.55:- model run 81 commencing on node 17.
+   19 Sep 21:24:41.85:- model run 14 completed on node 51.
+   19 Sep 21:24:41.85:- model run 82 commencing on node 51.
+   19 Sep 21:24:43.05:- model run 49 completed on node 56.
+   19 Sep 21:24:43.05:- model run 83 commencing on node 56.
+   19 Sep 21:24:45.97:- model run 62 completed on node 45.
+   19 Sep 21:24:45.97:- model run 84 commencing on node 45.
+   19 Sep 21:24:47.85:- model run 21 completed on node 50.
+   19 Sep 21:24:47.85:- model run 85 commencing on node 50.
+   19 Sep 21:24:49.06:- model run 8 completed on node 13.
+   19 Sep 21:24:49.06:- model run 86 commencing on node 13.
+   19 Sep 21:24:53.39:- model run 33 completed on node 7.
+   19 Sep 21:24:53.39:- model run 87 commencing on node 7.
+   19 Sep 21:25:14.87:- model run 26 completed on node 21.
+   19 Sep 21:25:14.87:- model run 88 commencing on node 21.
+   19 Sep 21:25:20.78:- model run 47 completed on node 48.
+   19 Sep 21:25:20.78:- model run 89 commencing on node 48.
+   19 Sep 21:32:19.38:- model run 7 completed on node 33.
+   19 Sep 21:32:19.38:- model run 90 commencing on node 33.
+   19 Sep 21:32:25.67:- model run 15 completed on node 38.
+   19 Sep 21:32:25.67:- model run 91 commencing on node 38.
+   19 Sep 21:32:30.00:- model run 29 completed on node 31.
+   19 Sep 21:32:30.00:- model run 92 commencing on node 31.
+   19 Sep 21:32:35.03:- model run 17 completed on node 42.
+   19 Sep 21:32:35.03:- model run 93 commencing on node 42.
+   19 Sep 21:32:40.13:- model run 39 completed on node 35.
+   19 Sep 21:32:40.13:- model run 94 commencing on node 35.
+   19 Sep 21:32:40.33:- model run 30 completed on node 40.
+   19 Sep 21:32:40.33:- model run 95 commencing on node 40.
+   19 Sep 21:32:50.33:- model run 18 completed on node 34.
+   19 Sep 21:32:50.33:- model run 96 commencing on node 34.
+   19 Sep 21:32:54.34:- model run 44 completed on node 32.
+   19 Sep 21:32:54.34:- model run 97 commencing on node 32.
+   19 Sep 21:32:55.29:- model run 48 completed on node 36.
+   19 Sep 21:32:55.29:- model run 98 commencing on node 36.
+   19 Sep 21:32:55.84:- model run 19 completed on node 9.
+   19 Sep 21:32:55.84:- model run 99 commencing on node 9.
+   19 Sep 21:32:58.36:- model run 51 completed on node 1.
+   19 Sep 21:32:58.36:- model run 100 commencing on node 1.
+   19 Sep 21:32:58.43:- model run 32 completed on node 37.
+   19 Sep 21:32:58.43:- model run 101 commencing on node 37.
+   19 Sep 21:33:00.19:- model run 52 completed on node 19.
+   19 Sep 21:33:00.19:- model run 102 commencing on node 19.
+   19 Sep 21:33:05.85:- model run 38 completed on node 41.
+   19 Sep 21:33:05.85:- model run 103 commencing on node 41.
+   19 Sep 21:33:05.87:- model run 36 completed on node 39.
+   19 Sep 21:33:05.87:- model run 104 commencing on node 39.
+   19 Sep 21:33:18.67:- model run 65 completed on node 63.
+   19 Sep 21:33:18.67:- model run 105 commencing on node 63.
+   19 Sep 21:33:22.51:- model run 71 completed on node 2.
+   19 Sep 21:33:22.51:- model run 106 commencing on node 2.
+   19 Sep 21:33:32.23:- model run 74 completed on node 44.
+   19 Sep 21:33:32.25:- model run 107 commencing on node 44.
+   19 Sep 21:33:41.72:- model run 70 completed on node 11.
+   19 Sep 21:33:41.72:- model run 108 commencing on node 11.
+   19 Sep 21:33:42.11:- model run 64 completed on node 14.
+   19 Sep 21:33:42.11:- model run 55 completed on node 15.
+   19 Sep 21:33:42.11:- model run 109 commencing on node 14.
+   19 Sep 21:33:42.11:- model run 110 commencing on node 15.
+   19 Sep 21:33:44.87:- model run 53 completed on node 54.
+   19 Sep 21:33:44.87:- model run 111 commencing on node 54.
+   19 Sep 21:33:45.26:- model run 77 completed on node 18.
+   19 Sep 21:33:45.26:- model run 112 commencing on node 18.
+   19 Sep 21:33:50.09:- model run 78 completed on node 53.
+   19 Sep 21:33:50.09:- model run 113 commencing on node 53.
+   19 Sep 21:33:50.26:- model run 72 completed on node 4.
+   19 Sep 21:33:50.26:- model run 114 commencing on node 4.
+   19 Sep 21:33:50.89:- model run 73 completed on node 47.
+   19 Sep 21:33:51.75:- model run 75 completed on node 57.
+   19 Sep 21:33:55.79:- model run 80 completed on node 46.
+   19 Sep 21:33:57.47:- model run 76 completed on node 10.
+   19 Sep 21:33:59.02:- model run 83 completed on node 56.
+   19 Sep 21:34:00.28:- model run 79 completed on node 49.
+   19 Sep 21:34:02.90:- model run 81 completed on node 17.
+   19 Sep 21:34:04.20:- model run 86 completed on node 13.
+   19 Sep 21:34:04.85:- model run 87 completed on node 7.
+   19 Sep 21:34:05.04:- model run 82 completed on node 51.
+   19 Sep 21:34:10.36:- model run 84 completed on node 45.
+   19 Sep 21:34:17.94:- model run 85 completed on node 50.
+   19 Sep 21:34:45.88:- model run 88 completed on node 21.
+   19 Sep 21:34:56.24:- model run 89 completed on node 48.
+   19 Sep 21:38:06.36:- overdue run on node 25; model run 58 may be re-assigned to another node.
+   19 Sep 21:38:06.36:- overdue run on node 26; model run 59 may be re-assigned to another node.
+   19 Sep 21:38:06.36:- overdue run on node 27; model run 68 may be re-assigned to another node.
+   19 Sep 21:38:06.36:- overdue run on node 28; model run 69 may be re-assigned to another node.
+   19 Sep 21:38:06.36:- overdue run on node 29; model run 60 may be re-assigned to another node.
+   19 Sep 21:38:06.36:- overdue run on node 30; model run 61 may be re-assigned to another node.
+   19 Sep 21:38:06.36:- model run 58 commencing on node 7.
+   19 Sep 21:38:06.36:- model run 59 commencing on node 13.
+   19 Sep 21:38:06.36:- model run 60 commencing on node 56.
+   19 Sep 21:38:06.36:- model run 61 commencing on node 46.
+   19 Sep 21:38:06.36:- model run 68 commencing on node 57.
+   19 Sep 21:38:06.36:- model run 69 commencing on node 47.
+   19 Sep 21:40:47.69:- model run 90 completed on node 33.
+   19 Sep 21:41:04.35:- model run 93 completed on node 42.
+   19 Sep 21:41:08.98:- model run 92 completed on node 31.
+   19 Sep 21:41:10.37:- model run 94 completed on node 35.
+   19 Sep 21:41:18.27:- model run 96 completed on node 34.
+   19 Sep 21:41:21.92:- model run 91 completed on node 38.
+   19 Sep 21:41:23.77:- model run 95 completed on node 40.
+   19 Sep 21:41:27.56:- model run 101 completed on node 37.
+   19 Sep 21:41:30.75:- model run 98 completed on node 36.
+   19 Sep 21:41:32.76:- model run 107 completed on node 44.
+   19 Sep 21:41:35.99:- model run 97 completed on node 32.
+   19 Sep 21:41:39.95:- model run 99 completed on node 9.
+   19 Sep 21:41:43.65:- model run 110 completed on node 15.
+   19 Sep 21:41:44.32:- model run 111 completed on node 54.
+   19 Sep 21:41:47.10:- model run 103 completed on node 41.
+   19 Sep 21:41:47.58:- model run 100 completed on node 1.
+   19 Sep 21:41:49.01:- model run 102 completed on node 19.
+   19 Sep 21:41:50.18:- model run 113 completed on node 53.
+   19 Sep 21:41:50.31:- model run 104 completed on node 39.
+   19 Sep 21:41:56.83:- model run 105 completed on node 63.
+   19 Sep 21:42:03.13:- model run 109 completed on node 14.
+   19 Sep 21:42:03.96:- model run 106 completed on node 2.
+   19 Sep 21:42:17.23:- model run 112 completed on node 18.
+   19 Sep 21:42:18.33:- model run 114 completed on node 4.
+   19 Sep 21:42:19.45:- model run 108 completed on node 11.
+   19 Sep 21:46:02.20:- model run 59 completed on node 13.
+   19 Sep 21:46:15.51:- model run 61 completed on node 46.
+   19 Sep 21:46:16.81:- model run 69 completed on node 47.
+   19 Sep 21:46:39.55:- model run 58 completed on node 7.
+   19 Sep 21:46:43.93:- model run 68 completed on node 57.
+
+
+ OPTIMISATION ITERATION NO.  1 ----->
