@@ -88,9 +88,13 @@ class RunManagementRecord:
                     self.hostname = self.name
                     self.localindex = 0
             self.events = []
+            self.runs = []
 
         def registerevent(self, event):
             self.events.append(event)
+
+        def registerrun(self, run):
+            self.runs.append(run)
 
         def getnumberofruns(self, eventtype="success"):
             count = len([e for e in self.events if e.type == eventtype])
@@ -118,6 +122,14 @@ class RunManagementRecord:
                         return event.statusMessage
             #else:
             return "unknown"
+
+        def getsuccesfulruns(self):
+            runs = []
+            for r in self.runs:
+                if r.getstatus() == "Model run complete":
+                    runs.append(r)
+            return runs
+
 
     class Run:
         def __init__(self, index):
@@ -154,13 +166,14 @@ class RunManagementRecord:
             else:
                 return None
 
-
-
-
         def getcompletionnode(self):
-            pass
-
-
+            if self.getstatus() == "Model run complete":
+                for event in reversed(self.events):
+                    if hasattr(event, "type"):
+                        if event.type == "RunCompletion":
+                            return event.node
+            else:
+                return None
 
 
     def __init__(self, filename):
@@ -172,6 +185,8 @@ class RunManagementRecord:
         self.searchnewnodes(self.events, self.nodes)
         self.searchnewruns(self.events, self.runs)
         self.registerevents(self.events, self.nodes, self.runs)
+        self.registerruns(self.runs, self.nodes)
+
 
     def load(self, filename):
         rmrfile = open(filename)
@@ -286,3 +301,10 @@ class RunManagementRecord:
                 nodelist[e.node].events.append(e)
             if hasattr(e, 'run'):
                 runlist[e.run].events.append(e)
+
+    def registerruns(self, runlist, nodelist):
+        for run in runlist:
+            r = runlist[run]
+            node = r.getcompletionnode()
+            if node:
+                nodelist[node].runs.append(r)
