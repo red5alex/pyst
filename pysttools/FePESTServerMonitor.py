@@ -25,12 +25,12 @@ testrmr = pyst.RunManagementRecord(currentDir+"\\"+rmrfiles[-1])
 
 # Write statistics to nodes - output file
 outfile = open(currentDir+"\\"+rmrfiles[-1]+".nodes", "w")
-outfile.write("STR = # of started model runs\n")
+#outfile.write("STR = # of started model runs\n")
 outfile.write("OK  = # of successfully finished model runs\n")
-outfile.write("DUE = # of overdue model runs\n")
+#outfile.write("DUE = # of overdue model runs\n")
 outfile.write("LAT = # of model runs finished too late\n")
 outfile.write("STR = # of communication failures\n\n")
-outfile.write("ID\tserver\tslave\tSTR\tOK\tDUE\tLAT\tCOM\trun\tlast run\tthis run\tstatus\n")
+outfile.write("ID\tserver\tslave\tOK\tLAT\tCOM\tjob\tlast run\tthis run\tstatus\n")
 
 nruns = 0
 
@@ -39,11 +39,11 @@ for node in testrmr.nodes:
     outfile.write(str(n.index) + "\t")
     outfile.write(n.hostname + "\t")
     outfile.write(str(n.localindex) + "\t\t")
-    outfile.write(str(n.getnumberofruns("RunCommencement")) + "\t")
+    #outfile.write(str(n.getnumberofruns("RunCommencement")) + "\t")
     outfile.write(str(n.getnumberofruns("RunCompletion")) + "\t")
     nruns += n.getnumberofruns("RunCompletion")
 
-    outfile.write(str(n.getnumberofruns("OverdueRun")) + "\t")
+    #outfile.write(str(n.getnumberofruns("OverdueRun")) + "\t")
     outfile.write(str(n.getnumberofruns("Late")) + "\t")
     outfile.write(str(n.getnumberofruns("CommunicationFailure")) + "\t")
 
@@ -69,10 +69,9 @@ for node in testrmr.nodes:
 
     # if a model is running, and the duration of the previous run is know, estimate the progress
     if len(n.getsuccesfulruns()) > 0 and n.getstatus() != "Model run complete":
-        progress = " (" +str(int((dcurrent / dlast)*100))+"%)"
+        progress = " (" + str(int((dcurrent / dlast)*100))+"%)"
     else:
         progress = ""
-
 
     outfile.write(str(n.getstatus()) + progress + "\t")
 
@@ -86,7 +85,5 @@ outfile = open(currentDir+"\\"+rmrfiles[-1]+".nodes")
 for l in outfile.readlines():
     print(l.strip())
 outfile.close()
-
-
 
 pass
