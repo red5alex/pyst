@@ -1,6 +1,7 @@
 __author__ = 'are'
 
 import datetime
+import os
 
 
 class RunManagementRecord:
@@ -22,6 +23,7 @@ class RunManagementRecord:
             def __init__(self, messagetext, timestamp, nodeindex, workdir):
                 self.message = messagetext
                 self.type = "Assignment"
+                self.statusMessage = "Node index assigned"
                 self.timestamp = timestamp
                 self.node = int(nodeindex)
                 self.workdir = workdir
@@ -30,6 +32,7 @@ class RunManagementRecord:
             def __init__(self, messagetext, timestamp, nodeindex, runindex):
                 self.message = messagetext
                 self.type = "RunCommencement"
+                self.statusMessage = "Running model"
                 self.timestamp = timestamp
                 self.node = int(nodeindex)
                 self.run = int(runindex)
@@ -38,6 +41,7 @@ class RunManagementRecord:
             def __init__(self, messagetext, timestamp, nodeindex, runindex):
                 self.message = messagetext
                 self.type = "CommunicationFailure"
+                self.statusMessage = "Communication Failure"
                 self.timestamp = timestamp
                 self.node = int(nodeindex)
                 self.run = int(runindex)
@@ -46,6 +50,7 @@ class RunManagementRecord:
             def __init__(self, messagetext, timestamp, nodeindex, runindex):
                 self.message = messagetext
                 self.type = "RunCompletion"
+                self.statusMessage = "Model run complete"
                 self.timestamp = timestamp
                 self.node = int(nodeindex)
                 self.run = int(runindex)
@@ -54,6 +59,7 @@ class RunManagementRecord:
             def __init__(self, messagetext, timestamp, nodeindex, runindex=-1):
                 self.message = messagetext
                 self.type = "LateCompletion"
+                self.statusMessage = "Model run complete (late)"
                 self.timestamp = timestamp
                 self.node = int(nodeindex)
                 self.run = int(runindex)
@@ -62,6 +68,7 @@ class RunManagementRecord:
             def __init__(self, messagetext, timestamp, nodeindex, runindex):
                 self.message = messagetext
                 self.type = "OverdueRun"
+                self.statusMessage = "Overdue"
                 self.timestamp = timestamp
                 self.node = int(nodeindex)
                 self.run = int(runindex)
@@ -88,12 +95,28 @@ class RunManagementRecord:
             count = len([e for e in self.events if e.type == eventtype])
             return count
 
-        def gettimesincelastevent(self):
-            then = self.events[-1].timestamp
-            now = datetime.datetime.now()
-            return now - then
+        def gettimeoflastevent(self):
+            return self.events[-1].timestamp
+
+        def getcurrentrun(self):
+            for event in reversed(self.events):
+                if hasattr(event,"run"):
+                    if event.run > 0:
+                         return event.run
+            return -1
+
+        def getstatus(self):
+            for event in reversed(self.events):
+                if hasattr(event,"statusMessage"):
+                        return event.statusMessage
+            #else:
+            return "unknown"
 
     def __init__(self, filename):
+
+        self.filemodtime = datetime.datetime.fromtimestamp(os.path.getmtime(filename))
+        self.filecrttime = datetime.datetime.fromtimestamp(os.path.getctime(filename))
+
         self.load(filename)
         self.searchnewnodes(self.events, self.nodes)
         self.registerevents(self.events, self.nodes)
@@ -113,7 +136,7 @@ class RunManagementRecord:
             t = v[2].split(':')
             r = t[2].split('.')
 
-            y = int(1900)
+            y = self.filemodtime.year
             m = months[v[1]]
             d = int(v[0])
             h = int(t[0])
@@ -204,32 +227,3 @@ class RunManagementRecord:
             if hasattr(e, 'node'):
                 nodelist[e.node].events.append(e)
 
-
-
-
-#TEST CODE: Writes statistics to a table file:
-testrmr = RunManagementRecord("D:\\Repositories\\red5alex.cloudforge\\pyst\\trunk\\example_files\\runManagementRecord.rmr")
-
-outfile = open("D:\\Repositories\\red5alex.cloudforge\\pyst\\trunk\\example_files\\runManagementRecord.nodes", "w")
-
-outfile.write("STR = # of started model runs\n")
-outfile.write("OK  = # of successfully finished model runs\n")
-outfile.write("DUE = # of overdue model runs\n")
-outfile.write("LAT = # of model runs finished too late\n")
-outfile.write("STR = # of communication failures\n\n")
-outfile.write("ID\tserver\tslave\tSTR\tOK\tDUE\tLAT\tCOM\tlast contact\n")
-
-for node in testrmr.nodes:
-    n = testrmr.nodes[node]
-    outfile.write(str(n.index) + "\t")
-    outfile.write(n.hostname + "\t")
-    outfile.write(str(n.localindex) + "\t\t")
-    outfile.write(str(n.getnumberofruns("RunCommencement")) + "\t")
-    outfile.write(str(n.getnumberofruns("RunCompletion")) + "\t")
-    outfile.write(str(n.getnumberofruns("OverdueRun")) + "\t")
-    outfile.write(str(n.getnumberofruns("Late")) + "\t")
-    outfile.write(str(n.getnumberofruns("CommunicationFailure")) + "\t")
-    outfile.write(str(n.gettimesincelastevent()) + "\n")
-outfile.close()
-
-pass
