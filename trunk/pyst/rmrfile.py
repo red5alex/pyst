@@ -130,7 +130,6 @@ class RunManagementRecord:
                     runs.append(r)
             return runs
 
-
     class Run:
         def __init__(self, index):
             self.events = []
@@ -175,7 +174,6 @@ class RunManagementRecord:
             else:
                 return None
 
-
     def __init__(self, filename):
 
         self.filemodtime = datetime.datetime.fromtimestamp(os.path.getmtime(filename))
@@ -186,7 +184,6 @@ class RunManagementRecord:
         self.searchnewruns(self.events, self.runs)
         self.registerevents(self.events, self.nodes, self.runs)
         self.registerruns(self.runs, self.nodes)
-
 
     def load(self, filename):
         rmrfile = open(filename)
@@ -290,7 +287,7 @@ class RunManagementRecord:
 
     def searchnewruns(self, eventlist, runlist):
         for e in eventlist:
-            if hasattr(e,"run"):
+            if hasattr(e, "run"):
                 if e.run not in runlist.keys():
                     runlist[e.run] = self.Run(e.run)
 
@@ -302,7 +299,8 @@ class RunManagementRecord:
             if hasattr(e, 'run'):
                 runlist[e.run].events.append(e)
 
-    def registerruns(self, runlist, nodelist):
+    @staticmethod
+    def registerruns(runlist, nodelist):
         for run in runlist:
             r = runlist[run]
             node = r.getcompletionnode()
