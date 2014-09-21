@@ -69,4 +69,14 @@ for l in outfile.readlines():
     print(l.strip())
 outfile.close()
 
+
+
+# testing:
+runtimes = {}
+for run in testrmr.runs:
+    r = testrmr.runs[run]
+    runtimes[r.index] = r.getduration()
+
+
+
 pass
