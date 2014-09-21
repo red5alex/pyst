@@ -100,14 +100,20 @@ class RunManagementRecord:
 
         def getcurrentrun(self):
             for event in reversed(self.events):
-                if hasattr(event,"run"):
+                if hasattr(event, "run"):
                     if event.run > 0:
-                         return event.run
+                        return event.run
             return -1
+
+        def getcurrentruntime(self):
+            for event in reversed(self.events):
+                if hasattr(event, "type"):
+                    if event.type == "RunCommencement":
+                        return event.timestamp
 
         def getstatus(self):
             for event in reversed(self.events):
-                if hasattr(event,"statusMessage"):
+                if hasattr(event, "statusMessage"):
                         return event.statusMessage
             #else:
             return "unknown"
@@ -226,4 +232,3 @@ class RunManagementRecord:
         for e in eventlist:
             if hasattr(e, 'node'):
                 nodelist[e.node].events.append(e)
-
