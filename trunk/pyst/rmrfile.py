@@ -11,6 +11,7 @@ class RunManagementRecord:
     slowrunfactor = -1.
     events = []
     nodes = {}
+    runs = {}
 
     class Events:
 
@@ -118,6 +119,50 @@ class RunManagementRecord:
             #else:
             return "unknown"
 
+    class Run:
+        def __init__(self, index):
+            self.events = []
+            self.index = index
+
+        def registerevent(self, event):
+            self.events.append(event)
+
+        def getstatus(self):
+            for event in reversed(self.events):
+                if hasattr(event, "statusMessage"):
+                        return event.statusMessage
+            #else:
+            return "unknown"
+
+        def getduration(self):
+            tend = -1
+            tstart = -1
+            successnode = -1
+
+            if self.getstatus() == "Model run complete":
+                for event in reversed(self.events):
+                    if hasattr(event, "type"):
+                        if event.type == "RunCompletion":
+                            tend = event.timestamp
+                            successnode = event.node
+                        if event.type == "RunCommencement" and event.node == successnode:
+                            tstart = event.timestamp
+
+                if tstart != -1:
+                    return tend - tstart
+
+            else:
+                return None
+
+
+
+
+        def getcompletionnode(self):
+            pass
+
+
+
+
     def __init__(self, filename):
 
         self.filemodtime = datetime.datetime.fromtimestamp(os.path.getmtime(filename))
@@ -125,7 +170,8 @@ class RunManagementRecord:
 
         self.load(filename)
         self.searchnewnodes(self.events, self.nodes)
-        self.registerevents(self.events, self.nodes)
+        self.searchnewruns(self.events, self.runs)
+        self.registerevents(self.events, self.nodes, self.runs)
 
     def load(self, filename):
         rmrfile = open(filename)
@@ -227,8 +273,16 @@ class RunManagementRecord:
                 if e.node not in nodelist.keys():
                     nodelist[e.node] = self.Node(e.node, e.workdir)
 
+    def searchnewruns(self, eventlist, runlist):
+        for e in eventlist:
+            if hasattr(e,"run"):
+                if e.run not in runlist.keys():
+                    runlist[e.run] = self.Run(e.run)
+
     @staticmethod
-    def registerevents(eventlist, nodelist):
+    def registerevents(eventlist, nodelist, runlist):
         for e in eventlist:
             if hasattr(e, 'node'):
                 nodelist[e.node].events.append(e)
+            if hasattr(e, 'run'):
+                runlist[e.run].events.append(e)
