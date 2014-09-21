@@ -106,20 +106,20 @@ class RunManagementRecord:
 
     def parseline(self, line):
 
-        def parsetime(line):
+        def parsetime(timestring):
             months = dict(Jan=1, Feb=2, Mar=3, Apr=4, May=5, Jun=6, Jul=7, Aug=8, Sep=9, Oct=10, Nov=11, Dec=12)
 
-            v = line.split()
+            v = timestring.split()
             t = v[2].split(':')
-            s = t[2].split('.')
+            r = t[2].split('.')
 
             y = int(1900)
             m = months[v[1]]
             d = int(v[0])
             h = int(t[0])
             mn = int(t[1])
-            sec = int(s[0])
-            ms = int(s[1])*10000
+            sec = int(r[0])
+            ms = int(r[1])*10000
 
             if sec > 59:
                 sec = 0
@@ -204,12 +204,14 @@ class RunManagementRecord:
             if hasattr(e, 'node'):
                 nodelist[e.node].events.append(e)
 
+
+
+
+#TEST CODE: Writes statistics to a table file:
 testrmr = RunManagementRecord("D:\\Repositories\\red5alex.cloudforge\\pyst\\trunk\\example_files\\runManagementRecord.rmr")
 
-
-
 outfile = open("D:\\Repositories\\red5alex.cloudforge\\pyst\\trunk\\example_files\\runManagementRecord.nodes", "w")
-#Header
+
 outfile.write("STR = # of started model runs\n")
 outfile.write("OK  = # of successfully finished model runs\n")
 outfile.write("DUE = # of overdue model runs\n")
