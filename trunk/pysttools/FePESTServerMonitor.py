@@ -30,10 +30,9 @@ outfile.write("OK  = # of successfully finished model runs\n")
 outfile.write("DUE = # of overdue model runs\n")
 outfile.write("LAT = # of model runs finished too late\n")
 outfile.write("STR = # of communication failures\n\n")
-outfile.write("ID\tserver\tslave\tSTR\tOK\tDUE\tLAT\tCOM\trun\ttime\t\tlast message\n")
+outfile.write("ID\tserver\tslave\tSTR\tOK\tDUE\tLAT\tCOM\trun\tlast run\tthis run\tstatus\n")
 
 nruns = 0
-
 
 for node in testrmr.nodes:
     n = testrmr.nodes[node]
@@ -50,13 +49,32 @@ for node in testrmr.nodes:
 
     outfile.write(str(n.getcurrentrun()) + "\t")
 
+    # get the duration of the last successful run
+    dlast = -1.
+    if len(n.getsuccesfulruns()) > 0:
+        lastduration = n.getsuccesfulruns()[-1].getduration()
+        outfile.write("["+str(lastduration).split(".")[0] + "]\t")
+        dlast = lastduration.total_seconds()
+    else:
+        outfile.write("[-:--:--]\t")
+
+    # get the duration of the current run and write to file
+    dcurrent = -1.
     if n.getstatus() == "Model run complete":
         outfile.write("[-:--:--]\t")
     else:
-        tlast = str(datetime.datetime.now() - n.getcurrentruntime()).split(".")[0]
-        outfile.write("["+tlast + "]\t")
+        duration = str(datetime.datetime.now() - n.getcurrentruntime()).split(".")[0]
+        outfile.write("["+duration + "]\t")
+        dcurrent = (datetime.datetime.now() - n.getcurrentruntime()).total_seconds()
 
-    outfile.write(str(n.getstatus()) + "\t")
+    # if a model is running, and the duration of the previous run is know, estimate the progress
+    if len(n.getsuccesfulruns()) > 0 and n.getstatus() != "Model run complete":
+        progress = " (" +str(int((dcurrent / dlast)*100))+"%)"
+    else:
+        progress = ""
+
+
+    outfile.write(str(n.getstatus()) + progress + "\t")
 
     outfile.write("\n")
 
@@ -68,14 +86,6 @@ outfile = open(currentDir+"\\"+rmrfiles[-1]+".nodes")
 for l in outfile.readlines():
     print(l.strip())
 outfile.close()
-
-
-
-# testing:
-runtimes = {}
-for run in testrmr.runs:
-    r = testrmr.runs[run]
-    runtimes[r.index] = r.getduration()
 
 
 
