@@ -20,3 +20,5 @@ from pyst.jactestresultfile import JacTestResultsFile
 del jactestresultfile
 from pyst.uncertaintyfile import UncertaintyFile
 del uncertaintyfile
+from pyst.rmrfile import RunManagementRecord
+del rmrfile
