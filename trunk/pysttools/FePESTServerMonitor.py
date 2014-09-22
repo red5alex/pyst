@@ -36,6 +36,9 @@ nruns = 0
 
 for node in testrmr.nodes:
     n = testrmr.nodes[node]
+
+    status = n.getstatus()
+
     outfile.write(str(n.index) + "\t")
     outfile.write(n.hostname + "\t")
     outfile.write(str(n.localindex) + "\t\t")
@@ -51,7 +54,7 @@ for node in testrmr.nodes:
 
     # get the duration of the last successful run
     dlast = -1.
-    if len(n.getsuccesfulruns()) > 0:
+    if len(n.getsuccesfulruns()) > 0 and not status == "Communication Failure":
         lastduration = n.getsuccesfulruns()[-1].getduration()
         outfile.write("["+str(lastduration).split(".")[0] + "]\t")
         dlast = lastduration.total_seconds()
@@ -60,7 +63,8 @@ for node in testrmr.nodes:
 
     # get the duration of the current run and write to file
     dcurrent = -1.
-    if n.getstatus() == "Model run complete":
+    if status == "Model run complete" or \
+            status == "Communication Failure":
         outfile.write("[-:--:--]\t")
     else:
         duration = str(datetime.datetime.now() - n.getcurrentruntime()).split(".")[0]
@@ -68,13 +72,14 @@ for node in testrmr.nodes:
         dcurrent = (datetime.datetime.now() - n.getcurrentruntime()).total_seconds()
 
     # if a model is running, and the duration of the previous run is know, estimate the progress
-    if len(n.getsuccesfulruns()) > 0 and n.getstatus() != "Model run complete":
-        progress = " (" + str(int((dcurrent / dlast)*100))+"%)"
+    if len(n.getsuccesfulruns()) > 0 and \
+            not status == "Model run complete" and\
+            not status == "Communication Failure":
+        progress = u" ({0}%)".format(str(int((dcurrent / dlast) * 100)))
     else:
         progress = ""
 
     outfile.write(str(n.getstatus()) + progress + "\t")
-
     outfile.write("\n")
 
 outfile.write("\n"+str(nruns) + " runs completed\n")
