@@ -1,0 +1,11 @@
+
+ BeoJACTEST Postprocessor Version 12.3.0.
+
+ BeoJACTEST-post is run using the command:
+
+     beojactest-post.py runrecord outfile parname
+
+ where
+
+     runrecord  is the name of an existing run record file,
+     outfile    is the name of the JACTEST output file (dat) to be written
