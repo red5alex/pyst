@@ -1,0 +1,13 @@
+
+ BeoJACTEST Preprocessor Version 12.3.0.
+
+ BeoJACTEST is run using the command:
+
+     beojactest-pre.py pestfile parname n [outfile]
+
+ where
+
+     pestfile is the name of a PEST control file,
+     parname  is the name of a parameter featured in this file,
+     n        is the number of increments to test, and
+     outfile  is the name of the JACTEST output file (default: <parname>.dat)
