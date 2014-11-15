@@ -9,6 +9,7 @@ BuildList = ['FePestServerMonitor/FePESTServerMonitor.py ',
              'beojactest/beojactest-pre.py',
              'beojactest/beojactest-post.py',
              'beojactest/analyseJacTest.py',
+             'mat2dat/mat2dat.py',
              'helloWorld.py',
              ]
 
