@@ -58,6 +58,14 @@ class PestDef:
 
         defpath = os.path.dirname(__file__) + "\\"  # definition file are expected in the same dir as this script
 
+        # This is a hack to allow to compile binaries using Py2Exe. Py2exe cannot place non-Python files in the
+        # shared zip folder, but in a separate resources folder. If the file is not found in the first place,
+        # this looks for this alternative file location.
+        if not os.path.isfile(defpath+'pestdef.controlData.vardef.txt'):
+            defpath = os.path.abspath(defpath+'..\\..\\resources')+"\\"
+
+
+
         # variable definitions files
         listOfVarDefFiles = ['pestdef.controlData.vardef.txt',
                              'pestdef.parameterData.vardef.txt',
