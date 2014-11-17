@@ -22,3 +22,5 @@ from pyst.uncertaintyfile import UncertaintyFile
 del uncertaintyfile
 from pyst.rmrfile import RunManagementRecord
 del rmrfile
+from pyst.pestoutfile import PestOutFile
+del pestoutfile
