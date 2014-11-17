@@ -11,6 +11,9 @@ BuildList = ['FePestServerMonitor/FePESTServerMonitor.py ',
              'beojactest/analyseJacTest.py',
              'mat2dat/mat2dat.py',
              'helloWorld.py',
+             'RunAnalysis/AnalyzeOut.py',
+             'regularization/implementGenreg.py',
+             #'RunAnalysis/PhiWatch.py'
              ]
 
 ResourceFiles = ['../pyst/pestdef.controlData.vardef.txt',
