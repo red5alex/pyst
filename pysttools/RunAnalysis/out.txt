@@ -1,0 +1,213 @@
+Current regularisation weight factor                     =   1.0000
+Sum of squared weighted residuals (ie phi)               =  2.31921E+05
+Contribution to phi from observation group "heagp"       =  2.31713E+05
+Contribution to phi from observation group "regul_eqkxy1"=   0.0000
+Contribution to phi from observation group "regul_eqkxy2"=   0.0000
+Contribution to phi from observation group "regul_eqkxy3"=   0.0000
+Contribution to phi from observation group "regul_fckxz1"=  0.16749
+Contribution to phi from observation group "regul_fckxz2"=   2.2040
+Contribution to phi from observation group "regul_fckxz3"=   2.2040
+Contribution to phi from observation group "regul_homx1" =   14.159
+Contribution to phi from observation group "regul_homx2" =   94.323
+Contribution to phi from observation group "regul_homx3" =   94.323
+OPTIMISATION ITERATION NO.        : 1
+Current regularisation weight factor                     :   1.0000
+Starting phi for this iteration                          :  2.31921E+05
+Contribution to phi from observation group "heagp"       :  2.31713E+05
+Contribution to phi from observation group "regul_eqkxy1":   0.0000
+Contribution to phi from observation group "regul_eqkxy2":   0.0000
+Contribution to phi from observation group "regul_eqkxy3":   0.0000
+Contribution to phi from observation group "regul_fckxz1":  0.16749
+Contribution to phi from observation group "regul_fckxz2":   2.2040
+Contribution to phi from observation group "regul_fckxz3":   2.2040
+Contribution to phi from observation group "regul_homx1" :   14.159
+Contribution to phi from observation group "regul_homx2" :   94.323
+Contribution to phi from observation group "regul_homx3" :   94.323
+Calculating optimal regularisation weight factor .....
+Re-calculated regularisation weight factor               :  0.13327
+Contribution to phi from observation group "heagp"       :  2.31713E+05
+Contribution to phi from observation group "regul_eqkxy1":   0.0000
+Contribution to phi from observation group "regul_eqkxy2":   0.0000
+Contribution to phi from observation group "regul_eqkxy3":   0.0000
+Contribution to phi from observation group "regul_fckxz1":   1.1899
+Contribution to phi from observation group "regul_fckxz2":   15.658
+Contribution to phi from observation group "regul_fckxz3":   15.658
+Contribution to phi from observation group "regul_homx1" :  0.30808
+Contribution to phi from observation group "regul_homx2" :   2.0524
+Contribution to phi from observation group "regul_homx3" :   2.0524
+Partial parallelisation of lambda search: running model 10 times.....
+Lambda =   10.000     ----->
+Phi =  1.16299E+05  (  0.502 of starting phi)
+Meas. fn. =  1.16262E+05
+Regul. fn. =   2085.3
+Lambda =   4.6416     ----->
+Phi =  1.49439E+05  (  0.645 of starting phi)
+Meas. fn. =  1.49403E+05
+Regul. fn. =   2004.5
+Lambda =   21.544     ----->
+Phi =   64765.      (  0.279 of starting phi)
+Meas. fn. =   64726.
+Regul. fn. =   2196.5
+OPTIMISATION ITERATION NO.        : 2
+Current regularisation weight factor                     :  0.13327
+Starting phi for this iteration                          :   64765.
+Contribution to phi from observation group "heagp"       :   64726.
+Contribution to phi from observation group "regul_eqkxy1":  0.39083
+Contribution to phi from observation group "regul_eqkxy2":  0.21790
+Contribution to phi from observation group "regul_eqkxy3":  0.11763
+Contribution to phi from observation group "regul_fckxz1":   1.2777
+Contribution to phi from observation group "regul_fckxz2":   17.883
+Contribution to phi from observation group "regul_fckxz3":   14.773
+Contribution to phi from observation group "regul_homx1" :  0.41631
+Contribution to phi from observation group "regul_homx2" :   2.0193
+Contribution to phi from observation group "regul_homx3" :   1.9164
+Calculating Jacobian matrix: running model 1818 times .....
+Calculating optimal regularisation weight factor .....
+Re-calculated regularisation weight factor               :  0.30003
+Contribution to phi from observation group "heagp"       :   64726.
+Contribution to phi from observation group "regul_eqkxy1":   1.9809
+Contribution to phi from observation group "regul_eqkxy2":   1.1044
+Contribution to phi from observation group "regul_eqkxy3":  0.59622
+Contribution to phi from observation group "regul_fckxz1":   6.4760
+Contribution to phi from observation group "regul_fckxz2":   90.637
+Contribution to phi from observation group "regul_fckxz3":   74.876
+Contribution to phi from observation group "regul_homx1" :   2.1101
+Contribution to phi from observation group "regul_homx2" :   10.235
+Contribution to phi from observation group "regul_homx3" :   9.7133
+Partial parallelisation of lambda search: running model 10 times.....
+Lambda =   21.544     ----->
+Phi =   4071.4      (  0.063 of starting phi)
+Meas. fn. =   3880.9
+Regul. fn. =   2117.1
+Lambda =   7.7426     ----->
+Phi =   26834.      (  0.413 of starting phi)
+Meas. fn. =   26650.
+Regul. fn. =   2042.3
+OPTIMISATION ITERATION NO.        : 3
+Current regularisation weight factor                     :  0.30003
+Starting phi for this iteration                          :   4071.4
+Contribution to phi from observation group "heagp"       :   3880.9
+Contribution to phi from observation group "regul_eqkxy1":   3.7909
+Contribution to phi from observation group "regul_eqkxy2":   3.2626
+Contribution to phi from observation group "regul_eqkxy3":   1.9175
+Contribution to phi from observation group "regul_fckxz1":   7.9513
+Contribution to phi from observation group "regul_fckxz2":   85.832
+Contribution to phi from observation group "regul_fckxz3":   67.268
+Contribution to phi from observation group "regul_homx1" :   2.5122
+Contribution to phi from observation group "regul_homx2" :   9.3324
+Contribution to phi from observation group "regul_homx3" :   8.7161
+Calculating Jacobian matrix: running model 1818 times .....
+Calculating optimal regularisation weight factor .....
+Re-calculated regularisation weight factor               :  0.42370
+Contribution to phi from observation group "heagp"       :   3880.9
+Contribution to phi from observation group "regul_eqkxy1":   7.5601
+Contribution to phi from observation group "regul_eqkxy2":   6.5066
+Contribution to phi from observation group "regul_eqkxy3":   3.8241
+Contribution to phi from observation group "regul_fckxz1":   15.857
+Contribution to phi from observation group "regul_fckxz2":   171.17
+Contribution to phi from observation group "regul_fckxz3":   134.15
+Contribution to phi from observation group "regul_homx1" :   5.0100
+Contribution to phi from observation group "regul_homx2" :   18.612
+Contribution to phi from observation group "regul_homx3" :   17.382
+Partial parallelisation of lambda search: running model 10 times.....
+Lambda =   7.7426     ----->
+Phi =   902.85      (  0.212 of starting phi)
+Meas. fn. =   584.81
+Regul. fn. =   1771.6
+Lambda =   3.8713     ----->
+Phi =   1336.1      (  0.314 of starting phi)
+Meas. fn. =   1037.9
+Regul. fn. =   1661.3
+OPTIMISATION ITERATION NO.        : 4
+Current regularisation weight factor                     :  0.42370
+Starting phi for this iteration                          :   902.85
+Contribution to phi from observation group "heagp"       :   584.81
+Contribution to phi from observation group "regul_eqkxy1":   9.2514
+Contribution to phi from observation group "regul_eqkxy2":   11.263
+Contribution to phi from observation group "regul_eqkxy3":   6.5456
+Contribution to phi from observation group "regul_fckxz1":   17.007
+Contribution to phi from observation group "regul_fckxz2":   136.45
+Contribution to phi from observation group "regul_fckxz3":   102.44
+Contribution to phi from observation group "regul_homx1" :   4.7750
+Contribution to phi from observation group "regul_homx2" :   15.707
+Contribution to phi from observation group "regul_homx3" :   14.600
+Calculating Jacobian matrix: running model 1818 times .....
+Calculating optimal regularisation weight factor .....
+Re-calculated regularisation weight factor               :  0.44466
+Contribution to phi from observation group "heagp"       :   584.81
+Contribution to phi from observation group "regul_eqkxy1":   10.189
+Contribution to phi from observation group "regul_eqkxy2":   12.405
+Contribution to phi from observation group "regul_eqkxy3":   7.2090
+Contribution to phi from observation group "regul_fckxz1":   18.730
+Contribution to phi from observation group "regul_fckxz2":   150.27
+Contribution to phi from observation group "regul_fckxz3":   112.83
+Contribution to phi from observation group "regul_homx1" :   5.2589
+Contribution to phi from observation group "regul_homx2" :   17.299
+Contribution to phi from observation group "regul_homx3" :   16.079
+Partial parallelisation of lambda search: running model 10 times.....
+Lambda =   3.8713     ----->
+Phi =   326.62      (  0.349 of starting phi)
+Meas. fn. =   100.88
+Regul. fn. =   1141.7
+Lambda =   1.9357     ----->
+Phi =   274.62      (  0.294 of starting phi)
+Meas. fn. =   94.958
+Regul. fn. =   908.69
+Lambda =  0.96783     ----->
+Phi =   290.78      (  0.311 of starting phi)
+Meas. fn. =   134.82
+Regul. fn. =   788.78
+OPTIMISATION ITERATION NO.        : 5
+Current regularisation weight factor                     :  0.44466
+Starting phi for this iteration                          :   274.62
+Contribution to phi from observation group "heagp"       :   94.958
+Contribution to phi from observation group "regul_eqkxy1":   14.469
+Contribution to phi from observation group "regul_eqkxy2":   19.983
+Contribution to phi from observation group "regul_eqkxy3":   11.753
+Contribution to phi from observation group "regul_fckxz1":   13.111
+Contribution to phi from observation group "regul_fckxz2":   58.022
+Contribution to phi from observation group "regul_fckxz3":   35.640
+Contribution to phi from observation group "regul_homx1" :   5.3170
+Contribution to phi from observation group "regul_homx2" :   10.784
+Contribution to phi from observation group "regul_homx3" :   10.587
+Calculating Jacobian matrix: running model 1818 times .....
+Calculating optimal regularisation weight factor .....
+Re-calculated regularisation weight factor               :  0.52566
+Contribution to phi from observation group "heagp"       :   94.958
+Contribution to phi from observation group "regul_eqkxy1":   20.221
+Contribution to phi from observation group "regul_eqkxy2":   27.927
+Contribution to phi from observation group "regul_eqkxy3":   16.425
+Contribution to phi from observation group "regul_fckxz1":   18.322
+Contribution to phi from observation group "regul_fckxz2":   81.086
+Contribution to phi from observation group "regul_fckxz3":   49.808
+Contribution to phi from observation group "regul_homx1" :   7.4305
+Contribution to phi from observation group "regul_homx2" :   15.070
+Contribution to phi from observation group "regul_homx3" :   14.796
+Partial parallelisation of lambda search: running model 10 times.....
+Lambda =  0.96783     ----->
+Phi =   203.93      (  0.589 of starting phi)
+Meas. fn. =   50.408
+Regul. fn. =   555.61
+Lambda =  0.48391     ----->
+Phi =   222.69      (  0.644 of starting phi)
+Meas. fn. =   72.685
+Regul. fn. =   542.86
+Lambda =   1.9357     ----->
+Phi =   208.46      (  0.602 of starting phi)
+Meas. fn. =   51.246
+Regul. fn. =   568.97
+OPTIMISATION ITERATION NO.        : 6
+Current regularisation weight factor                     :  0.52566
+Starting phi for this iteration                          :   203.93
+Contribution to phi from observation group "heagp"       :   50.408
+Contribution to phi from observation group "regul_eqkxy1":   15.686
+Contribution to phi from observation group "regul_eqkxy2":   20.469
+Contribution to phi from observation group "regul_eqkxy3":   12.240
+Contribution to phi from observation group "regul_fckxz1":   15.391
+Contribution to phi from observation group "regul_fckxz2":   37.520
+Contribution to phi from observation group "regul_fckxz3":   20.767
+Contribution to phi from observation group "regul_homx1" :   7.4598
+Contribution to phi from observation group "regul_homx2" :   11.569
+Contribution to phi from observation group "regul_homx3" :   12.421
+Calculating Jacobian matrix: running model 1818 times .....
+Calculating optimal regularisation weight factor .....
