@@ -25,7 +25,7 @@ try:
 
 except ValueError:
     print('MAT2DAT version 0.8 DHI Water & Environment',
-          'converts a PEST matrix (mat) file to ASCII table (dat) format',
+          'converts a PEST matrix (mat) file to ASCII table (dat) format ',
           '',
           'Usage:',
           '\tmat2dat file [-pivot]',
