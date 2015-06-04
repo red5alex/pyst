@@ -12,6 +12,7 @@ class RunManagementRecord:
     events = []
     nodes = {}
     runs = {}
+    servers = {}
 
     class Events:
 
@@ -174,6 +175,10 @@ class RunManagementRecord:
             else:
                 return None
 
+    class Server:
+        def __init__(self, hostname):
+            self.hostname = hostname
+
     def __init__(self, filename):
 
         self.filemodtime = datetime.datetime.fromtimestamp(os.path.getmtime(filename))
@@ -181,6 +186,7 @@ class RunManagementRecord:
 
         self.load(filename)
         self.searchnewnodes(self.events, self.nodes)
+        self.searchnewservers(self.nodes, self.servers)
         self.searchnewruns(self.events, self.runs)
         self.registerevents(self.events, self.nodes, self.runs)
         self.registerruns(self.runs, self.nodes)
@@ -189,6 +195,7 @@ class RunManagementRecord:
         self.events.clear()
         self.runs.clear()
         self.nodes.clear()
+        self.servers.clear()
         rmrfile = open(filename)
         lines = rmrfile.readlines()
         for l in lines:
@@ -288,11 +295,19 @@ class RunManagementRecord:
                 if e.node not in nodelist.keys():
                     nodelist[e.node] = self.Node(e.node, e.workdir)
 
+    def searchnewservers(self, nodelist, serverlist):
+        for n in nodelist:
+            hostname = nodelist[n].hostname
+            if hostname not in serverlist.keys():
+                serverlist[hostname] = self.Server(hostname)
+
+
     def searchnewruns(self, eventlist, runlist):
         for e in eventlist:
             if hasattr(e, "run"):
                 if e.run not in runlist.keys():
                     runlist[e.run] = self.Run(e.run)
+
 
     @staticmethod
     def registerevents(eventlist, nodelist, runlist):
@@ -309,3 +324,10 @@ class RunManagementRecord:
             node = r.getcompletionnode()
             if node:
                 nodelist[node].runs.append(r)
+
+    def getnumberofcompletedruns(self):
+        nn = 0;
+        for n in self.nodes:
+            node = self.nodes[n]
+            nn += len(node.getsuccesfulruns())
+        return nn
