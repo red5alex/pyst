@@ -186,6 +186,9 @@ class RunManagementRecord:
         self.registerruns(self.runs, self.nodes)
 
     def load(self, filename):
+        self.events.clear()
+        self.runs.clear()
+        self.nodes.clear()
         rmrfile = open(filename)
         lines = rmrfile.readlines()
         for l in lines:

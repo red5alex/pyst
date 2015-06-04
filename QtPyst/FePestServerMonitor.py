@@ -28,59 +28,49 @@ def loadRMR():
     path = Dialog.lineEditInputFilePath.text()
     testrmr = pyst.RunManagementRecord(path)
 
-
-    "D:/Repositories/red5alex.cloudforge/pyst/trunk/example_files/runManagementRecord.rmr"
-
     # Write statistics to nodes - output file
-    #outfile = open(currentDir+"\\"+rmrfiles[-1]+".nodes", "w")
-    #outfile.write("STR = # of started model runs\n")
     Dialog.plainTextEdit.appendPlainText("OK  = # of successfully finished model runs")
-    #outfile.write("DUE = # of overdue model runs\n")
     Dialog.plainTextEdit.appendPlainText("LAT = # of model runs finished too late")
     Dialog.plainTextEdit.appendPlainText("STR = # of communication failures\n")
     Dialog.plainTextEdit.appendPlainText("ID\tserver\tslave\tOK\tLAT\tCOM\tjob\tlast run\tthis run\tstatus")
 
     nruns = 0
 
-
     for node in testrmr.nodes:
 
         newline = ""
-
         n = testrmr.nodes[node]
         status = n.getstatus()
-
-        newline += str(n.index) + "\t"
-        """
-        outfile.write(n.hostname + "\t")
-        outfile.write(str(n.localindex) + "\t\t")
-        #outfile.write(str(n.getnumberofruns("RunCommencement")) + "\t")
-        outfile.write(str(n.getnumberofruns("RunCompletion")) + "\t")
+        newline += str(n.index) + "\t"  # ID
+        newline += n.hostname + "\t"  # server
+        newline += str(n.localindex) + "\t"  # slave
+        # newline += str(n.getnumberofruns("RunCommencement")) + "\t")
+        newline += str(n.getnumberofruns("RunCompletion")) + "\t"
         nruns += n.getnumberofruns("RunCompletion")
 
-        #outfile.write(str(n.getnumberofruns("OverdueRun")) + "\t")
-        outfile.write(str(n.getnumberofruns("Late")) + "\t")
-        outfile.write(str(n.getnumberofruns("CommunicationFailure")) + "\t")
+        # newline += str(n.getnumberofruns("OverdueRun")) + "\t")
+        newline += str(n.getnumberofruns("Late")) + "\t"
+        newline += str(n.getnumberofruns("CommunicationFailure")) + "\t"
 
-        outfile.write(str(n.getcurrentrun()) + "\t")
+        newline += str(n.getcurrentrun()) + "\t"
 
         # get the duration of the last successful run
         dlast = -1.
         if len(n.getsuccesfulruns()) > 0 and not status == "Communication Failure":
             lastduration = n.getsuccesfulruns()[-1].getduration()
-            outfile.write("["+str(lastduration).split(".")[0] + "]\t")
+            newline += "["+str(lastduration).split(".")[0] + "]\t"
             dlast = lastduration.total_seconds()
         else:
-            outfile.write("[-:--:--]\t")
+            newline += "[-:--:--]\t"
 
         # get the duration of the current run and write to file
         dcurrent = -1.
         if status == "Model run complete" or \
                 status == "Communication Failure":
-            outfile.write("[-:--:--]\t")
+            newline += "[-:--:--]\t"
         else:
             duration = str(datetime.datetime.now() - n.getcurrentruntime()).split(".")[0]
-            outfile.write("["+duration + "]\t")
+            newline += "["+duration + "]\t"
             dcurrent = (datetime.datetime.now() - n.getcurrentruntime()).total_seconds()
 
         # if a model is running, and the duration of the previous run is know, estimate the progress
@@ -91,26 +81,11 @@ def loadRMR():
         else:
             progress = ""
 
-        outfile.write(str(n.getstatus()) + progress + "\t")
-        """
+        newline += str(n.getstatus()) + progress + "\t"
 
         Dialog.plainTextEdit.appendPlainText(newline)
 
-
-    """
-    outfile.write("\n"+str(nruns) + " runs completed\n")
-
-
-    print("\n\n")
-    outfile = open(currentDir+"\\"+rmrfiles[-1]+".nodes")
-    for l in outfile.readlines():
-        print(l.strip())
-    outfile.close()
-
-    """
-
-
-
+    Dialog.plainTextEdit.appendPlainText("\n"+str(nruns) + " runs completed\n")
 
 # Initialize User Interface:
 app = QApplication(sys.argv)
