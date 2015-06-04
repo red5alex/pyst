@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1103</width>
-    <height>600</height>
+    <width>1132</width>
+    <height>602</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,11 @@
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEditInputFilePath"/>
+      <widget class="QLineEdit" name="lineEditInputFilePath">
+       <property name="text">
+        <string>D:/Repositories/red5alex.cloudforge/pyst/trunk/example_files/runManagementRecord.rmr</string>
+       </property>
+      </widget>
      </item>
      <item row="0" column="2">
       <widget class="QToolButton" name="toolButtonSelectInputFile">
@@ -43,16 +47,6 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPlainTextEdit" name="plainTextEdit">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>40</y>
-      <width>1061</width>
-      <height>521</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButtonRefresh">
     <property name="geometry">
      <rect>
@@ -66,17 +60,154 @@
      <string>Refresh</string>
     </property>
    </widget>
-   <zorder>gridLayoutWidget</zorder>
-   <zorder>labelInputFilePath</zorder>
-   <zorder>plainTextEdit</zorder>
-   <zorder>pushButtonRefresh</zorder>
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>16</x>
+      <y>49</y>
+      <width>1081</width>
+      <height>511</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="tab_slaves">
+     <attribute name="title">
+      <string>Server Activity</string>
+     </attribute>
+     <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>1061</width>
+        <height>461</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_statistics">
+     <attribute name="title">
+      <string>Experimental</string>
+     </attribute>
+     <widget class="QTreeWidget" name="treeWidgetSlaves">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>1061</width>
+        <height>461</height>
+       </rect>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>1061</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="indentation">
+       <number>8</number>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <attribute name="headerDefaultSectionSize">
+       <number>125</number>
+      </attribute>
+      <attribute name="headerMinimumSectionSize">
+       <number>10</number>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>status</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>progress</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>OK</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>LT</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>CF</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>run time (last)</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>run time (current)</string>
+       </property>
+      </column>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QLCDNumber" name="lcdNumberTotalRuns">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>10</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:rgb(55, 255, 0);
+background-color:rgb(100,100,100);
+</string>
+    </property>
+    <property name="smallDecimalPoint">
+     <bool>true</bool>
+    </property>
+    <property name="digitCount">
+     <number>6</number>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>10</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>runs completed:</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1103</width>
+     <width>1132</width>
      <height>21</height>
     </rect>
    </property>

@@ -9,6 +9,7 @@ import datetime
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QFileDialog
+from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator
 from PyQt5.uic import loadUi
 
 # Script Implementation:
@@ -24,6 +25,9 @@ def onSelectFile():
 def loadRMR():
     Dialog.plainTextEdit.clear()
 
+    view = Dialog.treeWidgetSlaves
+    view.clear()
+
     # Load the RMR file
     path = Dialog.lineEditInputFilePath.text()
     testrmr = pyst.RunManagementRecord(path)
@@ -35,6 +39,81 @@ def loadRMR():
     Dialog.plainTextEdit.appendPlainText("ID\tserver\tslave\tOK\tLAT\tCOM\tjob\tlast run\tthis run\tstatus")
 
     nruns = 0
+    serverElements = {}
+
+    for server in testrmr.servers:
+        newServer = QTreeWidgetItem(0)
+        newServer.setText(0, server)
+        serverElements[server] = newServer
+        view.addTopLevelItem(newServer)
+        newServer.setExpanded(True)
+
+    h = {
+        'name':     0,
+        'slaveId':  101,
+        'OK':       3,
+        'late':     4,
+        'failed':   5,
+        'jobId':    100,
+        'lastrun':  6,
+        'currentrun':   7,
+        'status':       1,
+        'completion':   2
+    }
+
+    for n in testrmr.nodes:
+        node = testrmr.nodes[n]
+        newSlave = QTreeWidgetItem(0)
+        newSlave.setText(h['name'], str(node.localindex)+': Slave '+str(node.index))
+        newSlave.setText(h['slaveId'], str(node.index))
+        newSlave.setText(h['OK'], str(node.getnumberofruns("RunCompletion")))
+        newSlave.setText(h['late'], str(node.getnumberofruns("Late")))
+        newSlave.setText(h['failed'], str(node.getnumberofruns("CommunicationFailure")))
+        newSlave.setText(h['currentrun'], str(node.getcurrentrun()))
+
+        serverElements[node.hostname].addChild(newSlave)
+
+        # get the status:
+        status = node.getstatus()
+        if status == 'Running model':
+            status += " " +str(node.getcurrentrun())
+        newSlave.setText(h['status'], status)
+
+        # get the duration of the last successful run
+        dlast = -1.
+        if len(node.getsuccesfulruns()) > 0 and not status == "Communication Failure":
+            lastduration = node.getsuccesfulruns()[-1].getduration()
+            timestr = "["+str(lastduration).split(".")[0] + "]"
+            dlast = lastduration.total_seconds()
+        else:
+            timestr = "[--:--:--]"
+
+        newSlave.setText(h['lastrun'], timestr)
+
+        # get the duration of the current run and write to file
+        dcurrent = -1.
+        if status == "Model run complete" or \
+                status == "Communication Failure":
+            timestr = "[--:--:--]"
+        else:
+            duration = str(datetime.datetime.now() - node.getcurrentruntime()).split(".")[0]
+            timestr = "["+duration + "]"
+            dcurrent = (datetime.datetime.now() - node.getcurrentruntime()).total_seconds()
+        newSlave.setText(h['currentrun'], timestr)
+
+        # if a model is running, and the duration of the previous run is know, estimate the progress
+        if len(node.getsuccesfulruns()) > 0 and \
+                not status == "Model run complete" and\
+                not status == "Communication Failure":
+            progress = u" ({0}%)".format(str(int((dcurrent / dlast) * 100)))
+        else:
+            progress = ""
+        newSlave.setText(h['completion'], progress)
+
+        ncompleted = testrmr.getnumberofcompletedruns()
+        Dialog.lcdNumberTotalRuns.display(ncompleted)
+
+
 
     for node in testrmr.nodes:
 
