@@ -53,9 +53,23 @@
      </rect>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButtonRefresh">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>10</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Refresh</string>
+    </property>
+   </widget>
    <zorder>gridLayoutWidget</zorder>
    <zorder>labelInputFilePath</zorder>
    <zorder>plainTextEdit</zorder>
+   <zorder>pushButtonRefresh</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
