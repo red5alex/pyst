@@ -8,16 +8,27 @@ from PyQt5.QtWidgets import QApplication, QFileDialog
 from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator
 from PyQt5.uic import loadUi
 
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QTAgg as NavigationToolbar
+import matplotlib.pyplot as plt
+
+pstfile = None
+senfile = None
+
 def onRefresh():
-    loadSEN()
+    updateData()
 
 def onSelectFile():
     path = QFileDialog.getOpenFileName()
     Dialog.lineEditInputFilePath.setText(path[0])
-    loadSEN()
 
-def loadSEN():
-    Dialog.plainTextEdit.clear()
+def onSelectFile_2():
+    path = QFileDialog.getOpenFileName()
+    Dialog.lineEditInputFilePath_2.setText(path[0])
+
+def updateData():
+
+    # POPULATE PREFERRED VALUES TREE
 
     view = Dialog.treeWidgetSlaves
     view.clear()
@@ -25,6 +36,9 @@ def loadSEN():
     # Load the SEN file
     path = Dialog.lineEditInputFilePath.text()
     senfile = pyst.SenFile(path)
+
+    pstpath = Dialog.lineEditInputFilePath_2.text()
+    pstfile = pyst.PestCtrlFile(pstpath)
 
     iterations = senfile.getnumberofiterations()
     Dialog.lcdNumberTotalRuns.display(iterations)
@@ -47,78 +61,37 @@ def loadSEN():
         'upper':    5,
         }
 
+
+
     for p in senfile.getparamaternames():
         newPar = QTreeWidgetItem(0)
         newPar.setText(h['name'], p)
         newPar.setText(h['val'], str(senfile.parhistory[iterations][p]))
-        newPar.setText(h['sens'],str(senfile.senhistory[iterations][p]))
-        newPar.setText(h['lower'], "")
-        newPar.setText(h['pref'], "")
-        newPar.setText(h['upper'], "")
+        newPar.setText(h['sens'], str(senfile.senhistory[iterations][p]))
+        newPar.setText(h['lower'], str(pstfile.params[p].PARLBND))
+        newPar.setText(h['pref'], str(pstfile.params[p].PARVAL1))
+        newPar.setText(h['upper'], str(pstfile.params[p].PARUBND))
 
         treeElements[senfile.membership[p]].addChild(newPar)
 
 
+    # POPULATE SEN FILE WINDOW
 
+    Dialog.plainTextEdit.clear()
 
-    """
-    for node in testrmr.nodes:
+    senfileraw = open(path)
+    lines = senfileraw.readlines()
+    for l in lines:
+        Dialog.plainTextEdit.appendPlainText(l.replace("\n",""))
+    senfileraw.close()
 
-        newline = ""
-        n = testrmr.nodes[node]
-        status = n.getstatus()
-        newline += str(n.index) + "\t"  # ID
-        newline += n.hostname + "\t"  # server
-        newline += str(n.localindex) + "\t"  # slave
-        # newline += str(n.getnumberofruns("RunCommencement")) + "\t")
-        newline += str(n.getnumberofruns("RunCompletion")) + "\t"
-        nruns += n.getnumberofruns("RunCompletion")
-
-        # newline += str(n.getnumberofruns("OverdueRun")) + "\t")
-        newline += str(n.getnumberofruns("Late")) + "\t"
-        newline += str(n.getnumberofruns("CommunicationFailure")) + "\t"
-
-        newline += str(n.getcurrentrun()) + "\t"
-
-        # get the duration of the last successful run
-        dlast = -1.
-        if len(n.getsuccesfulruns()) > 0 and not status == "Communication Failure":
-            lastduration = n.getsuccesfulruns()[-1].getduration()
-            newline += "["+str(lastduration).split(".")[0] + "]\t"
-            dlast = lastduration.total_seconds()
-        else:
-            newline += "[-:--:--]\t"
-
-        # get the duration of the current run and write to file
-        dcurrent = -1.
-        if status == "Model run complete" or \
-                status == "Communication Failure":
-            newline += "[-:--:--]\t"
-        else:
-            duration = str(datetime.datetime.now() - n.getcurrentruntime()).split(".")[0]
-            newline += "["+duration + "]\t"
-            dcurrent = (datetime.datetime.now() - n.getcurrentruntime()).total_seconds()
-
-        # if a model is running, and the duration of the previous run is know, estimate the progress
-        if len(n.getsuccesfulruns()) > 0 and \
-                not status == "Model run complete" and\
-                not status == "Communication Failure":
-            progress = u" ({0}%)".format(str(int((dcurrent / dlast) * 100)))
-        else:
-            progress = ""
-
-        newline += str(n.getstatus()) + progress + "\t"
-
-        Dialog.plainTextEdit.appendPlainText(newline)
-
-    Dialog.plainTextEdit.appendPlainText("\n"+str(nruns) + " runs completed\n")
-    """
 
 # Initialize User Interface:
 app = QApplication(sys.argv)
 Dialog = loadUi('PIDashboard.ui')
 
 Dialog.toolButtonSelectInputFile.clicked.connect(onSelectFile)
+Dialog.toolButtonSelectInputFile_2.clicked.connect(onSelectFile_2)
 Dialog.pushButtonRefresh.clicked.connect(onRefresh)
 
 """
