@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface>
+  <object class="tk.Toplevel" id="Toplevel_1">
+    <property name="height">200</property>
+    <property name="title" translatable="yes">Mat2Dat Converter</property>
+    <property name="width">1000</property>
+    <child>
+      <object class="tk.LabelFrame" id="LabelFrame_Input">
+        <property name="height">200</property>
+        <property name="text" translatable="yes">Input</property>
+        <property name="width">500</property>
+        <layout>
+          <property name="column">0</property>
+          <property name="propagate">True</property>
+          <property name="row">2</property>
+        </layout>
+        <child>
+          <object class="ttk.Label" id="Label_InFile">
+            <property name="text" translatable="yes">MAT File:    </property>
+            <layout>
+              <property name="column">0</property>
+              <property name="propagate">True</property>
+              <property name="row">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Entry" id="EntryMatFile">
+            <property name="textvariable">string:MatFilePath</property>
+            <property name="width">37</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="propagate">True</property>
+              <property name="row">1</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="tk.LabelFrame" id="LabelFrame_Options">
+        <property name="height">200</property>
+        <property name="text" translatable="yes">Options</property>
+        <property name="width">500</property>
+        <layout>
+          <property name="column">0</property>
+          <property name="propagate">True</property>
+          <property name="row">3</property>
+        </layout>
+        <child>
+          <object class="tk.Label" id="Label_PivotTable">
+            <property name="text" translatable="yes">swap rows/colums</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="propagate">True</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="tk.Checkbutton" id="Checkbutton_pivotTable">
+            <property name="text" translatable="yes">swap rows/columns</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="propagate">True</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Frame" id="Frame_Buttons">
+        <property name="height">200</property>
+        <property name="width">200</property>
+        <layout>
+          <property name="column">0</property>
+          <property name="propagate">True</property>
+          <property name="row">5</property>
+          <property name="sticky">s</property>
+        </layout>
+        <child>
+          <object class="tk.Button" id="ButtonOK">
+            <property name="command">on_buttonOK_clicked</property>
+            <property name="height">1</property>
+            <property name="text" translatable="yes">OK</property>
+            <property name="width">7</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="propagate">True</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="tk.Button" id="ButtonCancel">
+            <property name="command">on_buttonCancel_clicked</property>
+            <property name="text" translatable="yes">Cancel</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="propagate">True</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
