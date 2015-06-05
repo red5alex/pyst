@@ -23,7 +23,7 @@
       <height>81</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0">
+    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0">
      <item row="0" column="0">
       <widget class="QLabel" name="labelInputFilePath_2">
        <property name="text">
@@ -85,7 +85,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tab_slaves">
      <attribute name="title">
@@ -195,6 +195,16 @@
        </widget>
       </item>
      </layout>
+    </widget>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>PST File</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Plot</string>
+     </attribute>
     </widget>
    </widget>
    <widget class="QLCDNumber" name="lcdNumberTotalRuns">
