@@ -205,6 +205,16 @@
      <attribute name="title">
       <string>Plot</string>
      </attribute>
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>30</y>
+        <width>671</width>
+        <height>401</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QLCDNumber" name="lcdNumberTotalRuns">
