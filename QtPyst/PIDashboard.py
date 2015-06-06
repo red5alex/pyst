@@ -1,28 +1,40 @@
 __author__ = 'are'
 
 import pyst
-import sys, os
+import sys
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QFileDialog
+from PyQt5.QtWidgets import QApplication, QFileDialog, QGraphicsScene
 from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator
 from PyQt5.uic import loadUi
+
+import random
+import matplotlib
+matplotlib.use("Qt5Agg")
+from PyQt5.QtWidgets import QMainWindow, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget
+from numpy import arange, sin, pi
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 pstfile = None
 senfile = None
 
-def onRefresh():
-    updateData()
 
-def onSelectFile():
+def onrefresh():
+    updatedata()
+
+
+def onselectfile():
     path = QFileDialog.getOpenFileName()
     Dialog.lineEditInputFilePath.setText(path[0])
 
-def onSelectFile_2():
+
+def onselectfile_2():
     path = QFileDialog.getOpenFileName()
     Dialog.lineEditInputFilePath_2.setText(path[0])
 
-def updateData():
+
+def updatedata():
 
     # POPULATE PREFERRED VALUES TREE
 
@@ -30,23 +42,23 @@ def updateData():
     view.clear()
 
     # Load the SEN file
-    path = Dialog.lineEditInputFilePath.text()
-    senfile = pyst.SenFile(path)
+    path_sen = Dialog.lineEditInputFilePath.text()
+    file_sen = pyst.SenFile(path_sen)
 
-    pstpath = Dialog.lineEditInputFilePath_2.text()
-    pstfile = pyst.PestCtrlFile(pstpath)
+    path_pst = Dialog.lineEditInputFilePath_2.text()
+    file_pst = pyst.PestCtrlFile(path_pst)
 
-    iterations = senfile.getnumberofiterations()
+    iterations = file_sen.getnumberofiterations()
     Dialog.lcdNumberTotalRuns.display(iterations)
 
-    treeElements = {}
+    treeelements = {}
 
-    for group in senfile.groups:
-        newGroup= QTreeWidgetItem(0)
-        newGroup.setText(0, group)
-        treeElements[group] = newGroup
-        view.addTopLevelItem(newGroup)
-        newGroup.setExpanded(True)
+    for group in file_sen.groups:
+        newgroup = QTreeWidgetItem(0)
+        newgroup.setText(0, group)
+        treeelements[group] = newgroup
+        view.addTopLevelItem(newgroup)
+        newgroup.setExpanded(True)
 
     h = {
         'name':     0,
@@ -57,28 +69,25 @@ def updateData():
         'upper':    5,
         }
 
+    for p in file_sen.getparamaternames():
+        newpar = QTreeWidgetItem(0)
+        newpar.setText(h['name'], p)
+        newpar.setText(h['val'], str(file_sen.parhistory[iterations][p]))
+        newpar.setText(h['sens'], str(file_sen.senhistory[iterations][p]))
+        newpar.setText(h['lower'], str(file_pst.params[p].PARLBND))
+        newpar.setText(h['pref'], str(file_pst.params[p].PARVAL1))
+        newpar.setText(h['upper'], str(file_pst.params[p].PARUBND))
 
-
-    for p in senfile.getparamaternames():
-        newPar = QTreeWidgetItem(0)
-        newPar.setText(h['name'], p)
-        newPar.setText(h['val'], str(senfile.parhistory[iterations][p]))
-        newPar.setText(h['sens'], str(senfile.senhistory[iterations][p]))
-        newPar.setText(h['lower'], str(pstfile.params[p].PARLBND))
-        newPar.setText(h['pref'], str(pstfile.params[p].PARVAL1))
-        newPar.setText(h['upper'], str(pstfile.params[p].PARUBND))
-
-        treeElements[senfile.membership[p]].addChild(newPar)
-
+        treeelements[file_sen.membership[p]].addChild(newpar)
 
     # POPULATE SEN FILE WINDOW
 
     Dialog.plainTextEdit.clear()
 
-    senfileraw = open(path)
+    senfileraw = open(path_sen)
     lines = senfileraw.readlines()
     for l in lines:
-        Dialog.plainTextEdit.appendPlainText(l.replace("\n",""))
+        Dialog.plainTextEdit.appendPlainText(l.replace("\n", ""))
     senfileraw.close()
 
 
@@ -86,9 +95,14 @@ def updateData():
 app = QApplication(sys.argv)
 Dialog = loadUi('PIDashboard.ui')
 
-Dialog.toolButtonSelectInputFile.clicked.connect(onSelectFile)
-Dialog.toolButtonSelectInputFile_2.clicked.connect(onSelectFile_2)
-Dialog.pushButtonRefresh.clicked.connect(onRefresh)
+gv = Dialog.graphicsView
+gs = QGraphicsScene(gv)
+gs.addLine(0., 0., 1., 1.)
+
+
+Dialog.toolButtonSelectInputFile.clicked.connect(onselectfile)
+Dialog.toolButtonSelectInputFile_2.clicked.connect(onselectfile_2)
+Dialog.pushButtonRefresh.clicked.connect(onrefresh)
 
 """
 
@@ -105,16 +119,8 @@ else:
         print("More than one one RMR found, using " + rmrfiles[-1])
 
     Dialog.lineEditInputFilePath.setText(rmrfiles[-1])
-
 """
 
 # Activate the user interface:
 Dialog.show()
 sys.exit(app.exec_())
-
-
-
-
-
-
-
