@@ -28,14 +28,14 @@
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="1" column="0">
-      <widget class="QRadioButton" name="radioButton_2">
+      <widget class="QRadioButton" name="radioButton_uncertaintyFile">
        <property name="text">
-        <string>uncert file</string>
+        <string>uncertainty file</string>
        </property>
       </widget>
      </item>
      <item row="0" column="0">
-      <widget class="QRadioButton" name="radioButton">
+      <widget class="QRadioButton" name="radioButton_parameterBounds">
        <property name="text">
         <string>parameter bounds</string>
        </property>
@@ -44,14 +44,14 @@
      <item row="2" column="0">
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="1">
-        <widget class="QToolButton" name="toolButtonSelectJCOFile_2">
+        <widget class="QToolButton" name="toolButtonSelectUNCFile">
          <property name="text">
           <string>...</string>
          </property>
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QLineEdit" name="lineEditJCOFilePath_3">
+        <widget class="QLineEdit" name="lineEditUNCFilePath">
          <property name="text">
           <string/>
          </property>
@@ -84,14 +84,14 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEditJCOFilePath_5">
+        <widget class="QLineEdit" name="lineEditPSTFilePath">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QToolButton" name="toolButtonSelectJCOFile_3">
+        <widget class="QToolButton" name="toolButtonSelectPSTFile">
          <property name="text">
           <string>...</string>
          </property>
@@ -105,7 +105,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLineEdit" name="lineEditJCOFilePath_4">
+        <widget class="QLineEdit" name="lineEditJCOFilePath">
          <property name="text">
           <string/>
          </property>
@@ -116,9 +116,9 @@
     </layout>
     <zorder>layoutWidget</zorder>
     <zorder>labelInputFilePath_3</zorder>
-    <zorder>lineEditJCOFilePath_4</zorder>
-    <zorder>lineEditJCOFilePath_5</zorder>
-    <zorder>toolButtonSelectJCOFile_3</zorder>
+    <zorder>lineEditJCOFilePath</zorder>
+    <zorder>lineEditPSTFilePath</zorder>
+    <zorder>toolButtonSelectPSTFile</zorder>
     <zorder>labelInputFilePath_4</zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
@@ -142,7 +142,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEditJCOFilePath_6">
+      <widget class="QLineEdit" name="lineEditWeightFactor">
        <property name="text">
         <string/>
        </property>
@@ -171,14 +171,14 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEditJCOFilePath_7">
+      <widget class="QLineEdit" name="lineEditOutputFilePath">
        <property name="text">
         <string/>
        </property>
       </widget>
      </item>
      <item row="0" column="2">
-      <widget class="QToolButton" name="toolButtonSelectJCOFile_4">
+      <widget class="QToolButton" name="toolButtonSelectOutputFile">
        <property name="text">
         <string>...</string>
        </property>
@@ -200,28 +200,28 @@
     </property>
     <layout class="QGridLayout" name="gridLayout_7">
      <item row="2" column="0">
-      <widget class="QCheckBox" name="checkBox_3">
+      <widget class="QCheckBox" name="checkBox_computeRelativeParamErrorReduction">
        <property name="text">
-        <string>compute relative parameter reduction</string>
+        <string>compute relative parameter error reduction</string>
        </property>
       </widget>
      </item>
      <item row="3" column="0">
-      <widget class="QCheckBox" name="checkBox_4">
+      <widget class="QCheckBox" name="checkBox_OptionsUseSupcalc">
        <property name="text">
         <string>use SUPCALC</string>
        </property>
       </widget>
      </item>
      <item row="0" column="0">
-      <widget class="QCheckBox" name="checkBox">
+      <widget class="QCheckBox" name="checkBox_globalEstimateAnalysis">
        <property name="text">
         <string>global estimate analysis</string>
        </property>
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QCheckBox" name="checkBox_2">
+      <widget class="QCheckBox" name="checkBox_computeIdentifiabilities">
        <property name="text">
         <string>compute parameter identifiabilities</string>
        </property>
@@ -237,7 +237,7 @@
          <string>number of superparameters:</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEditJCOFilePath_8">
+       <widget class="QLineEdit" name="lineEditOptionsNumberOfSuperparameters">
         <property name="text">
          <string/>
         </property>
@@ -252,7 +252,7 @@
       <x>320</x>
       <y>10</y>
       <width>327</width>
-      <height>261</height>
+      <height>231</height>
      </rect>
     </property>
     <property name="title">
@@ -260,7 +260,7 @@
     </property>
     <layout class="QGridLayout" name="gridLayout_8">
      <item row="1" column="0">
-      <widget class="QComboBox" name="comboBox">
+      <widget class="QComboBox" name="comboBox_comprehensiveAnalysisTarget">
        <item>
         <property name="text">
          <string>parameter</string>
@@ -274,21 +274,21 @@
       </widget>
      </item>
      <item row="4" column="0">
-      <widget class="QCheckBox" name="checkBox_6">
+      <widget class="QCheckBox" name="checkBox_computeTotalPredError_2">
        <property name="text">
-        <string>compute total predictive analysis</string>
+        <string>compute total predictive error</string>
        </property>
       </widget>
      </item>
      <item row="0" column="0">
-      <widget class="QCheckBox" name="checkBox_5">
+      <widget class="QCheckBox" name="checkBox_performComprehensiveAnalysis">
        <property name="text">
         <string>perform comprehensive analysis for</string>
        </property>
       </widget>
      </item>
      <item row="3" column="0">
-      <widget class="QCheckBox" name="checkBox_7">
+      <widget class="QCheckBox" name="checkBox_computeTotalPredError">
        <property name="text">
         <string>compute total predictive error and slon/null space contribs</string>
        </property>
@@ -302,14 +302,14 @@
       </widget>
      </item>
      <item row="6" column="0">
-      <widget class="QCheckBox" name="checkBox_8">
+      <widget class="QCheckBox" name="checkBox_computeParamContribsToError">
        <property name="text">
         <string>compute parameter contributions to error</string>
        </property>
       </widget>
      </item>
      <item row="7" column="0">
-      <widget class="QCheckBox" name="checkBox_9">
+      <widget class="QCheckBox" name="checkBox_computeParamContribsToUncert">
        <property name="text">
         <string>compute parameter contributions to uncertainty</string>
        </property>
@@ -322,10 +322,10 @@
        </property>
        <widget class="QLabel" name="labelInputFilePath_6">
         <property name="text">
-         <string>read sensitivitiies from:</string>
+         <string>read sensitivities from:</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEditJCOFilePath_9">
+       <widget class="QLineEdit" name="lineEditSensitivityFilePath">
         <property name="text">
          <string/>
         </property>
@@ -338,7 +338,7 @@
       </widget>
      </item>
      <item row="8" column="0">
-      <widget class="QComboBox" name="comboBox_2">
+      <widget class="QComboBox" name="comboBox_parameterAnalysisTarget">
        <item>
         <property name="text">
          <string>individual parameter</string>
@@ -367,14 +367,14 @@
     </property>
     <layout class="QGridLayout" name="gridLayout_9">
      <item row="1" column="0">
-      <widget class="QCheckBox" name="checkBox_11">
+      <widget class="QCheckBox" name="checkBox_computeObsWorthUncert">
        <property name="text">
         <string>compute observation worth wrt uncertainty</string>
        </property>
       </widget>
      </item>
      <item row="0" column="0">
-      <widget class="QCheckBox" name="checkBox_10">
+      <widget class="QCheckBox" name="checkBox_computeObsWorthError">
        <property name="text">
         <string>compute observation worth wrt error</string>
        </property>
@@ -390,7 +390,7 @@
          <string>for</string>
         </property>
        </widget>
-       <widget class="QComboBox" name="comboBox_3">
+       <widget class="QComboBox" name="comboBox_DataWorthAnalysisTarget">
         <item>
          <property name="text">
           <string>individual parameter</string>
@@ -414,14 +414,14 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEditJCOFilePath_10">
+        <widget class="QLineEdit" name="lineEditJCOFilePath_DataWorthNumberOfSuperparameters">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
        <item row="1" column="0" colspan="2">
-        <widget class="QCheckBox" name="checkBox_12">
+        <widget class="QCheckBox" name="checkBox_DataWorthUseSupcalc">
          <property name="text">
           <string>use SUPCALC</string>
          </property>
@@ -436,16 +436,16 @@
    <zorder>groupBox_2</zorder>
    <zorder>groupBox_3</zorder>
    <zorder>groupBox_4</zorder>
-   <zorder>checkBox_3</zorder>
-   <zorder>checkBox_2</zorder>
-   <zorder>checkBox</zorder>
+   <zorder>checkBox_computeRelativeParamErrorReduction</zorder>
+   <zorder>checkBox_computeIdentifiabilities</zorder>
+   <zorder>checkBox_globalEstimateAnalysis</zorder>
    <zorder>groupBox_5</zorder>
-   <zorder>lineEditJCOFilePath_8</zorder>
+   <zorder>lineEditOptionsNumberOfSuperparameters</zorder>
    <zorder>label_2</zorder>
    <zorder>groupBox_6</zorder>
    <zorder>groupBox_7</zorder>
-   <zorder>checkBox_12</zorder>
-   <zorder>lineEditJCOFilePath_10</zorder>
+   <zorder>checkBox_DataWorthUseSupcalc</zorder>
+   <zorder>lineEditJCOFilePath_DataWorthNumberOfSuperparameters</zorder>
    <zorder>label_4</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
