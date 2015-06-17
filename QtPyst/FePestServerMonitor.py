@@ -8,25 +8,45 @@ import pyst
 import datetime
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QFileDialog
+from PyQt5.QtWidgets import QApplication, QFileDialog, QPushButton, QProgressBar
 from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator
 from PyQt5.uic import loadUi
 
 # Script Implementation:
 
+def onrmrpathchange():
+    path = Dialog.lineEditInputFilePath.text()
+    if os.path.isfile(path):
+        loadRMR()
+        Dialog.pushButtonRefresh.setEnabled(True)
+        Dialog.label_fileNotFound.setVisible(False)
+    else:
+        Dialog.pushButtonRefresh.setEnabled(False)
+        if path.strip() != "":
+            Dialog.label_fileNotFound.setVisible(True)
+        else:
+            Dialog.label_fileNotFound.setVisible(False)
+
 def onRefresh():
     loadRMR()
 
 def onSelectFile():
-    path = QFileDialog.getOpenFileName()
-    Dialog.lineEditInputFilePath.setText(path[0])
-    loadRMR()
+    path = QFileDialog.getOpenFileName()[0]
+    Dialog.lineEditInputFilePath.setText(path)
+    #if os.path.isfile(path):
+    #    loadRMR()
+    #    Dialog.pushButtonRefresh.setEnabled(True)
+    #else:
+    #   Dialog.pushButtonRefresh.setEnabled(False)
 
 def loadRMR():
+
     Dialog.plainTextEdit.clear()
 
     view = Dialog.treeWidgetSlaves
     view.clear()
+#    view.setColumnWidth(5, 60)
+
 
     # Load the RMR file
     path = Dialog.lineEditInputFilePath.text()
@@ -63,15 +83,16 @@ def loadRMR():
 
     for n in testrmr.nodes:
         node = testrmr.nodes[n]
+
         newSlave = QTreeWidgetItem(0)
+        serverElements[node.hostname].addChild(newSlave)
+
         newSlave.setText(h['name'], str(node.localindex)+': Slave '+str(node.index))
         newSlave.setText(h['slaveId'], str(node.index))
         newSlave.setText(h['OK'], str(node.getnumberofruns("RunCompletion")))
         newSlave.setText(h['late'], str(node.getnumberofruns("Late")))
         newSlave.setText(h['failed'], str(node.getnumberofruns("CommunicationFailure")))
         newSlave.setText(h['currentrun'], str(node.getcurrentrun()))
-
-        serverElements[node.hostname].addChild(newSlave)
 
         # get the status:
         status = node.getstatus()
@@ -80,11 +101,13 @@ def loadRMR():
         newSlave.setText(h['status'], status)
 
         # get the duration of the last successful run
-        dlast = -1.
+        daverage = -1.
+        avduration = None
         if len(node.getsuccesfulruns()) > 0 and not status == "Communication Failure":
-            lastduration = node.getsuccesfulruns()[-1].getduration()
-            timestr = "["+str(lastduration).split(".")[0] + "]"
-            dlast = lastduration.total_seconds()
+            avduration = node.getaverageruntime()  # might return None
+        if avduration is not None:
+            timestr = "["+str(avduration).split(".")[0] + "]"
+            daverage = avduration.total_seconds()
         else:
             timestr = "[--:--:--]"
 
@@ -96,24 +119,48 @@ def loadRMR():
                 status == "Communication Failure":
             timestr = "[--:--:--]"
         else:
+            #TODO fix this, Exceptionnis thrown if a a slave has never been assigned a job yet
             duration = str(datetime.datetime.now() - node.getcurrentruntime()).split(".")[0]
             timestr = "["+duration + "]"
             dcurrent = (datetime.datetime.now() - node.getcurrentruntime()).total_seconds()
         newSlave.setText(h['currentrun'], timestr)
 
-        # if a model is running, and the duration of the previous run is know, estimate the progress
+        # if a model is running, and the duration of the average run is know, estimate the progress
+        pb = QProgressBar()
+        pb.setTextVisible(True)
+        pb.setVisible(False)
+        if status in ["Running model", "OverdueRun"]:
+            if len(node.getsuccesfulruns()) == 0:  # first run
+                pb.setMaximum(0)  # busy indicator
+
         if len(node.getsuccesfulruns()) > 0 and \
                 not status == "Model run complete" and\
                 not status == "Communication Failure":
-            progress = u" ({0}%)".format(str(int((dcurrent / dlast) * 100)))
+            percentage = (dcurrent / daverage) * 100
+            progtext = u" ({0}%)".format(str(int((dcurrent / daverage) * 100)))
+            if percentage <= 100:
+                pb.setMaximum(100)
+            else:
+                pb.setMaximum(0)  # busy indicator
+            pb.setValue(percentage)
+            pb.text = progtext
+            pb.setVisible(True)
         else:
-            progress = ""
-        newSlave.setText(h['completion'], progress)
-
-        ncompleted = testrmr.getnumberofcompletedruns()
-        Dialog.lcdNumberTotalRuns.display(ncompleted)
+            progtext = ""
+            pb.setVisible(False)
+        #newSlave.setText(h['completion'], progress)
 
 
+        Dialog.treeWidgetSlaves.setItemWidget(newSlave, h['completion'], pb)
+        pb.setMaximumHeight(12)
+
+
+
+    ncompleted = testrmr.getnumberofcompletedruns()
+    Dialog.lcdNumberTotalRuns.display(ncompleted)
+    Dialog.lcdNumberTotalServers.display(len(testrmr.servers))
+    Dialog.lcdNumberTotalSlaves.display(len(testrmr.nodes))
+    Dialog.lcdNumberRunsPerHour.display(testrmr.getrunsperhour())
 
     for node in testrmr.nodes:
 
@@ -134,11 +181,11 @@ def loadRMR():
         newline += str(n.getcurrentrun()) + "\t"
 
         # get the duration of the last successful run
-        dlast = -1.
+        daverage = -1.
         if len(n.getsuccesfulruns()) > 0 and not status == "Communication Failure":
-            lastduration = n.getsuccesfulruns()[-1].getduration()
-            newline += "["+str(lastduration).split(".")[0] + "]\t"
-            dlast = lastduration.total_seconds()
+            avduration = n.getsuccesfulruns()[-1].getduration()
+            newline += "["+str(avduration).split(".")[0] + "]\t"
+            daverage = avduration.total_seconds()
         else:
             newline += "[-:--:--]\t"
 
@@ -156,11 +203,11 @@ def loadRMR():
         if len(n.getsuccesfulruns()) > 0 and \
                 not status == "Model run complete" and\
                 not status == "Communication Failure":
-            progress = u" ({0}%)".format(str(int((dcurrent / dlast) * 100)))
+            progtext = u" ({0}%)".format(str(int((dcurrent / daverage) * 100)))
         else:
-            progress = ""
+            progtext = ""
 
-        newline += str(n.getstatus()) + progress + "\t"
+        newline += str(n.getstatus()) + progtext + "\t"
 
         Dialog.plainTextEdit.appendPlainText(newline)
 
@@ -170,8 +217,17 @@ def loadRMR():
 app = QApplication(sys.argv)
 Dialog = loadUi('FePestServerMonitor.ui')
 
+Dialog.lineEditInputFilePath.textChanged.connect(onrmrpathchange)
 Dialog.toolButtonSelectInputFile.clicked.connect(onSelectFile)
 Dialog.pushButtonRefresh.clicked.connect(onRefresh)
+
+Dialog.label_fileNotFound.setVisible(False)
+
+Dialog.treeWidgetSlaves.setColumnWidth(3, 25)
+Dialog.treeWidgetSlaves.setColumnWidth(4, 25)
+Dialog.treeWidgetSlaves.setColumnWidth(5, 25)
+Dialog.treeWidgetSlaves.setColumnWidth(6, 100)
+Dialog.treeWidgetSlaves.setColumnWidth(7, 100)
 
 # On startup, look for an RMR in calling directory:
 currentDir = os.getcwd()
@@ -180,10 +236,12 @@ for file in os.listdir(currentDir):
     if file.endswith(".rmr"):
         rmrfiles.append(file)
 if len(rmrfiles) < 1:
-    print("No RMR found")
+    pass
+    #print("No RMR found")
 else:
     if len(rmrfiles) > 1:
-        print("More than one one RMR found, using " + rmrfiles[-1])
+        pass
+    #   print("More than one one RMR found, using " + rmrfiles[-1])
 
     Dialog.lineEditInputFilePath.setText(rmrfiles[-1])
 
