@@ -97,12 +97,23 @@ class RunManagementRecord:
         def registerrun(self, run):
             self.runs.append(run)
 
-        def getnumberofruns(self, eventtype="success"):
+        def getnumberofruns(self, eventtype="RunCompletion"):
             count = len([e for e in self.events if e.type == eventtype])
             return count
 
         def gettimeoflastevent(self):
             return self.events[-1].timestamp
+
+        def getaverageruntime(self):
+            n = self.getnumberofruns()
+            if n == 0:
+                return None  # no runs completed yet
+            D = datetime.timedelta()
+            for r in self.runs:
+                d = r.getduration()
+                D+=d
+            return (D / n)
+
 
         def getcurrentrun(self):
             for event in reversed(self.events):
@@ -301,13 +312,11 @@ class RunManagementRecord:
             if hostname not in serverlist.keys():
                 serverlist[hostname] = self.Server(hostname)
 
-
     def searchnewruns(self, eventlist, runlist):
         for e in eventlist:
             if hasattr(e, "run"):
                 if e.run not in runlist.keys():
                     runlist[e.run] = self.Run(e.run)
-
 
     @staticmethod
     def registerevents(eventlist, nodelist, runlist):
@@ -326,8 +335,26 @@ class RunManagementRecord:
                 nodelist[node].runs.append(r)
 
     def getnumberofcompletedruns(self):
-        nn = 0;
+        nn = 0
         for n in self.nodes:
             node = self.nodes[n]
             nn += len(node.getsuccesfulruns())
         return nn
+
+    def getaverageruntime(self):
+        n = 0
+        T = datetime.timedelta()
+        for n in self.nodes:
+            t = self.nodes[n].getaverageruntime()
+            if t is not None:
+                T += t
+                n += 1
+        return T/n
+
+    def getrunsperhour(self):
+        Tau = 0.
+        for n in self.nodes:
+            t = self.nodes[n].getaverageruntime()
+            if t is not None:
+                Tau += datetime.timedelta(hours=1) / t
+        return Tau
