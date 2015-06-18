@@ -3,18 +3,17 @@ __author__ = 'are'
 import pyst
 import sys
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+# from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QFileDialog, QGraphicsScene
 from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator
 from PyQt5.uic import loadUi
 
-import random
 import matplotlib
 matplotlib.use("Qt5Agg")
-from PyQt5.QtWidgets import QMainWindow, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget
-from numpy import arange, sin, pi
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
+# from PyQt5.QtWidgets import QMainWindow, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget
+# from numpy import arange, sin, pi
+# from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+# from matplotlib.figure import Figure
 
 pstfile = None
 senfile = None

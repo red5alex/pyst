@@ -2,12 +2,8 @@ __author__ = 'are'
 
 import os
 import sys
-import pyst
-import datetime
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QFileDialog, QPushButton, QProgressBar
-from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator
+from PyQt5.QtWidgets import QApplication, QFileDialog
 from PyQt5.uic import loadUi
 
 from pyst.utils import pest as pu
@@ -52,7 +48,7 @@ def DATpathChanged():
 
 
 def onRunJCO2MAT():
-    jcofilepath= Dialog.lineEditJCOFilePath.text()
+    jcofilepath = Dialog.lineEditJCOFilePath.text()
     matfilepath = jcofilepath.replace(".jco", ".mat")
     targetExist = os.path.isfile(matfilepath)
     pu.jco2mat(jcofilepath, matfilepath)
@@ -71,6 +67,7 @@ def onRunMAT2DAT():
     datfilepath = matfilepath.replace(".mat", ".dat")
     mat2dat(matfilepath, datfilepath, verbose=True)
     Dialog.lineEditDATFilePath.setText(datfilepath)
+
 
 def onRunDAT2MAT():
     matfilepath = Dialog.lineEditJCOFilePath.text()

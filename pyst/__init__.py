@@ -24,3 +24,5 @@ from pyst.rmrfile import RunManagementRecord
 del rmrfile
 from pyst.pestoutfile import PestOutFile
 del pestoutfile
+from pyst.senfile import SenFile
+del senfile

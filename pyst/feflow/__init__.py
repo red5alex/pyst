@@ -6,6 +6,9 @@ del fpofile
 from pyst.feflow.fepestobservation import FePestObservation
 del fepestobservation
 
+from pyst.feflow.fepestparameter import FePestParameter
+del fepestparameter
+
 from pyst.feflow.fepesttimeseries import FePestTimeSeries
 del fepesttimeseries
 
