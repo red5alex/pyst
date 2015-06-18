@@ -152,7 +152,7 @@ def loadRMR():
 
 
         Dialog.treeWidgetSlaves.setItemWidget(newSlave, h['completion'], pb)
-        pb.setMaximumHeight(12)
+        pb.setMaximumHeight(14)
 
 
 
@@ -212,6 +212,11 @@ def loadRMR():
         Dialog.plainTextEdit.appendPlainText(newline)
 
     Dialog.plainTextEdit.appendPlainText("\n"+str(nruns) + " runs completed\n")
+
+    rmrfile = open(path)
+    for l in rmrfile.readlines():
+        Dialog.plainTextEdit_RMRFileContent.appendPlainText(l.strip())
+    rmrfile.close()
 
 # Initialize User Interface:
 app = QApplication(sys.argv)

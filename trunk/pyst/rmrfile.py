@@ -75,6 +75,16 @@ class RunManagementRecord:
                 self.node = int(nodeindex)
                 self.run = int(runindex)
 
+        class RunFailureEvent:
+            def __init__(self, messagetext, timestamp, nodeindex, runindex):
+                self.message = messagetext
+                self.type = "RunFailure"
+                self.statusMessage = "Failure"
+                self.timestamp = timestamp
+                self.node = int(nodeindex)
+                self.run = int(runindex)
+
+
     class Node:
         def __init__(self, index, workdir):
             self.index = index
@@ -113,7 +123,6 @@ class RunManagementRecord:
                 d = r.getduration()
                 D+=d
             return (D / n)
-
 
         def getcurrentrun(self):
             for event in reversed(self.events):
@@ -295,6 +304,11 @@ class RunManagementRecord:
             w = line.split()
             self.events.append(self.Events.OverdueRunEvent(line, timestamp, w[7].strip(';'), w[10]))
             return
+
+        if ("- model run failure on node " in line) and ("will attempt model run " in line):
+            timestamp = parsetime(line)
+            w = line.split()
+            self.events.append(self.Events.RunFailureEvent(line, timestamp, w[8].strip(';'), w[13]))
 
         #else
         if len(line.strip()) > 0:

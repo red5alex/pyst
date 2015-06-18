@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>937</width>
-    <height>1098</height>
+    <height>897</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -65,8 +65,8 @@
      <rect>
       <x>16</x>
       <y>49</y>
-      <width>911</width>
-      <height>1011</height>
+      <width>891</width>
+      <height>801</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -150,6 +150,21 @@
        <widget class="QPlainTextEdit" name="plainTextEdit"/>
       </item>
      </layout>
+    </widget>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>RMR File</string>
+     </attribute>
+     <widget class="QPlainTextEdit" name="plainTextEdit_RMRFileContent">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>861</width>
+        <height>761</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QLCDNumber" name="lcdNumberTotalRuns">
