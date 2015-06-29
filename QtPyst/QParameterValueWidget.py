@@ -3,8 +3,8 @@ __author__ = 'are'
 import sys
 from PyQt5.QtWidgets import (QWidget, QSlider, QApplication,
     QHBoxLayout, QVBoxLayout)
-from PyQt5.QtCore import QObject, Qt, pyqtSignal, QRect, QPoint
-from PyQt5.QtGui import QPainter, QFont, QColor, QPen, QPolygon
+from PyQt5.QtCore import QObject, Qt, pyqtSignal, QRect, QPoint, QPointF
+from PyQt5.QtGui import QPainter, QFont, QColor, QPen, QPolygon, QLinearGradient
 
 
 class Communicate(QObject):
@@ -34,6 +34,9 @@ class PriorInfoView(QWidget):
         self.valueLbound = lbound
         self.valueUbound = hbound
 
+        self.priorStdev = (hbound - lbound) / 6
+        self.posteriorStdev = (hbound - lbound) / 6
+
         # self.num = [75, 150, 225, 300, 375, 450, 525, 600, 675]
 
     def setMinAxis(self, value):
@@ -54,6 +57,12 @@ class PriorInfoView(QWidget):
     def setValuePreferred(self, value):
         self.valuePreferred = value
 
+    def setValuePriorStdev(self, value):
+        self.priorStdev = value
+
+    def setValuePosteriorStdev(self, value):
+        self.posteriorStdev = value
+
     def paintEvent(self, e):
 
         qp = QPainter()
@@ -72,6 +81,9 @@ class PriorInfoView(QWidget):
         poslb = self.valueLbound
         posub = self.valueUbound
 
+        prior = self.priorStdev
+        posterior = self.posteriorStdev
+
         size = self.size()
         w = size.width()
         h = size.height()
@@ -82,8 +94,10 @@ class PriorInfoView(QWidget):
         cBackGround = white
         cAxis = QColor(128, 128, 128)
         cPrefValueMarker = QColor(31, 78, 121)
-        cPrefValueMarkerOutOfRange = QColor(255, 38, 0)
+        cPrefValueRange = QColor(95, 157, 214)
         cCurrentValueMarker = QColor(56, 87, 35)
+        cPosteriorValueRange = QColor(119, 177, 80)
+        cValueMarkerOutOfRange = QColor(255, 38, 0)
 
         # shape settings:
         pxAxis = 1
@@ -97,6 +111,23 @@ class PriorInfoView(QWidget):
         qp.setPen(cBackGround)
         qp.drawRect(rBackground)
 
+        # paint posterior parameter range
+        center = w*(posc-posmin)/(posmax-posmin)
+        width = int(posterior*w/(posmax-posmin)*6)
+        left = int(center - width/ 2)
+        top = int(markerHeight * 0.333)
+        height = int(markerHeight * 0.666)
+        rPosteriorRange = QRect(left, top, width, height)
+        gradient = QLinearGradient(QPointF(left, top), QPointF(left + width/2, top + height))
+        gradient.setSpread(1)
+        gradient.setStops([(0, cBackGround),
+                           (0.66, cPosteriorValueRange),
+                           (1, cPosteriorValueRange)])
+
+        qp.setBrush(gradient)
+        qp.setPen(Qt.NoPen)
+        qp.drawRect(rPosteriorRange)
+
         # paint upper bound
         left = (w*(posub-posmin)/(posmax-posmin))
         right = (w*(posub-posmin)/(posmax-posmin)) + markerWidth*boundfactor
@@ -108,8 +139,8 @@ class PriorInfoView(QWidget):
         qp.drawConvexPolygon(pLbound)
 
         # paint lower bound
-        left = (w*(poslb-posmin)/(posmax-posmin)) + markerWidth*boundfactor
-        right = (w*(poslb-posmin)/(posmax-posmin))
+        left = (w*(poslb-posmin)/(posmax-posmin))
+        right = (w*(poslb-posmin)/(posmax-posmin))- markerWidth*boundfactor
         top = h/2 - markerWidth*boundfactor - pxAxis/2
         down = h/2 - pxAxis / 2
         pLbound = QPolygon([QPoint(left, down), QPoint(right, down), QPoint(left, top)])
@@ -120,12 +151,29 @@ class PriorInfoView(QWidget):
         # paint current parameter marker
         rCurrentParvalue = QRect(w*(posc-posmin)/(posmax-posmin)-markerWidth/2, 0, markerWidth, markerHeight)  # left, top, height, width
         if self.valueCurrent <= self.valueLbound or self.valueCurrent >= self.valueUbound:
-            qp.setBrush(cPrefValueMarkerOutOfRange)
-            qp.setPen(cPrefValueMarkerOutOfRange)
+            qp.setBrush(cValueMarkerOutOfRange)
+            qp.setPen(cValueMarkerOutOfRange)
         else:
             qp.setBrush(cCurrentValueMarker)
             qp.setPen(cCurrentValueMarker)
         qp.drawRect(rCurrentParvalue)
+
+        # paint prior parameter range
+        center = w*(posp-posmin)/(posmax-posmin)
+        width = int(prior*w/(posmax-posmin)*6)
+        left = int(center - width/ 2)
+        top = int(h/2)
+        height = int(markerHeight * 0.66)
+        rPriorRange = QRect(left, top, width, height)
+        gradient = QLinearGradient(QPointF(left, top), QPointF(left + width/2, top + height))
+        gradient.setSpread(1)
+        gradient.setStops([(0,cBackGround),
+                           (0.66, cPrefValueRange),
+                           (1,cPrefValueRange)])
+
+        qp.setBrush(gradient)
+        qp.setPen(Qt.NoPen)
+        qp.drawRect(rPriorRange)
 
         # paint preferred parameter marker
         rPrefParvalue = QRect(w*(posp-posmin)/(posmax-posmin)-markerWidth/2, h/2, markerWidth, h)
@@ -134,7 +182,7 @@ class PriorInfoView(QWidget):
         qp.drawRect(rPrefParvalue)
 
         # paint parameter axis
-        rAxis = QRect(0, h/2, w-1, pxAxis)
+        rAxis = QRect(0, h/2, w-1, pxAxis) # left, top, height, width
         qp.setBrush(cAxis)
         qp.setPen(cAxis)
         qp.drawRect(rAxis)
@@ -206,7 +254,7 @@ class Example(QWidget):
         sld.setFocusPolicy(Qt.NoFocus)
         sld.setRange(testmin, testmax)
         sld.setValue((testmax+testmin)/2)
-        sld.setGeometry(30, 40, 150, 30)
+        sld.setGeometry(30, 40, 300, 30)
 
         self.c = Communicate()
         self.wid = PriorInfoView()
