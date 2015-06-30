@@ -34,7 +34,7 @@
      <item row="0" column="1">
       <widget class="QLineEdit" name="lineEditInputFilePath">
        <property name="text">
-        <string>D:/Repositories/red5alex.cloudforge/pyst/trunk/example_files/confined_20m_benchma.sen</string>
+        <string>D:/Repositories/deber1-stor/41801573-2_Freeport_DRC/work/model/Localmodels/Tenke/femdata/Tenke_2014_r136_PEST_001/tenke_2014_r136_pest.sen</string>
        </property>
       </widget>
      </item>
@@ -55,7 +55,7 @@
      <item row="2" column="1">
       <widget class="QLineEdit" name="lineEditInputFilePath_2">
        <property name="text">
-        <string>D:/Repositories/red5alex.cloudforge/pyst/trunk/example_files/confined_20m_benchma.pst</string>
+        <string>D:/Repositories/deber1-stor/41801573-2_Freeport_DRC/work/model/Localmodels/Tenke/femdata/Tenke_2014_r136_PEST_001/Tenke_2014_r136_PEST.pst</string>
        </property>
       </widget>
      </item>
@@ -72,6 +72,20 @@
         <string>Load</string>
        </property>
       </widget>
+     </item>
+     <item row="2" column="3">
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="1">
+        <widget class="QSpinBox" name="spinBox_2"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Iteration</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </widget>
@@ -205,15 +219,63 @@
      <attribute name="title">
       <string>Plot</string>
      </attribute>
-     <widget class="QGraphicsView" name="graphicsView">
+     <widget class="QWidget" name="widget" native="true">
       <property name="geometry">
        <rect>
-        <x>80</x>
-        <y>30</y>
-        <width>671</width>
-        <height>401</height>
+        <x>20</x>
+        <y>120</y>
+        <width>211</width>
+        <height>81</height>
        </rect>
       </property>
+     </widget>
+     <widget class="QTreeWidget" name="treeWidgetParameterState">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>1061</width>
+        <height>531</height>
+       </rect>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>1061</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="indentation">
+       <number>8</number>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <attribute name="headerDefaultSectionSize">
+       <number>125</number>
+      </attribute>
+      <attribute name="headerMinimumSectionSize">
+       <number>10</number>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>Parameter</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Sensitivity</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Reg.Obj.</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Parameter Values and Uncertainty Margins</string>
+       </property>
+      </column>
      </widget>
     </widget>
    </widget>
@@ -257,10 +319,10 @@ background-color:rgb(100,100,100);
      <string>Number of iterations:</string>
     </property>
    </widget>
-   <zorder>tabWidget</zorder>
    <zorder>gridLayoutWidget</zorder>
    <zorder>lcdNumberTotalRuns</zorder>
    <zorder>label_2</zorder>
+   <zorder>tabWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
