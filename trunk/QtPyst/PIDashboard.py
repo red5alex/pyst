@@ -7,6 +7,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QFileDialog, QGraphicsScene
 from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator
 from PyQt5.uic import loadUi
+from math import floor
 
 import matplotlib
 matplotlib.use("Qt5Agg")
@@ -15,12 +16,21 @@ matplotlib.use("Qt5Agg")
 # from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 # from matplotlib.figure import Figure
 
+from QtPyst.QParameterValueViewWidget import *
+
+
 pstfile = None
 senfile = None
 
 
+
+
+
 def onrefresh():
     updatedata()
+    updateStatusPlots()
+
+
 
 
 def onselectfile():
@@ -32,6 +42,30 @@ def onselectfile_2():
     path = QFileDialog.getOpenFileName()
     Dialog.lineEditInputFilePath_2.setText(path[0])
 
+def updateStatusPlots():
+
+    pass
+
+    """
+    view = Dialog.treeWidgetParameterState
+
+    viewTopLevelItems = {}
+
+    newGroup = QTreeWidgetItem(0)
+    newGroup.setText(0, "pargroup1")
+    viewTopLevelItems[0] = newGroup
+    view.addTopLevelItem(newGroup)
+    newGroup.setExpanded(True)
+
+    viewTreeItems = {}
+
+    newPar = QTreeWidgetItem(0)
+    viewTopLevelItems[0].addChild(newPar)
+    newPar.setText(1, "test1")
+
+    parvalView = QParameterValueView()
+    Dialog.treeWidgetParameterState.setItemWidget(newPar, 2, parvalView)
+"""
 
 def updatedata():
 
@@ -89,19 +123,86 @@ def updatedata():
         Dialog.plainTextEdit.appendPlainText(l.replace("\n", ""))
     senfileraw.close()
 
+    # POPULATE PARAMETER STATE VIEW
+
+    view = Dialog.treeWidgetParameterState
+
+    # get Parametergroups as top level items:
+    viewTopLevelItems = {}
+    viewTreeItems = {}
+    for gname in file_pst.paramGroups.keys():
+        group = file_pst.paramGroups[gname]
+        newGroupItem = QTreeWidgetItem(0)
+        newGroupItem.setText(0, gname)
+        newScaleView = QParameterValueViewScale(logTransform=True)
+        viewTreeItems[gname.lower()] = newScaleView
+        viewTopLevelItems[gname] = newGroupItem
+        view.addTopLevelItem(newGroupItem)
+        Dialog.treeWidgetParameterState.setItemWidget(newGroupItem, 3, newScaleView)
+        newGroupItem.setExpanded(True)
+
+    AxisMinGlobal = None
+    AxisMaxGlobal = None
+    AxisBaseGlobal = 0
+    AxisIntervalGlobal = 0
+
+
+    parvals = file_sen.parhistory[len(file_sen.parhistory)-1]
+    for pname in file_sen.getparamaternames():
+        parameter = file_pst.params[pname]
+
+        newPar = QTreeWidgetItem(0)
+        viewTopLevelItems[parameter.PARGP].addChild(newPar)
+        newPar.setText(0, pname)
+
+        parvalView = QParameterValueView(logTransform=True)
+        parvalView.setParlbnd(parameter.PARLBND)
+
+        parvalView.setParubnd(parameter.PARUBND)
+
+        parvalView.setParval(parvals[pname.lower()])
+        parvalView.setPrefval(parameter.PARVAL1)
+        parvalView.setPriorstdev("from_bounds")
+        parvalView.setPosteriorstdev("from_bounds")
+
+        parvalView.setAxisMin(parameter.PARLBND)
+        parvalView.setAxisMax(parameter.PARUBND)
+
+        if AxisMinGlobal is None or parameter.PARLBND < AxisMinGlobal:
+            AxisMinGlobal = parameter.PARLBND
+        if AxisMaxGlobal is None or parameter.PARUBND > AxisMaxGlobal:
+            AxisMaxGlobal = parameter.PARUBND
+
+        Dialog.treeWidgetParameterState.setItemWidget(newPar, 3, parvalView)
+        viewTreeItems[pname.lower()] = parvalView
+
+    for i in viewTreeItems.keys():
+        viewTreeItems[i].setAxisMin(AxisMinGlobal)
+        viewTreeItems[i].setAxisMax(AxisMaxGlobal)
+        viewTreeItems[i].setAxisbase(AxisBaseGlobal)
+        viewTreeItems[i].setAxisinterval(AxisIntervalGlobal)
+
+    """
+
+
+
+
+
+    """
+
+
 
 # Initialize User Interface:
 app = QApplication(sys.argv)
 Dialog = loadUi('PIDashboard.ui')
 
-gv = Dialog.graphicsView
-gs = QGraphicsScene(gv)
-gs.addLine(0., 0., 1., 1.)
-
-
 Dialog.toolButtonSelectInputFile.clicked.connect(onselectfile)
 Dialog.toolButtonSelectInputFile_2.clicked.connect(onselectfile_2)
 Dialog.pushButtonRefresh.clicked.connect(onrefresh)
+
+Dialog.treeWidgetParameterState.setColumnWidth(0, 100)
+Dialog.treeWidgetParameterState.setColumnWidth(1, 70)
+Dialog.treeWidgetParameterState.setColumnWidth(2, 70)
 
 """
 
