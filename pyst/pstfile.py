@@ -57,7 +57,10 @@ class PestCtrlFile(BlockFile):
         for line in self.fileBlocksDict["parameter data"].content:
             words = line.split()
             name = words[0]
-            self.params[name] = PestParameter(*words)
+            if len(words) == 10:
+                self.params[name.lower()] = PestParameter(*words)
+            else:
+                pass  # TODO: read parameter tying relationships here
 
     def loadParamGroups(self):
         for line in self.fileBlocksDict["parameter groups"].content:

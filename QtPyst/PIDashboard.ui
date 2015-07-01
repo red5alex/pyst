@@ -75,13 +75,20 @@
      </item>
      <item row="2" column="3">
       <layout class="QGridLayout" name="gridLayout_5">
-       <item row="0" column="1">
-        <widget class="QSpinBox" name="spinBox_2"/>
+       <item row="1" column="1">
+        <widget class="QSpinBox" name="spinBox">
+         <property name="buttonSymbols">
+          <enum>QAbstractSpinBox::UpDownArrows</enum>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+        </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_3">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>Iteration</string>
+          <string>Iteration No. </string>
          </property>
         </widget>
        </item>
@@ -94,8 +101,8 @@
      <rect>
       <x>16</x>
       <y>99</y>
-      <width>1141</width>
-      <height>581</height>
+      <width>1151</width>
+      <height>591</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -106,7 +113,7 @@
       <string>Preferred Values</string>
      </attribute>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="0">
+      <item row="0" column="0">
        <widget class="QTreeWidget" name="treeWidgetSlaves">
         <property name="maximumSize">
          <size>
@@ -157,40 +164,6 @@
          </property>
         </column>
        </widget>
-      </item>
-      <item row="0" column="0">
-       <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="2">
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Iteration No. </string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QSpinBox" name="spinBox">
-          <property name="buttonSymbols">
-           <enum>QAbstractSpinBox::UpDownArrows</enum>
-          </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
       </item>
      </layout>
     </widget>
