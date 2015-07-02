@@ -20,20 +20,27 @@ senfile = None
 def onrefresh():
     updatedata()
 
-def onselectfile():
+    path_sen = Dialog.lineEditInputFilePath.text()
+    file_sen = pyst.SenFile(path_sen)
+    iterations = file_sen.getnumberofiterations()
+    Dialog.spinBox_IterationNumber.setValue(iterations)
+
+def onselectsenfile():
     path = QFileDialog.getOpenFileName()
     Dialog.lineEditInputFilePath.setText(path[0])
 
-def onselectfile_2():
+def onselectpstfile():
     path = QFileDialog.getOpenFileName()
     Dialog.lineEditInputFilePath_2.setText(path[0])
 
+def onselectjcofile():
+    path = QFileDialog.getOpenFileName()
+    Dialog.lineEditInputFilePath_3.setText(path[0])
+
+def onIterationChanged():
+    updatedata()
+
 def updatedata():
-
-    # POPULATE PREFERRED VALUES TREE
-
-    view = Dialog.treeWidgetSlaves
-    view.clear()
 
     # Load the SEN file
     path_sen = Dialog.lineEditInputFilePath.text()
@@ -43,7 +50,16 @@ def updatedata():
     file_pst = pyst.PestCtrlFile(path_pst)
 
     iterations = file_sen.getnumberofiterations()
+
+    Dialog.spinBox_IterationNumber.setMaximum(iterations)
+    CurrentIteration = Dialog.spinBox_IterationNumber.value()
     Dialog.lcdNumberTotalRuns.display(iterations)
+
+
+    # POPULATE PREFERRED VALUES TREE
+
+    view = Dialog.treeWidgetSlaves
+    view.clear()
 
     treeelements = {}
 
@@ -66,8 +82,8 @@ def updatedata():
     for p in file_sen.getparamaternames():
         newpar = QTreeWidgetItem(0)
         newpar.setText(h['name'], p)
-        newpar.setText(h['val'], str(file_sen.parhistory[iterations][p]))
-        newpar.setText(h['sens'], str(file_sen.senhistory[iterations][p]))
+        newpar.setText(h['val'], str(file_sen.parhistory[CurrentIteration][p]))
+        newpar.setText(h['sens'], str(file_sen.senhistory[CurrentIteration][p]))
         newpar.setText(h['lower'], str(file_pst.params[p].PARLBND))
         newpar.setText(h['pref'], str(file_pst.params[p].PARVAL1))
         newpar.setText(h['upper'], str(file_pst.params[p].PARUBND))
@@ -107,8 +123,7 @@ def updatedata():
     AxisBaseGlobal = 0
     AxisIntervalGlobal = 0
 
-
-    parvals = file_sen.parhistory[len(file_sen.parhistory)-1]
+    parvals = file_sen.parhistory[CurrentIteration]
     for pname in file_sen.getparamaternames():
         parameter = file_pst.params[pname]
 
@@ -118,15 +133,14 @@ def updatedata():
 
         # set Sensitivity
         sh = file_sen.senhistory
-        newPar.setText(1, str(sh[len(sh)][pname]))
+        newPar.setText(1, str(sh[CurrentIteration][pname]))
 
         # set Phi contrib
         ph = file_sen.parhistory
-        parval = ph[len(ph)][pname]
+        parval = ph[CurrentIteration][pname]
         prefval = parameter.PARVAL1
-        Phi = abs(parval - prefval)**2
-        newPar.setText(2, str(Phi))
-
+        Phi = abs(log10(parval) - log10(prefval))**2
+        newPar.setText(2, "{:.9f}".format(Phi))
 
         # set parameterview
         parvalView = QParameterValueView(logTransform=True)
@@ -134,8 +148,8 @@ def updatedata():
         parvalView.setParubnd(parameter.PARUBND)
         parvalView.setParval(parvals[pname.lower()])
         parvalView.setPrefval(parameter.PARVAL1)
-        parvalView.setPriorstdev("from_bounds")
-        parvalView.setPosteriorstdev("from_bounds")
+        parvalView.setPriorstdev(1)
+        parvalView.setPosteriorstdev(1)
         parvalView.setAxisMin(parameter.PARLBND)
         parvalView.setAxisMax(parameter.PARUBND)
         if AxisMinGlobal is None or parameter.PARLBND < AxisMinGlobal:
@@ -156,9 +170,10 @@ def updatedata():
 app = QApplication(sys.argv)
 Dialog = loadUi('PIDashboard.ui')
 
-Dialog.toolButtonSelectInputFile.clicked.connect(onselectfile)
-Dialog.toolButtonSelectInputFile_2.clicked.connect(onselectfile_2)
+Dialog.toolButtonSelectInputFile.clicked.connect(onselectsenfile)
+Dialog.toolButtonSelectInputFile_2.clicked.connect(onselectpstfile)
 Dialog.pushButtonRefresh.clicked.connect(onrefresh)
+Dialog.spinBox_IterationNumber.valueChanged.connect(onIterationChanged)
 
 Dialog.treeWidgetParameterState.setColumnWidth(0, 100)
 Dialog.treeWidgetParameterState.setColumnWidth(1, 70)

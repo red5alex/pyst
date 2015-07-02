@@ -1,12 +1,12 @@
 __author__ = 'are'
 
 from PyQt5.QtWidgets import QWidget
-from PyQt5.QtCore import QObject, Qt, pyqtSignal, QRect, QPoint, QPointF, QLine
+from PyQt5.QtCore import Qt, pyqtSignal, QRect, QPoint, QPointF, QLine
 from PyQt5.QtGui import QPainter, QFont, QColor, QPen, QPolygon, QLinearGradient
 from math import log10, floor
 
-class QParameterValueView(QWidget):
 
+class QParameterValueView(QWidget):
     def __init__(self,
                  axismin=1.,
                  axismax=99.,
@@ -17,8 +17,8 @@ class QParameterValueView(QWidget):
                  parubnd=75.,
                  priorstdev=None,
                  posteriorstdev=None,
-                 scaleBase = 0,
-                 scaleInterval = 1):
+                 scaleBase=0,
+                 scaleInterval=1):
 
         self.logTransform = logTransform
         self.scaleBase = scaleBase
@@ -51,7 +51,7 @@ class QParameterValueView(QWidget):
         super().__init__()
         self.initUI()
 
-    def initUI(self,):
+    def initUI(self, ):
         self.setMinimumSize(1, 19)  # 1 = height, 19 = 19 px
 
     def setAxisMin(self, value):
@@ -98,7 +98,7 @@ class QParameterValueView(QWidget):
             value = log10(value)
         self.posteriorStdev = value
 
-    def setAxisbase(self,value):
+    def setAxisbase(self, value):
         self.scaleBase = value
 
     def setAxisinterval(self, value):
@@ -114,13 +114,14 @@ class QParameterValueView(QWidget):
 
         # color settings:
         cWhite = QColor(255, 255, 255)
-        cBlack = QColor(0,0,0)
+        cBlack = QColor(0, 0, 0)
         cDarkGreen = QColor(119, 177, 80)
         cOrangeYellow = QColor(255, 208, 98)
+        cLightGrey = QColor(155, 155, 155)
 
         cBackGroundNorm = cWhite  # Normal Widget Background
-        cBackGroundOutOfRange = QColor(255,230,230)  # Widget Background if parameter is at bound
-        cAxis = QColor(155, 155, 155)  # Axis and Scale bars
+        cBackGroundOutOfRange = QColor(255, 230, 230)  # Widget Background if parameter is at bound
+        cAxis = QColor(215, 215, 215)  # Axis and Scale bars
         cBoundInterval = cBlack  # axis interval bewtween bounds
         cPrefValueMarker = QColor(31, 78, 121)  # preferred Value Marker
         cPrefValueRange = QColor(95, 157, 214)  # prior information range
@@ -139,8 +140,10 @@ class QParameterValueView(QWidget):
         xMarkerPrefWidth = 1
         yPriorHeight = 2
         yPosteriorHeight = 4
+        yBracketHeight = 2
+        yDevBarHeight = 5
 
-         # important locations:
+        # important locations:
         actualWidgetSize = self.size()
         w = actualWidgetSize.width()
         h = actualWidgetSize.height()
@@ -170,19 +173,19 @@ class QParameterValueView(QWidget):
             cBackground = cBackGroundNorm
 
         # paint background:
-        rectBackground = QRect(0, 0, w-1, h-1)  # left, top, height, width
+        rectBackground = QRect(0, 0, w - 1, h - 1)  # left, top, height, width
         qp.setPen(cWhite)
         qp.setBrush(cBackground)
         qp.drawRect(rectBackground)
 
         # paint posterior parameter range
-        center = xHorizontalMargin + xDrawAreaWidth * (parval-axmin)/(axmax-axmin)
-        width = int(posterior*xDrawAreaWidth/(axmax-axmin)*6)
-        left = int(center - width/2)
-        top = yPosteriorHeight+1
+        center = xHorizontalMargin + xDrawAreaWidth * (parval - axmin) / (axmax - axmin)
+        width = int(posterior * xDrawAreaWidth / (axmax - axmin) * 6)
+        left = int(center - width / 2)
+        top = yPosteriorHeight + 1
         height = yPosteriorHeight
         rectPosteriorRange = QRect(left, top, width, height)
-        gradient = QLinearGradient(QPointF(left, top), QPointF(left + width/2, top + height))
+        gradient = QLinearGradient(QPointF(left, top), QPointF(left + width / 2, top + height))
         gradient.setSpread(1)
         gradient.setStops([(0, cBackground),
                            (0.66, cPosteriorValueRange),
@@ -194,19 +197,19 @@ class QParameterValueView(QWidget):
         # draw scale
         scalebars = [self.scaleBase]
         while scalebars[0] > axmin:
-            scalebars.insert(0,scalebars[0]-self.scaleInterval)
+            scalebars.insert(0, scalebars[0] - self.scaleInterval)
         while scalebars[-1] < axmax:
-            scalebars.append(scalebars[-1]+self.scaleInterval)
+            scalebars.append(scalebars[-1] + self.scaleInterval)
 
         for sb in scalebars:
-            sbx = xHorizontalMargin + (xDrawAreaWidth*(sb-axmin)/(axmax-axmin))
+            sbx = xHorizontalMargin + (xDrawAreaWidth * (sb - axmin) / (axmax - axmin))
             LineSb = QLine(sbx, yCenter - 1, sbx, yCenter + 2)
             qp.setPen(cAxis)
             qp.drawLine(LineSb)
 
         # paint current parameter marker
-        currentmcenter = xHorizontalMargin + xDrawAreaWidth*(parval-axmin)/(axmax-axmin)
-        left = currentmcenter - (xMarkerCurrentWidth-1)/2
+        xCurrentMCenter = xHorizontalMargin + xDrawAreaWidth * (parval - axmin) / (axmax - axmin)
+        left = xCurrentMCenter - (xMarkerCurrentWidth - 1) / 2
         rectCurrentParvalue = QRect(left,
                                     yCenter - yMarkerCurrentHeight,
                                     xMarkerCurrentWidth,
@@ -220,14 +223,14 @@ class QParameterValueView(QWidget):
         qp.drawRect(rectCurrentParvalue)
 
         # paint prior parameter range
-        center = xHorizontalMargin + xDrawAreaWidth * (prefval-axmin)/(axmax-axmin)
-        width = int(prior*xDrawAreaWidth/(axmax-axmin)*6)
-        left = int(center - width/2)
-        top = int(h/2)+1
+        center = xHorizontalMargin + xDrawAreaWidth * (prefval - axmin) / (axmax - axmin)
+        width = int(prior * xDrawAreaWidth / (axmax - axmin) * 6)
+        left = int(center - width / 2)
+        top = int(h / 2) + 1
         height = yPriorHeight
 
-        rectPriorRange = QRect(left, yCenter+1, width, yPriorHeight)
-        gradient = QLinearGradient(QPointF(left, top), QPointF(left + width/2, top + height))
+        rectPriorRange = QRect(left, yCenter + 1, width, yPriorHeight)
+        gradient = QLinearGradient(QPointF(left, top), QPointF(left + width / 2, top + height))
         gradient.setSpread(1)
         gradient.setStops([(0, cBackground),
                            (0.66, cPrefValueRange),
@@ -237,8 +240,8 @@ class QParameterValueView(QWidget):
         qp.drawRect(rectPriorRange)
 
         # paint preferred parameter marker
-        prefmcenter = xHorizontalMargin + xDrawAreaWidth*(prefval-axmin)/(axmax-axmin)
-        left = prefmcenter - (xMarkerPrefWidth-1)/2
+        xPrefMCenter = xHorizontalMargin + xDrawAreaWidth * (prefval - axmin) / (axmax - axmin)
+        left = xPrefMCenter - (xMarkerPrefWidth - 1) / 2
         rectPrefParvalue = QRect(left,
                                  yCenter + 1,
                                  xMarkerPrefWidth,
@@ -254,10 +257,10 @@ class QParameterValueView(QWidget):
         qp.drawLine(lineAxis)
 
         # draw bound bracket
-        xUbound = xHorizontalMargin + (xDrawAreaWidth*(parubnd-axmin)/(axmax-axmin))
-        xLbound = xHorizontalMargin + (xDrawAreaWidth*(parlbnd-axmin)/(axmax-axmin))
-        LineUbound = QLine(xUbound, yCenter - 4, xUbound, yCenter)
-        LineLbound = QLine(xLbound, yCenter, xLbound, yCenter - 4)
+        xUbound = xHorizontalMargin + (xDrawAreaWidth * (parubnd - axmin) / (axmax - axmin))
+        xLbound = xHorizontalMargin + (xDrawAreaWidth * (parlbnd - axmin) / (axmax - axmin))
+        LineUbound = QLine(xUbound, yCenter - yBracketHeight, xUbound, yCenter)
+        LineLbound = QLine(xLbound, yCenter, xLbound, yCenter - yBracketHeight)
         LineBoundInterval = QLine(xLbound, yCenter, xUbound, yCenter)
         qp.setPen(cBoundInterval)
         qp.drawLine(LineUbound)
@@ -265,59 +268,36 @@ class QParameterValueView(QWidget):
         qp.drawLine(LineLbound)
 
         # draw deviation bracket
-        LineCbound = QLine(currentmcenter, yCenter - 2, currentmcenter, yCenter)
-        LinePbound = QLine(prefmcenter, yCenter, prefmcenter, yCenter + 2)
-        LineDevInterval = QLine(currentmcenter, yCenter, prefmcenter, yCenter)
+        """
+        LineCbound = QLine(xCurrentMCenter, yCenter - yBracketHeight, xCurrentMCenter, yCenter)
+        LinePbound = QLine(xPrefMCenter, yCenter, xPrefMCenter, yCenter + yBracketHeight)
+        LineDevInterval = QLine(xCurrentMCenter, yCenter, xPrefMCenter, yCenter)
         qp.setPen(cDevInterval)
         qp.drawLine(LineCbound)
         qp.drawLine(LinePbound)
         qp.drawLine(LineDevInterval)
-
-
-
-        # example for fonts (used later for axis)
         """
-        font = QFont('Serif', 7, QFont.Light)
-        qp.setFont(font)
 
-        step = int(round(w / 10.0))
+        # draw deviation bar
+        center = xHorizontalMargin + xDrawAreaWidth * (prefval - axmin) / (axmax - axmin)
+        width = xUbound - xLbound
+        left = xLbound
+        top = yCenter - yDevBarHeight / 2
+        height = yDevBarHeight
 
-        till = int(((w / 750.0) * self.value))
-        full = int(((w / 750.0) * 700))
+        rect1stdev = QRect(center, top, xCurrentMCenter - xPrefMCenter, height)
+        gradient = QLinearGradient(QPointF(left, top), QPointF(left + width / 2, top + height))
 
-        if self.value >= 700:
-
-            qp.setPen(QColor(255, 255, 255))
-            qp.setBrush(QColor(255, 255, 184))
-            qp.drawRect(0, 0, full, h)
-            qp.setPen(QColor(255, 175, 175))
-            qp.setBrush(QColor(255, 175, 175))
-            qp.drawRect(full, 0, till-full, h)
-
-        else:
-
-            qp.setPen(QColor(255, 255, 255))
-            qp.setBrush(QColor(255, 255, 184))
-            qp.drawRect(0, 0, till, h)
-
-
-        pen = QPen(QColor(20, 20, 20), 1,
-            Qt.SolidLine)
-
-        qp.setPen(pen)
-        qp.setBrush(Qt.NoBrush)
-        qp.drawRect(0, 0, w-1, h-1)
-
-        j = 0
-
-        for i in range(step, 10*step, step):
-
-            qp.drawLine(i, 0, i, 5)
-            metrics = qp.fontMetrics()
-            fw = metrics.width(str(self.num[j]))
-            qp.drawText(i-fw/2, h/2, str(self.num[j]))
-            j = j + 1
-        """
+        gradient.setSpread(1)
+        gradient.setStops([(1.00, cDarkGreen),
+                           (0.67, cDarkGreen),
+                           (0.65, cOrangeYellow),
+                           (0.34, cOrangeYellow),
+                           (0.32, cValueMarkerOutOfRange),
+                           (0.00, cValueMarkerOutOfRange)])
+        qp.setPen(Qt.NoPen)
+        qp.setBrush(gradient)
+        qp.drawRect(rect1stdev)
 
 
 class QParameterValueViewScale(QParameterValueView):
@@ -325,11 +305,10 @@ class QParameterValueViewScale(QParameterValueView):
 
         # color settings:
         cWhite = QColor(255, 255, 255)
-        cBlack = QColor(0,0,0)
-
+        cBlack = QColor(0, 0, 0)
 
         cBackGroundNorm = cWhite
-        cBackGroundOutOfRange = QColor(255,230,230)
+        cBackGroundOutOfRange = QColor(255, 230, 230)
         cAxis = QColor(155, 155, 155)
         cBoundInterval = cBlack
         cPrefValueMarker = QColor(31, 78, 121)
@@ -350,7 +329,7 @@ class QParameterValueViewScale(QParameterValueView):
         yPriorHeight = 3
         yPosteriorHeight = 4
 
-         # important locations:
+        # important locations:
         actualWidgetSize = self.size()
         w = actualWidgetSize.width()
         h = actualWidgetSize.height()
@@ -374,7 +353,7 @@ class QParameterValueViewScale(QParameterValueView):
         posterior = self.posteriorStdev
 
         # paint background:
-        rectBackground = QRect(0, 0, w-1, h-1)  # left, top, height, width
+        rectBackground = QRect(0, 0, w - 1, h - 1)  # left, top, height, width
         qp.setPen(Qt.NoPen)
         qp.setBrush(cBackGroundNorm)
         qp.drawRect(rectBackground)
@@ -382,22 +361,22 @@ class QParameterValueViewScale(QParameterValueView):
         # draw scale
         scalebars = [self.scaleBase]
         while scalebars[0] > axmin:
-            scalebars.insert(0,scalebars[0]-self.scaleInterval)
+            scalebars.insert(0, scalebars[0] - self.scaleInterval)
         while scalebars[-1] < axmax:
-            scalebars.append(scalebars[-1]+self.scaleInterval)
+            scalebars.append(scalebars[-1] + self.scaleInterval)
 
         for sb in scalebars:
-            scaletext = str(sb)+" m/d"
+            scaletext = str(sb) + " m/d"
             if self.logTransform:
                 scaletext = "10^" + scaletext
 
-            sbx = xHorizontalMargin + (xDrawAreaWidth*(sb-axmin)/(axmax-axmin))
-#            LineSb = QLine(sbx, yCenter - 1, sbx, yCenter + 2)
+            sbx = xHorizontalMargin + (xDrawAreaWidth * (sb - axmin) / (axmax - axmin))
+            # LineSb = QLine(sbx, yCenter - 1, sbx, yCenter + 2)
             qp.setPen(cBlack)
-#            qp.drawLine(LineSb)
+            #            qp.drawLine(LineSb)
             font = QFont('Serif', 7, QFont.Light)
             qp.setFont(font)
             metrics = qp.fontMetrics()
             fw = metrics.width(scaletext)
             fh = metrics.height()
-            qp.drawText(sbx-fw/2, yCenter+fh/2, scaletext)
+            qp.drawText(sbx - fw / 2, yCenter + fh / 2, scaletext)
