@@ -27,7 +27,7 @@
      <item row="0" column="1">
       <widget class="QLineEdit" name="lineEditInputFilePath">
        <property name="text">
-        <string>D:/Repositories/red5alex.cloudforge/pyst/trunk/example_files/runManagementRecord.rmr</string>
+        <string>S:/41801573_Freeport_DRC_SVN/work/model/Localmodels/Tenke/femdata/Tenke_2014_r136_PEST_A_Cal1SS/tenke_2014_r136_pest.rmr</string>
        </property>
       </widget>
      </item>
@@ -70,7 +70,10 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
+    </property>
+    <property name="tabBarAutoHide">
+     <bool>true</bool>
     </property>
     <widget class="QWidget" name="tab_slaves">
      <attribute name="title">
@@ -164,6 +167,64 @@
         <height>761</height>
        </rect>
       </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_runs">
+     <attribute name="title">
+      <string>Runs</string>
+     </attribute>
+     <widget class="QTreeWidget" name="treeWidgetRuns">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>867</width>
+        <height>757</height>
+       </rect>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>1061</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="indentation">
+       <number>8</number>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <attribute name="headerDefaultSectionSize">
+       <number>125</number>
+      </attribute>
+      <attribute name="headerMinimumSectionSize">
+       <number>10</number>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>Run</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Status</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Server</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Slave</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Run time</string>
+       </property>
+      </column>
      </widget>
     </widget>
    </widget>
