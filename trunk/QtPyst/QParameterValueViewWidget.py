@@ -5,7 +5,6 @@ from PyQt5.QtCore import Qt, pyqtSignal, QRect, QPoint, QPointF, QLine
 from PyQt5.QtGui import QPainter, QFont, QColor, QPen, QPolygon, QLinearGradient
 from math import log10, floor
 
-
 class QParameterValueView(QWidget):
     def __init__(self,
                  axismin=1.,
@@ -18,7 +17,16 @@ class QParameterValueView(QWidget):
                  priorstdev=None,
                  posteriorstdev=None,
                  scaleBase=0,
-                 scaleInterval=1):
+                 scaleInterval=1,
+                 showBoundBracket=True,
+                 showDevBar=True,
+                 showPreCalRange=False,
+                 showPostCalRange=False):
+
+        self.BoundBracketVisible=showBoundBracket
+        self.DevBarVisible=showDevBar
+        self.PreCalRangeVisible=showPreCalRange
+        self.PostCalRangeVisible=showPostCalRange
 
         self.logTransform = logTransform
         self.scaleBase = scaleBase
@@ -103,6 +111,19 @@ class QParameterValueView(QWidget):
 
     def setAxisinterval(self, value):
         self.scaleInterval
+
+    def showBoundBracket(self, show = True):
+        self.BoundBracketVisible = show
+
+    def showDevBar(self, show = True):
+        self.DevBarVisible = show
+
+    def showPreCalRange(self, show = True):
+        self.PreCalRangeVisible = show
+
+    def showPostCalRange(self, show = True):
+        self.PostCalRangeVisible = show
+
 
     def paintEvent(self, e):
         qp = QPainter()
@@ -192,7 +213,8 @@ class QParameterValueView(QWidget):
                            (1, cPosteriorValueRange)])
         qp.setBrush(gradient)
         qp.setPen(Qt.NoPen)
-        qp.drawRect(rectPosteriorRange)
+        if self.PostCalRangeVisible:
+            qp.drawRect(rectPosteriorRange)
 
         # draw scale
         scalebars = [self.scaleBase]
@@ -237,7 +259,8 @@ class QParameterValueView(QWidget):
                            (1, cPrefValueRange)])
         qp.setBrush(gradient)
         qp.setPen(Qt.NoPen)
-        qp.drawRect(rectPriorRange)
+        if self.PreCalRangeVisible:
+            qp.drawRect(rectPriorRange)
 
         # paint preferred parameter marker
         xPrefMCenter = xHorizontalMargin + xDrawAreaWidth * (prefval - axmin) / (axmax - axmin)
@@ -263,9 +286,10 @@ class QParameterValueView(QWidget):
         LineLbound = QLine(xLbound, yCenter, xLbound, yCenter - yBracketHeight)
         LineBoundInterval = QLine(xLbound, yCenter, xUbound, yCenter)
         qp.setPen(cBoundInterval)
-        qp.drawLine(LineUbound)
-        qp.drawLine(LineBoundInterval)
-        qp.drawLine(LineLbound)
+        if self.BoundBracketVisible:
+            qp.drawLine(LineUbound)
+            qp.drawLine(LineBoundInterval)
+            qp.drawLine(LineLbound)
 
         # draw deviation bracket
         """
@@ -297,7 +321,8 @@ class QParameterValueView(QWidget):
                            (0.00, cValueMarkerOutOfRange)])
         qp.setPen(Qt.NoPen)
         qp.setBrush(gradient)
-        qp.drawRect(rect1stdev)
+        if self.DevBarVisible:
+            qp.drawRect(rect1stdev)
 
 
 class QParameterValueViewScale(QParameterValueView):
