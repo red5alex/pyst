@@ -20,10 +20,10 @@
       <x>20</x>
       <y>10</y>
       <width>791</width>
-      <height>81</height>
+      <height>82</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0">
+    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0">
      <item row="0" column="0">
       <widget class="QLabel" name="labelInputFilePath_2">
        <property name="text">
@@ -34,7 +34,7 @@
      <item row="0" column="1">
       <widget class="QLineEdit" name="lineEditInputFilePath">
        <property name="text">
-        <string>D:/Repositories/auper1-stor_SVN/41801573_FreePort_SVN/work/model/Localmodels/Tenke/femdata/Tenke_2014_r136_PEST_A_Cal1SS/tenke_2014_r136_pest.sen</string>
+        <string>D:/Repositories/deber1-stor/41801573-2_Freeport_DRC/work/model/Localmodels/Tenke/femdata/Tenke_2014_r136_PEST_001/tenke_2014_r136_pest.sen</string>
        </property>
       </widget>
      </item>
@@ -55,7 +55,7 @@
      <item row="2" column="1">
       <widget class="QLineEdit" name="lineEditInputFilePath_2">
        <property name="text">
-        <string>D:/Repositories/auper1-stor_SVN/41801573_FreePort_SVN/work/model/Localmodels/Tenke/femdata/Tenke_2014_r136_PEST_A_Cal1SS/Tenke_2014_r136_PEST.pst</string>
+        <string>D:/Repositories/deber1-stor/41801573-2_Freeport_DRC/work/model/Localmodels/Tenke/femdata/Tenke_2014_r136_PEST_001/tenke_2014_r136_pest.pst</string>
        </property>
       </widget>
      </item>
@@ -99,13 +99,19 @@
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="labelInputFilePath_3">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
-        <string>JCO File</string>
+        <string>GLP File</string>
        </property>
       </widget>
      </item>
      <item row="3" column="1">
       <widget class="QLineEdit" name="lineEditInputFilePath_3">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>D:/Repositories/auper1-stor_SVN/41801573_FreePort_SVN/work/model/Localmodels/Tenke/femdata/Tenke_2014_r136_PEST_A_Cal1SS/Tenke_2014_r136_PEST.jco</string>
        </property>
@@ -113,8 +119,18 @@
      </item>
      <item row="3" column="2">
       <widget class="QToolButton" name="toolButtonSelectInputFile_3">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="3">
+      <widget class="QPushButton" name="pushButtonRefresh_2">
+       <property name="text">
+        <string>Run GENLINPRED</string>
        </property>
       </widget>
      </item>
@@ -130,7 +146,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tab_slaves">
      <attribute name="title">
@@ -211,10 +227,45 @@
      <attribute name="title">
       <string>PST File</string>
      </attribute>
+     <widget class="QPlainTextEdit" name="plainTextEdit_PstFile">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>1127</width>
+        <height>547</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Courier New</family>
+       </font>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>GENLINDPRED</string>
+     </attribute>
+     <widget class="QPlainTextEdit" name="plainTextEdit_PstFile_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>1127</width>
+        <height>547</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Courier New</family>
+       </font>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
-      <string>Plot</string>
+      <string>Values and Margins</string>
      </attribute>
      <widget class="QWidget" name="widget" native="true">
       <property name="geometry">
@@ -230,9 +281,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>10</y>
-        <width>1061</width>
-        <height>531</height>
+        <y>40</y>
+        <width>1031</width>
+        <height>501</height>
        </rect>
       </property>
       <property name="maximumSize">
@@ -273,6 +324,70 @@
         <string>Parameter Values and Uncertainty Margins</string>
        </property>
       </column>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_BoundBrackets">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>91</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Bound Bracket</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_Deviation">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>10</y>
+        <width>121</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Deviation from PI</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_PreCalParamUncert">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>10</y>
+        <width>121</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Pre-Cal Uncertainty</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_PostCalParamUncert">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>10</y>
+        <width>121</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Post-Cal Uncertainty</string>
+      </property>
      </widget>
     </widget>
    </widget>
@@ -316,10 +431,33 @@ background-color:rgb(100,100,100);
      <string>Number of iterations:</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_senFileNotReadable">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>40</y>
+      <width>110</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:rgb(255, 0, 0)</string>
+    </property>
+    <property name="text">
+     <string>Can't read from SEN file</string>
+    </property>
+   </widget>
    <zorder>gridLayoutWidget</zorder>
    <zorder>lcdNumberTotalRuns</zorder>
    <zorder>label_2</zorder>
    <zorder>tabWidget</zorder>
+   <zorder>label_senFileNotReadable</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

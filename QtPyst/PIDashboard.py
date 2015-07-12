@@ -12,10 +12,8 @@ matplotlib.use("Qt5Agg")
 
 from QtPyst.QParameterValueViewWidget import *
 
-
 pstfile = None
 senfile = None
-
 
 def onrefresh():
     updatedata()
@@ -40,11 +38,29 @@ def onselectjcofile():
 def onIterationChanged():
     updatedata()
 
+def onStateChangedDevBar():
+    updatedata()
+
+def onStateChangedBoundBracket():
+    updatedata()
+
+def onStateChangedPriorUncert():
+    updatedata()
+
+def onStateChangedPosteriorUncert():
+    updatedata()
+
 def updatedata():
 
     # Load the SEN file
     path_sen = Dialog.lineEditInputFilePath.text()
     file_sen = pyst.SenFile(path_sen)
+
+    # abort if file is empty
+    Dialog.label_senFileNotReadable.setVisible(False)
+    if len(file_sen.groups) == 0:
+        Dialog.label_senFileNotReadable.setVisible(True)
+        return
 
     path_pst = Dialog.lineEditInputFilePath_2.text()
     file_pst = pyst.PestCtrlFile(path_pst)
@@ -152,13 +168,18 @@ def updatedata():
         parvalView.setPosteriorstdev(1)
         parvalView.setAxisMin(parameter.PARLBND)
         parvalView.setAxisMax(parameter.PARUBND)
+
+        parvalView.showBoundBracket(Dialog.checkBox_BoundBrackets.isChecked())
+        parvalView.showDevBar(Dialog.checkBox_Deviation.isChecked())
+        parvalView.showPreCalRange(Dialog.checkBox_PreCalParamUncert.isChecked())
+        parvalView.showPostCalRange(Dialog.checkBox_PostCalParamUncert.isChecked())
+
         if AxisMinGlobal is None or parameter.PARLBND < AxisMinGlobal:
             AxisMinGlobal = parameter.PARLBND
         if AxisMaxGlobal is None or parameter.PARUBND > AxisMaxGlobal:
             AxisMaxGlobal = parameter.PARUBND
         Dialog.treeWidgetParameterState.setItemWidget(newPar, 3, parvalView)
         viewTreeItems[pname.lower()] = parvalView
-
 
     for i in viewTreeItems.keys():
         viewTreeItems[i].setAxisMin(AxisMinGlobal)
@@ -175,12 +196,18 @@ Dialog.toolButtonSelectInputFile_2.clicked.connect(onselectpstfile)
 Dialog.pushButtonRefresh.clicked.connect(onrefresh)
 Dialog.spinBox_IterationNumber.valueChanged.connect(onIterationChanged)
 
+Dialog.checkBox_BoundBrackets.stateChanged.connect(onStateChangedBoundBracket)
+Dialog.checkBox_Deviation.stateChanged.connect(onStateChangedDevBar)
+Dialog.checkBox_PreCalParamUncert.stateChanged.connect(onStateChangedPriorUncert)
+Dialog.checkBox_PostCalParamUncert.stateChanged.connect(onStateChangedPosteriorUncert)
+
 Dialog.treeWidgetParameterState.setColumnWidth(0, 100)
 Dialog.treeWidgetParameterState.setColumnWidth(1, 70)
 Dialog.treeWidgetParameterState.setColumnWidth(2, 70)
 
-"""
+Dialog.label_senFileNotReadable.setVisible(False)
 
+"""
 # On startup, look for an RMR in calling directory:
 currentDir = os.getcwd()
 rmrfiles = []
