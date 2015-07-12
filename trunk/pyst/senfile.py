@@ -51,6 +51,9 @@ class SenFile:
             if "Parameter name" in l:
                 continue
 
+            if ".....RESTART: UPGRADING PARAMETERS AGAIN....." in l:
+                continue
+
             if len(l.split()) == 4:
                 words = l.split()
                 par = words[0]
@@ -68,7 +71,15 @@ class SenFile:
         self.senhistory[iterationnumber] = senvals  # save last current list of sensitivity values
 
     def getparamaternames(self):
-        return self.parhistory[1].keys()
+        if len(self.groups)==0:
+            return []
+
+        keys = self.parhistory[1].keys()
+        if keys is None:
+            raise Exception("something is wrong")
+            #TODO: Error handling if sen file is empty (before completion of first iteration)
+        return keys
+
 
     def getnumberofiterations(self):
         return len(self.parhistory)
