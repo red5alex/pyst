@@ -47,12 +47,12 @@ class QParameterValueView(QWidget):
             self.parubnd = parubnd
 
         if priorstdev is None:
-            self.priorStdev = (parubnd - parlbnd) / 6
+            self.priorStdev = (parubnd - parlbnd) / 6  # 6 = 99% error margin
         else:
             self.priorStdev = priorstdev
 
         if posteriorstdev is None:
-            self.posteriorStdev = (parubnd - parlbnd) / 6
+            self.posteriorStdev = (parubnd - parlbnd) / 6  # 6 = 99% error margin
         else:
             self.posteriorStdev = posteriorstdev
 
@@ -95,15 +95,18 @@ class QParameterValueView(QWidget):
     def setPriorstdev(self, value):
         if value == "from_bounds":
             value = self.parubnd - self.parlbnd
-        if self.logTransform:
-            value = log10(value)
+        #if self.logTransform:
+        #    value = log10(value)
         self.priorStdev = value
 
     def setPosteriorstdev(self, value):
         if value == "from_bounds":
             value = self.parubnd - self.parlbnd
-        if self.logTransform:
-            value = log10(value)
+        #if self.logTransform:
+        #    value = log10(value)
+        #if value < 0:
+        #    value = 0
+
         self.posteriorStdev = value
 
     def setAxisbase(self, value):
@@ -146,7 +149,7 @@ class QParameterValueView(QWidget):
         cBoundInterval = cBlack  # axis interval bewtween bounds
         cPrefValueMarker = QColor(31, 78, 121)  # preferred Value Marker
         cPrefValueRange = QColor(95, 157, 214)  # prior information range
-        cCurrentValueMarker = QColor(56, 87, 35)
+        cCurrentValueMarker = QColor(216, 108, 0)
         cPosteriorValueRange = cOrangeYellow
         cValueMarkerOutOfRange = QColor(255, 38, 0)
         cDevInterval = QColor(255, 50, 50)
@@ -160,7 +163,7 @@ class QParameterValueView(QWidget):
         yMarkerPrefHeight = 3
         xMarkerPrefWidth = 1
         yPriorHeight = 2
-        yPosteriorHeight = 4
+        yPosteriorHeight = 7
         yBracketHeight = 2
         yDevBarHeight = 5
 
@@ -203,7 +206,7 @@ class QParameterValueView(QWidget):
         center = xHorizontalMargin + xDrawAreaWidth * (parval - axmin) / (axmax - axmin)
         width = int(posterior * xDrawAreaWidth / (axmax - axmin) * 6)
         left = int(center - width / 2)
-        top = yPosteriorHeight + 1
+        top = yCenter - yPosteriorHeight
         height = yPosteriorHeight
         rectPosteriorRange = QRect(left, top, width, height)
         gradient = QLinearGradient(QPointF(left, top), QPointF(left + width / 2, top + height))
