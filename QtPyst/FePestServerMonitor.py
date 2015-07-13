@@ -1,19 +1,16 @@
 __author__ = 'are'
 
-import sys
-
 import os
 import sys
 import pyst
 import datetime
+import math
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QFileDialog, QPushButton, QProgressBar
-from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator
+from PyQt5.QtWidgets import QApplication, QFileDialog, QProgressBar
+from PyQt5.QtWidgets import QTreeWidgetItem
 from PyQt5.uic import loadUi
 
 # Script Implementation:
-
 
 def onrmrpathchange():
     path = Dialog.lineEditInputFilePath.text()
@@ -209,7 +206,18 @@ def loadRMR():
     Dialog.lcdNumberTotalRuns.display(ncompleted)
     Dialog.lcdNumberTotalServers.display(len(testrmr.servers))
     Dialog.lcdNumberTotalSlaves.display(len(testrmr.nodes))
-    Dialog.lcdNumberRunsPerHour.display(testrmr.getrunsperhour())
+
+    rph = testrmr.getrunsperhour()
+    rph = round(rph,4)
+    if rph >= 0.1:
+        rph = round(rph,3)
+    if rph >= 1.:
+        rph = round(rph,2)
+    if rph >= 10.:
+        rph = round(rph,1)
+    if rph >= 100.:
+        rph = round(rph,0)
+    Dialog.lcdNumberRunsPerHour.display(rph)
 
 # POPULATE TEXT BASED SERVER STATUS (NOT SHOWN)
     """
