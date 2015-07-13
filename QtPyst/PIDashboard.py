@@ -183,7 +183,7 @@ def updatedata():
         viewTreeItems[gname.lower()] = newScaleView
         viewTopLevelItems[gname] = newGroupItem
         view.addTopLevelItem(newGroupItem)
-        Dialog.treeWidgetParameterState.setItemWidget(newGroupItem, 3, newScaleView)
+        Dialog.treeWidgetParameterState.setItemWidget(newGroupItem, 4, newScaleView)
         newGroupItem.setExpanded(True)
 
     AxisMinGlobal = None
@@ -211,6 +211,15 @@ def updatedata():
         Phi = abs(log10(parval) - log10(prefval)) ** 2
         newPar.setText(2, "{:.9f}".format(Phi))
 
+        # set Identifiability index
+        expectedFilePath = pname+".genlinpred.out"
+        if os.path.isfile(expectedFilePath):
+            genlinpredresult = pyst.GenlinpredOutFile(expectedFilePath)
+            identifiabilityIndex = genlinpredresult.parameterUncertainty.identifiability[pname]
+            newPar.setText(3, "{:.9f}".format(identifiabilityIndex))
+
+
+
         # set parameterview
         parvalView = QParameterValueView(logTransform=True)
         parvalView.setParlbnd(parameter.PARLBND)
@@ -218,7 +227,7 @@ def updatedata():
         parvalView.setParval(parvals[pname.lower()])
         parvalView.setPrefval(parameter.PARVAL1)
 
-        expectedFilePath = pname+".genlinpred.out"
+
         if os.path.isfile(expectedFilePath):
             genlinpredresult = pyst.GenlinpredOutFile(expectedFilePath)
             preVar = genlinpredresult.predunc1.preCalTotalUncertaintyVariance
@@ -243,7 +252,7 @@ def updatedata():
             AxisMinGlobal = parameter.PARLBND
         if AxisMaxGlobal is None or parameter.PARUBND > AxisMaxGlobal:
             AxisMaxGlobal = parameter.PARUBND
-        Dialog.treeWidgetParameterState.setItemWidget(newPar, 3, parvalView)
+        Dialog.treeWidgetParameterState.setItemWidget(newPar, 4, parvalView)
         viewTreeItems[pname.lower()] = parvalView
 
     for i in viewTreeItems.keys():
@@ -273,6 +282,7 @@ Dialog.checkBox_PostCalParamUncert.stateChanged.connect(onStateChangedPosteriorU
 Dialog.treeWidgetParameterState.setColumnWidth(0, 100)
 Dialog.treeWidgetParameterState.setColumnWidth(1, 70)
 Dialog.treeWidgetParameterState.setColumnWidth(2, 70)
+Dialog.treeWidgetParameterState.setColumnWidth(3, 70)
 
 Dialog.label_senFileNotReadable.setVisible(False)
 

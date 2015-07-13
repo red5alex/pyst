@@ -155,16 +155,17 @@ class QParameterValueView(QWidget):
         cDevInterval = QColor(255, 50, 50)
 
         # shape settings
-        axisWidth = 1
+        yAxisWidth = 1
         yDrawAreaHeight = 15
         xHorizontalMargin = 10
+        xMarkerCurrentWidth = 2
         yMarkerCurrentHeight = 7
-        xMarkerCurrentWidth = 3
-        yMarkerPrefHeight = 3
-        xMarkerPrefWidth = 1
-        yPriorHeight = 2
         yPosteriorHeight = 7
-        yBracketHeight = 2
+        xMarkerPrefWidth = 1
+        yMarkerPrefHeight = 3
+        yPriorHeight = 3
+
+        yBracketHeight = 3
         yDevBarHeight = 5
 
         # important locations:
