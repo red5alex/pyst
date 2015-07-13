@@ -1,7 +1,11 @@
 __author__ = 'are'
 
 import pyst
+from pyst.utils.linearUncertainty import genlinpred
+
 import sys
+import os
+from subprocess import call
 
 from PyQt5.QtWidgets import QApplication, QFileDialog, QGraphicsScene
 from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator
@@ -14,6 +18,8 @@ from QtPyst.QParameterValueViewWidget import *
 
 pstfile = None
 senfile = None
+
+listOfUncertaintyResults = None
 
 def onrefresh():
     updatedata()
@@ -49,6 +55,34 @@ def onStateChangedPriorUncert():
 
 def onStateChangedPosteriorUncert():
     updatedata()
+
+def onPushButtonRunGenlinpredPressed():
+    calculatelinearuncertainty()
+
+def calculatelinearuncertainty():
+    path_pst = Dialog.lineEditInputFilePath_2.text()
+
+    filename = path_pst.split("/")[-1]
+    workpath = path_pst.replace(filename,"")
+    case = filename.replace(".pst","")
+
+    os.chdir(workpath)
+
+    #create PEST control file and JCO file without regularization
+    call(["subreg1.exe",filename, "noreg.pst"])
+    call(["jco2jco.exe",case,"noreg"])
+
+    senfilepath = Dialog.lineEditInputFilePath.text()
+    senfile = pyst.SenFile(senfilepath)
+
+    listOfUncertaintyResults = {}
+
+    for p in senfile.getparamaternames():
+        outpath = workpath+p+".genlinpred.out"
+        genlinpred("noreg.pst", workpath, prediction_par=p, outfilename=outpath)
+        listOfUncertaintyResults[p]=outpath
+
+    stop = True
 
 def updatedata():
 
@@ -193,7 +227,10 @@ Dialog = loadUi('PIDashboard.ui')
 
 Dialog.toolButtonSelectInputFile.clicked.connect(onselectsenfile)
 Dialog.toolButtonSelectInputFile_2.clicked.connect(onselectpstfile)
+
 Dialog.pushButtonRefresh.clicked.connect(onrefresh)
+Dialog.pushButtonRunGenlinpred.clicked.connect(onPushButtonRunGenlinpredPressed)
+
 Dialog.spinBox_IterationNumber.valueChanged.connect(onIterationChanged)
 
 Dialog.checkBox_BoundBrackets.stateChanged.connect(onStateChangedBoundBracket)

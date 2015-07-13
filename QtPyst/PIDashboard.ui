@@ -103,7 +103,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>GLP File</string>
+        <string>JCO File</string>
        </property>
       </widget>
      </item>
@@ -128,7 +128,7 @@
       </widget>
      </item>
      <item row="3" column="3">
-      <widget class="QPushButton" name="pushButtonRefresh_2">
+      <widget class="QPushButton" name="pushButtonRunGenlinpred">
        <property name="text">
         <string>Run GENLINPRED</string>
        </property>
