@@ -209,16 +209,14 @@ def updatedata():
         parval = ph[CurrentIteration][pname]
         prefval = parameter.PARVAL1
         Phi = abs(log10(parval) - log10(prefval)) ** 2
-        newPar.setText(2, "{:.9f}".format(Phi))
+        newPar.setText(2, "{:.7f}".format(Phi))
 
         # set Identifiability index
         expectedFilePath = pname+".genlinpred.out"
         if os.path.isfile(expectedFilePath):
             genlinpredresult = pyst.GenlinpredOutFile(expectedFilePath)
             identifiabilityIndex = genlinpredresult.parameterUncertainty.identifiability[pname]
-            newPar.setText(3, "{:.9f}".format(identifiabilityIndex))
-
-
+            newPar.setText(3, "{:.7f}".format(identifiabilityIndex))
 
         # set parameterview
         parvalView = QParameterValueView(logTransform=True)
