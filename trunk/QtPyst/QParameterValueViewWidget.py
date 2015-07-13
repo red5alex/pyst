@@ -158,7 +158,7 @@ class QParameterValueView(QWidget):
         yAxisWidth = 1
         yDrawAreaHeight = 15
         xHorizontalMargin = 10
-        xMarkerCurrentWidth = 2
+        xMarkerCurrentWidth = 1
         yMarkerCurrentHeight = 7
         yPosteriorHeight = 7
         xMarkerPrefWidth = 1

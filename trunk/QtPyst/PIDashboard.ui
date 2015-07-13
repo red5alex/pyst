@@ -113,7 +113,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>D:/Repositories/auper1-stor_SVN/41801573_FreePort_SVN/work/model/Localmodels/Tenke/femdata/Tenke_2014_r136_PEST_A_Cal1SS/Tenke_2014_r136_PEST.jco</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -130,7 +130,7 @@
      <item row="3" column="3">
       <widget class="QPushButton" name="pushButtonRunGenlinpred">
        <property name="text">
-        <string>Run GENLINPRED</string>
+        <string>Calculate Posterior</string>
        </property>
       </widget>
      </item>
@@ -292,6 +292,23 @@
         <height>16777215</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::DefaultContextMenu</enum>
+      </property>
+      <property name="dragDropMode">
+       <enum>QAbstractItemView::NoDragDrop</enum>
+      </property>
+      <property name="alternatingRowColors">
+       <bool>false</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::MultiSelection</enum>
+      </property>
       <property name="indentation">
        <number>8</number>
       </property>
@@ -321,7 +338,7 @@
       </column>
       <column>
        <property name="text">
-        <string>Ident.</string>
+        <string>Identifiab.</string>
        </property>
       </column>
       <column>
