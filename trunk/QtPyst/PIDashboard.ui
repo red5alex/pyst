@@ -321,6 +321,11 @@
       </column>
       <column>
        <property name="text">
+        <string>Ident.</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
         <string>Parameter Values and Uncertainty Margins</string>
        </property>
       </column>
