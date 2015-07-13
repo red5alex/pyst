@@ -26,3 +26,5 @@ from pyst.pestoutfile import PestOutFile
 del pestoutfile
 from pyst.senfile import SenFile
 del senfile
+from pyst.genlinpredout import GenlinpredOutFile
+del genlinpredout

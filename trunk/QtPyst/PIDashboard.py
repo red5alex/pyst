@@ -5,6 +5,7 @@ from pyst.utils.linearUncertainty import genlinpred
 
 import sys
 import os
+import shutil
 from subprocess import call
 
 from PyQt5.QtWidgets import QApplication, QFileDialog, QGraphicsScene
@@ -12,6 +13,7 @@ from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterato
 from PyQt5.uic import loadUi
 
 import matplotlib
+
 matplotlib.use("Qt5Agg")
 
 from QtPyst.QParameterValueViewWidget import *
@@ -19,7 +21,7 @@ from QtPyst.QParameterValueViewWidget import *
 pstfile = None
 senfile = None
 
-listOfUncertaintyResults = None
+
 
 def onrefresh():
     updatedata()
@@ -29,63 +31,72 @@ def onrefresh():
     iterations = file_sen.getnumberofiterations()
     Dialog.spinBox_IterationNumber.setValue(iterations)
 
+
 def onselectsenfile():
     path = QFileDialog.getOpenFileName()
     Dialog.lineEditInputFilePath.setText(path[0])
+
 
 def onselectpstfile():
     path = QFileDialog.getOpenFileName()
     Dialog.lineEditInputFilePath_2.setText(path[0])
 
+
 def onselectjcofile():
     path = QFileDialog.getOpenFileName()
     Dialog.lineEditInputFilePath_3.setText(path[0])
 
+
 def onIterationChanged():
     updatedata()
+
 
 def onStateChangedDevBar():
     updatedata()
 
+
 def onStateChangedBoundBracket():
     updatedata()
+
 
 def onStateChangedPriorUncert():
     updatedata()
 
+
 def onStateChangedPosteriorUncert():
     updatedata()
 
+
 def onPushButtonRunGenlinpredPressed():
-    calculatelinearuncertainty()
+    listOfUncertaintyResults = calculatelinearuncertainty()
+    pass
+
 
 def calculatelinearuncertainty():
     path_pst = Dialog.lineEditInputFilePath_2.text()
 
     filename = path_pst.split("/")[-1]
-    workpath = path_pst.replace(filename,"")
-    case = filename.replace(".pst","")
+    workpath = path_pst.replace(filename, "")
+    case = filename.replace(".pst", "")
 
     os.chdir(workpath)
 
-    #create PEST control file and JCO file without regularization
-    call(["subreg1.exe",filename, "noreg.pst"])
-    call(["jco2jco.exe",case,"noreg"])
+    # create PEST control file and JCO file without regularization
+    call(["subreg1.exe", filename, "noreg.pst"])
+    call(["jco2jco.exe", case, "noreg"])
 
     senfilepath = Dialog.lineEditInputFilePath.text()
     senfile = pyst.SenFile(senfilepath)
 
-    listOfUncertaintyResults = {}
+    fileList = {}
 
     for p in senfile.getparamaternames():
-        outpath = workpath+p+".genlinpred.out"
+        outpath = workpath + p + ".genlinpred.out"
         genlinpred("noreg.pst", workpath, prediction_par=p, outfilename=outpath)
-        listOfUncertaintyResults[p]=outpath
+        fileList[p] = outpath
 
-    stop = True
 
 def updatedata():
-
     # Load the SEN file
     path_sen = Dialog.lineEditInputFilePath.text()
     file_sen = pyst.SenFile(path_sen)
@@ -98,6 +109,13 @@ def updatedata():
 
     path_pst = Dialog.lineEditInputFilePath_2.text()
     file_pst = pyst.PestCtrlFile(path_pst)
+
+    # change working directory
+    filename = path_pst.split("/")[-1]
+    workpath = path_pst.replace(filename, "")
+    os.chdir(workpath)
+
+
 
     iterations = file_sen.getnumberofiterations()
 
@@ -121,13 +139,13 @@ def updatedata():
         newgroup.setExpanded(True)
 
     h = {
-        'name':     0,
-        'val':      1,
-        'sens':     2,
-        'lower':    3,
-        'pref':     4,
-        'upper':    5,
-        }
+        'name': 0,
+        'val': 1,
+        'sens': 2,
+        'lower': 3,
+        'pref': 4,
+        'upper': 5,
+    }
 
     for p in file_sen.getparamaternames():
         newpar = QTreeWidgetItem(0)
@@ -174,6 +192,7 @@ def updatedata():
     AxisIntervalGlobal = 0
 
     parvals = file_sen.parhistory[CurrentIteration]
+
     for pname in file_sen.getparamaternames():
         parameter = file_pst.params[pname]
 
@@ -189,7 +208,7 @@ def updatedata():
         ph = file_sen.parhistory
         parval = ph[CurrentIteration][pname]
         prefval = parameter.PARVAL1
-        Phi = abs(log10(parval) - log10(prefval))**2
+        Phi = abs(log10(parval) - log10(prefval)) ** 2
         newPar.setText(2, "{:.9f}".format(Phi))
 
         # set parameterview
@@ -198,8 +217,20 @@ def updatedata():
         parvalView.setParubnd(parameter.PARUBND)
         parvalView.setParval(parvals[pname.lower()])
         parvalView.setPrefval(parameter.PARVAL1)
-        parvalView.setPriorstdev(1)
-        parvalView.setPosteriorstdev(1)
+
+        expectedFilePath = pname+".genlinpred.out"
+        if os.path.isfile(expectedFilePath):
+            genlinpredresult = pyst.GenlinpredOutFile(expectedFilePath)
+            preVar = genlinpredresult.predunc1.preCalTotalUncertaintyVariance
+            preDev = preVar**0.5
+            postVar = genlinpredresult.predunc1.postCalTotalUncertaintyVariance
+            postDev = postVar**0.5
+        else:
+            postDev = 1
+
+
+        parvalView.setPriorstdev(preDev)
+        parvalView.setPosteriorstdev(postDev)
         parvalView.setAxisMin(parameter.PARLBND)
         parvalView.setAxisMax(parameter.PARUBND)
 
@@ -220,6 +251,7 @@ def updatedata():
         viewTreeItems[i].setAxisMax(AxisMaxGlobal)
         viewTreeItems[i].setAxisbase(AxisBaseGlobal)
         viewTreeItems[i].setAxisinterval(AxisIntervalGlobal)
+
 
 # Initialize User Interface:
 app = QApplication(sys.argv)
