@@ -1,26 +1,19 @@
 __author__ = 'are'
 
-import pyst
-from pyst.utils.linearUncertainty import genlinpred
-
 import sys
 import os
-import shutil
 from subprocess import call
 
-from PyQt5.QtWidgets import QApplication, QFileDialog, QGraphicsScene
-from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator
-from PyQt5.uic import loadUi
-
-import matplotlib
-
-matplotlib.use("Qt5Agg")
-
+import pyst
+from pyst.utils.linearUncertainty import genlinpred
 from QtPyst.QParameterValueViewWidget import *
+
+from PyQt5.QtWidgets import QApplication, QFileDialog
+from PyQt5.QtWidgets import QTreeWidgetItem
+from PyQt5.uic import loadUi
 
 pstfile = None
 senfile = None
-
 
 
 def onrefresh():
@@ -68,8 +61,7 @@ def onStateChangedPosteriorUncert():
 
 
 def onPushButtonRunGenlinpredPressed():
-    listOfUncertaintyResults = calculatelinearuncertainty()
-    pass
+    calculatelinearuncertainty()
 
 
 def calculatelinearuncertainty():
@@ -115,22 +107,16 @@ def updatedata():
     workpath = path_pst.replace(filename, "")
     os.chdir(workpath)
 
-
-
+    # set spinbox and LCD to last iteration
     iterations = file_sen.getnumberofiterations()
-
     Dialog.spinBox_IterationNumber.setMaximum(iterations)
     CurrentIteration = Dialog.spinBox_IterationNumber.value()
     Dialog.lcdNumberTotalRuns.display(iterations)
 
-
     # POPULATE PREFERRED VALUES TREE
-
     view = Dialog.treeWidgetSlaves
     view.clear()
-
     treeelements = {}
-
     for group in file_sen.groups:
         newgroup = QTreeWidgetItem(0)
         newgroup.setText(0, group)
@@ -144,8 +130,7 @@ def updatedata():
         'sens': 2,
         'lower': 3,
         'pref': 4,
-        'upper': 5,
-    }
+        'upper': 5}  # column numbers
 
     for p in file_sen.getparamaternames():
         newpar = QTreeWidgetItem(0)
@@ -158,21 +143,9 @@ def updatedata():
 
         treeelements[file_sen.membership[p]].addChild(newpar)
 
-    # POPULATE SEN FILE WINDOW
-
-    Dialog.plainTextEdit.clear()
-
-    senfileraw = open(path_sen)
-    lines = senfileraw.readlines()
-    for l in lines:
-        Dialog.plainTextEdit.appendPlainText(l.replace("\n", ""))
-    senfileraw.close()
-
     # POPULATE PARAMETER STATE VIEW
-
     view = Dialog.treeWidgetParameterState
     view.clear()
-
     # get Parametergroups as top level items:
     viewTopLevelItems = {}
     viewTreeItems = {}
@@ -192,7 +165,6 @@ def updatedata():
     AxisIntervalGlobal = 0
 
     parvals = file_sen.parhistory[CurrentIteration]
-
     for pname in file_sen.getparamaternames():
         parameter = file_pst.params[pname]
 
@@ -208,11 +180,11 @@ def updatedata():
         ph = file_sen.parhistory
         parval = ph[CurrentIteration][pname]
         prefval = parameter.PARVAL1
-        Phi = abs(log10(parval) - log10(prefval)) ** 2
-        newPar.setText(2, "{:.7f}".format(Phi))
+        phi = abs(log10(parval) - log10(prefval)) ** 2
+        newPar.setText(2, "{:.7f}".format(phi))
 
         # set Identifiability index
-        expectedFilePath = pname+".genlinpred.out"
+        expectedFilePath = pname + ".genlinpred.out"
         if os.path.isfile(expectedFilePath):
             genlinpredresult = pyst.GenlinpredOutFile(expectedFilePath)
             identifiabilityIndex = genlinpredresult.parameterUncertainty.identifiability[pname]
@@ -225,19 +197,18 @@ def updatedata():
         parvalView.setParval(parvals[pname.lower()])
         parvalView.setPrefval(parameter.PARVAL1)
 
-
         if os.path.isfile(expectedFilePath):
             genlinpredresult = pyst.GenlinpredOutFile(expectedFilePath)
-            preVar = genlinpredresult.predunc1.preCalTotalUncertaintyVariance
-            preDev = preVar**0.5
-            postVar = genlinpredresult.predunc1.postCalTotalUncertaintyVariance
-            postDev = postVar**0.5
+            priorvariance = genlinpredresult.predunc1.preCalTotalUncertaintyVariance
+            priorstddev = priorvariance ** 0.5
+            posteriorvar = genlinpredresult.predunc1.postCalTotalUncertaintyVariance
+            posteriorstddev = posteriorvar ** 0.5
         else:
-            postDev = 1
+            priorstddev = 1
+            posteriorstddev = 1
 
-
-        parvalView.setPriorstdev(preDev)
-        parvalView.setPosteriorstdev(postDev)
+        parvalView.setPriorstdev(priorstddev)
+        parvalView.setPosteriorstdev(posteriorstddev)
         parvalView.setAxisMin(parameter.PARLBND)
         parvalView.setAxisMax(parameter.PARUBND)
 
@@ -253,11 +224,29 @@ def updatedata():
         Dialog.treeWidgetParameterState.setItemWidget(newPar, 4, parvalView)
         viewTreeItems[pname.lower()] = parvalView
 
-    for i in viewTreeItems.keys():
-        viewTreeItems[i].setAxisMin(AxisMinGlobal)
-        viewTreeItems[i].setAxisMax(AxisMaxGlobal)
-        viewTreeItems[i].setAxisbase(AxisBaseGlobal)
-        viewTreeItems[i].setAxisinterval(AxisIntervalGlobal)
+    # set consistent axis scale amongst all widgets
+    #TODO: consistency to be implemented per group
+    for item in viewTreeItems.keys():
+        viewTreeItems[item].setAxisMin(AxisMinGlobal)
+        viewTreeItems[item].setAxisMax(AxisMaxGlobal)
+        viewTreeItems[item].setAxisbase(AxisBaseGlobal)
+        viewTreeItems[item].setAxisinterval(AxisIntervalGlobal)
+
+    # POPULATE FILE WINDOWS
+    Dialog.plainTextEdit.clear()  # SEN File Window
+    senfileraw = open(path_sen)
+    lines = senfileraw.readlines()
+    for l in lines:
+        Dialog.plainTextEdit.appendPlainText(l.replace("\n", ""))
+    senfileraw.close()
+
+    Dialog.plainTextEdit_PstFile.clear()  # PST File Window
+    pstfileraw = open(path_pst)
+    lines = pstfileraw.readlines()
+    for l in lines:
+        Dialog.plainTextEdit_PstFile.appendPlainText(l.replace("\n", ""))
+    pstfileraw.close()
+
 
 
 # Initialize User Interface:
@@ -266,40 +255,19 @@ Dialog = loadUi('PIDashboard.ui')
 
 Dialog.toolButtonSelectInputFile.clicked.connect(onselectsenfile)
 Dialog.toolButtonSelectInputFile_2.clicked.connect(onselectpstfile)
-
 Dialog.pushButtonRefresh.clicked.connect(onrefresh)
 Dialog.pushButtonRunGenlinpred.clicked.connect(onPushButtonRunGenlinpredPressed)
-
 Dialog.spinBox_IterationNumber.valueChanged.connect(onIterationChanged)
-
 Dialog.checkBox_BoundBrackets.stateChanged.connect(onStateChangedBoundBracket)
 Dialog.checkBox_Deviation.stateChanged.connect(onStateChangedDevBar)
 Dialog.checkBox_PreCalParamUncert.stateChanged.connect(onStateChangedPriorUncert)
 Dialog.checkBox_PostCalParamUncert.stateChanged.connect(onStateChangedPosteriorUncert)
-
 Dialog.treeWidgetParameterState.setColumnWidth(0, 100)
 Dialog.treeWidgetParameterState.setColumnWidth(1, 70)
 Dialog.treeWidgetParameterState.setColumnWidth(2, 70)
 Dialog.treeWidgetParameterState.setColumnWidth(3, 70)
-
 Dialog.label_senFileNotReadable.setVisible(False)
 
-"""
-# On startup, look for an RMR in calling directory:
-currentDir = os.getcwd()
-rmrfiles = []
-for file in os.listdir(currentDir):
-    if file.endswith(".rmr"):
-        rmrfiles.append(file)
-if len(rmrfiles) < 1:
-    print("No RMR found")
-else:
-    if len(rmrfiles) > 1:
-        print("More than one one RMR found, using " + rmrfiles[-1])
-
-    Dialog.lineEditInputFilePath.setText(rmrfiles[-1])
-"""
-
-# Activate the user interface:
+# Activate user interface:
 Dialog.show()
 sys.exit(app.exec_())

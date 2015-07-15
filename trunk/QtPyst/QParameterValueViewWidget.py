@@ -99,14 +99,9 @@ class QParameterValueView(QWidget):
         #    value = log10(value)
         self.priorStdev = value
 
-    def setPosteriorstdev(self, value):
-        if value == "from_bounds":
-            value = self.parubnd - self.parlbnd
-        #if self.logTransform:
-        #    value = log10(value)
-        #if value < 0:
-        #    value = 0
-
+    def setPosteriorstdev(self, value, from_bounds=False, sigma=4.):
+        if from_bounds:
+            value = (self.parubnd - self.parlbnd) / sigma
         self.posteriorStdev = value
 
     def setAxisbase(self, value):
