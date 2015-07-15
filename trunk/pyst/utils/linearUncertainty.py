@@ -13,7 +13,8 @@ def genlinpred(
         prediction_par=None,
         prediction_obs=None,
         jcofile=None,
-        outfilename="genlinpred.out"):
+        outfilename="genlinpred.out",
+        writeoutputto=None):
 
     if workdir is not None:
         os.chdir(workdir)
@@ -76,5 +77,9 @@ def genlinpred(
 
     # call GENLINPRED using responsefile as input
     responsefile = open(responsefilename)
-    subprocess.call(["genlinpred.exe"], stdin=responsefile)
+    if writeoutputto is None:
+        subprocess.call(["genlinpred.exe"], stdin=responsefile)
+    else:
+        prompt = subprocess.check_output(["genlinpred.exe"], stdin=responsefile)
+        writeoutputto.appendPlainText(str(prompt.decode('UTF-8')))
     responsefile.close()

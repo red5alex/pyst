@@ -2,7 +2,7 @@ __author__ = 'are'
 
 import sys
 import os
-from subprocess import call
+from subprocess import call, check_output
 
 import pyst
 from pyst.utils.linearUncertainty import genlinpred
@@ -11,6 +11,12 @@ from QtPyst.QParameterValueViewWidget import *
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from PyQt5.QtWidgets import QTreeWidgetItem
 from PyQt5.uic import loadUi
+from PyQt5 import QtGui
+
+import matplotlib
+matplotlib.use("Qt5Agg")
+from matplotlib.backends.backend_qt5agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 pstfile = None
 senfile = None
@@ -63,6 +69,10 @@ def onStateChangedPosteriorUncert():
 def onPushButtonRunGenlinpredPressed():
     calculatelinearuncertainty()
 
+def call_to(args, target):
+    prompt = check_output(args)
+    target.appendPlainText(str(prompt.decode('UTF-8')))
+
 
 def calculatelinearuncertainty():
     path_pst = Dialog.lineEditInputFilePath_2.text()
@@ -74,8 +84,9 @@ def calculatelinearuncertainty():
     os.chdir(workpath)
 
     # create PEST control file and JCO file without regularization
-    call(["subreg1.exe", filename, "noreg.pst"])
-    call(["jco2jco.exe", case, "noreg"])
+    window = Dialog.plainTextEdit_Genlinpredprompt
+    call_to(["subreg1.exe", filename, "noreg.pst"], window)
+    call_to(["jco2jco.exe", case, "noreg"], window )
 
     senfilepath = Dialog.lineEditInputFilePath.text()
     senfile = pyst.SenFile(senfilepath)
@@ -84,8 +95,15 @@ def calculatelinearuncertainty():
 
     for p in senfile.getparamaternames():
         outpath = workpath + p + ".genlinpred.out"
-        genlinpred("noreg.pst", workpath, prediction_par=p, outfilename=outpath)
+        genlinpred("noreg.pst", workpath, prediction_par=p, outfilename=outpath, writeoutputto=window)
         fileList[p] = outpath
+
+    Dialog.plainTextEdit_Genlinpredout.clear()
+    for f in fileList:
+        outpath = fileList[f]
+        Dialog.plainTextEdit_Genlinpredout.appendPlainText(outpath)
+
+    Dialog.checkBox_PostCalParamUncert.setEnabled(True)
 
 
 def updatedata():
@@ -225,7 +243,7 @@ def updatedata():
         viewTreeItems[pname.lower()] = parvalView
 
     # set consistent axis scale amongst all widgets
-    #TODO: consistency to be implemented per group
+    # TODO: consistency to be implemented per group
     for item in viewTreeItems.keys():
         viewTreeItems[item].setAxisMin(AxisMinGlobal)
         viewTreeItems[item].setAxisMax(AxisMaxGlobal)
@@ -247,11 +265,17 @@ def updatedata():
         Dialog.plainTextEdit_PstFile.appendPlainText(l.replace("\n", ""))
     pstfileraw.close()
 
-
-
 # Initialize User Interface:
 app = QApplication(sys.argv)
 Dialog = loadUi('PIDashboard.ui')
+
+#figure = Figure()
+#canvas = FigureCanvas(figure)
+#vLayout = QtGui.QVBoxLayout(Dialog.)
+
+#Dialog.frame.addWidget(canvas)
+#figure.add_subplot(111)
+#canvas.draw()
 
 Dialog.toolButtonSelectInputFile.clicked.connect(onselectsenfile)
 Dialog.toolButtonSelectInputFile_2.clicked.connect(onselectpstfile)
