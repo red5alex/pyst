@@ -1,5 +1,7 @@
 __author__ = 'are'
 
+
+
 class SupcalcResult:
     def __init__(self):
         self.SolnSpaceSize = None
@@ -55,9 +57,9 @@ class Predvar1Result:
                     and not "Total" in l:
                 svindex, nsterm, ssterm, totvar, totstdev = l.split()
                 self.SingularValueIndices.append(int(svindex))
-                self.NullSpaceTerm[svindex] = float(nsterm)
-                self.SolnSpaceTerm[svindex] = float(ssterm)
-                self.TotalVariance[svindex] = float(totvar)
+                self.NullSpaceTerm[int(svindex)] = float(nsterm)
+                self.SolnSpaceTerm[int(svindex)] = float(ssterm)
+                self.TotalVariance[int(svindex)] = float(totvar)
 
             if "Pre-calibration:-" in l or "Post-calibration:-" in l:
                 state = l.strip()
@@ -73,6 +75,45 @@ class Predvar1Result:
 
             if "Minimum error variance occurs at singular value number" in l:
                 self.svOfMinVar = int(l.split()[-1].strip("."))
+
+    def toExcelWorkbook(self, sheet):
+        sheet.title = "PREDVAR1"
+        sheet.append(["PREDVAR1 Analysis"])
+        sheet.append([""])
+
+        sheet.append(["Singular Value Index","Null-Space term", "Solution-Space term", "Total Variance", "Total STDEV"])
+
+        for sv in self.SingularValueIndices:
+            sheet.append([sv,
+                          self.SolnSpaceTerm[sv],
+                          self.NullSpaceTerm[sv],
+                          self.TotalVariance[sv],
+                          self.TotalVariance[sv]**0.5])
+
+        from openpyxl.charts import ScatterChart, Reference, Series
+
+        n = len(self.SingularValueIndices)
+
+        svref = Reference(sheet,(4, 1), (4+n, 1))
+        solref = Reference(sheet, (4, 2), (4+n, 2))
+        nullspaceref = Reference(sheet, (4, 3), (4+n, 3))
+        totalvarianceref = Reference(sheet, (4, 4), (4+n, 4))
+
+        solspaceseries = Series(solref, "Solution Space Term", xvalues=svref)
+        nullspaceseries = Series(nullspaceref, "Null Space Term", xvalues=svref)
+        totalvarianceseries = Series(totalvarianceref, "Total Variance", xvalues=svref)
+
+        chart = ScatterChart()
+        chart.append(solspaceseries)
+        chart.append(nullspaceseries)
+        chart.append(totalvarianceseries)
+        sheet.add_chart(chart)
+
+        chart.title = "Null Space and Solution Space Contribution to Total Variance"
+
+        chart.x_axis.title = "Singular Value Index"
+        chart.y_axis.title = "Contribution to Total Variance"
+
 
 class Predunc1Result:
     def __init__(self):
@@ -279,3 +320,14 @@ class GenlinpredOutFile:
                     self.blocks[current_block] = ""
             self.blocks[current_block] += line
         f.close()
+
+    def write2Excel(self, filename):
+
+        from openpyxl import Workbook
+        wb = Workbook()
+        ws = wb.active
+
+        if "PREDVAR1 analysis" in self.available_blocks:
+            self.predvar1.toExcelWorkbook(ws)
+
+        wb.save(filename)
