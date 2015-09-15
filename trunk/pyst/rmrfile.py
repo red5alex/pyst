@@ -71,7 +71,10 @@ class RunManagementRecord:
                 self.statusMessage = "Model run complete (late)"
                 self.timestamp = timestamp
                 self.node = int(nodeindex)
-                self.run = int(runindex)
+                if runindex is not None:
+                    self.run = int(runindex)
+                else:
+                    self.run = None
                 self.iteration = iterationindex
                 self.phase = phase
 
@@ -417,7 +420,12 @@ class RunManagementRecord:
             timestamp = parsetime(line)
             w = line.split()
             if "old run so results not needed" in line:
-                self.events.append(self.Events.LateCompletionEvent(line, timestamp, w[8].strip(';')))
+                self.events.append(self.Events.LateCompletionEvent(messagetext=line,
+                                                                   timestamp=timestamp,
+                                                                   nodeindex=w[8].strip(';'),
+                                                                   runindex=None,
+                                                                   iterationindex=currentIteration,
+                                                                   phase=currentPhase))
             else:
                 self.events.append(self.Events.RunCompletionEvent(line,
                                                                   timestamp,
