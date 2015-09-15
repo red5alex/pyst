@@ -102,6 +102,7 @@ def loadRMR():
         daverage = -1.
         avduration = None
         if len(node.getsuccesfulruns()) > 0 and not status == "Communication Failure":
+            #TODO: ..and not "run failure" or whatever the keyword is
             avduration = node.getaverageruntime()  # might return None
         if avduration is not None:
             timestr = "[" + str(avduration).split(".")[0] + "]"
