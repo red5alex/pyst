@@ -2,14 +2,14 @@ __author__ = 'are'
 
 import sys
 import os
-from subprocess import check_output
+from subprocess import check_output, CalledProcessError, STDOUT
 
 import pyst
 from pyst.utils.linearUncertainty import genlinpred
 from QtPyst.QParameterValueViewWidget import *
 
 from PyQt5 import QtGui, QtCore
-from PyQt5.QtWidgets import QFileDialog, QApplication, QSizePolicy, QTreeWidgetItem
+from PyQt5.QtWidgets import QFileDialog, QApplication, QSizePolicy, QTreeWidgetItem, QTableWidget, QTableWidgetItem
 from PyQt5.uic import loadUi
 
 import matplotlib
@@ -17,6 +17,10 @@ matplotlib.use("Qt5Agg")
 from numpy import arange, sin, pi
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+
+import math
+
+import time
 
 class MyMplCanvas(FigureCanvas):
     """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
@@ -40,10 +44,10 @@ class MyMplCanvas(FigureCanvas):
     def compute_initial_figure(self):
         pass
 
-class MyStaticMplCanvas(MyMplCanvas):
+class SpeedUpPlotCanvas(MyMplCanvas):
     """Simple canvas with a sine plot."""
     def compute_initial_figure(self):
-        t = arange(0.0, 3.0, 0.01)
+        t = arange(0.0, 8.0, 1.0)
         s = sin(2*pi*t)
         self.axes.plot(t, s)
 
@@ -55,6 +59,8 @@ class MyDynamicMplCanvas(MyMplCanvas):
         timer = QtCore.QTimer(self)
         timer.timeout.connect(self.update_figure)
         timer.start(1000)
+
+
 
 pstfile = None
 senfile = None
@@ -74,42 +80,67 @@ def onselectsenfile():
     Dialog.lineEditInputFilePath.setText(path[0])
 
 
-def onselectpstfile():
-    path = QFileDialog.getOpenFileName()
-    Dialog.lineEditInputFilePath_2.setText(path[0])
+class RunTable(QTableWidget):
+    def __init__(self, data, *args):
+        QTableWidget.__init__(self, *args)
+        self.data = data
+        self.setrundata()
+        self.resizeColumnsToContents()
+        self.resizeRowsToContents()
+
+    def setrundata(self):
+        horHeaders = []
+        for n, key in enumerate(sorted(self.data.keys())):
+            horHeaders.append(key)
+            for m, item in enumerate(self.data[key]):
+                newitem = QTableWidgetItem(item)
+                self.setItem(m, n, newitem)
+        self.setHorizontalHeaderLabels(horHeaders)
 
 
-def onselectjcofile():
-    path = QFileDialog.getOpenFileName()
-    Dialog.lineEditInputFilePath_3.setText(path[0])
+def onrunsingleinstancetest():
+    sequence = Dialog.lineEdit_sequenceSingleTest.text().split(",")
+    modelpath = Dialog.lineEditInputFilePath.text()
+
+    logfile = open(modelpath+".log","w")
+
+    table = Dialog.tableWidget_singleTestResult
+    rowpositions = {}
+
+    outwindow = Dialog.plainTextEdit_SingleTestOut
+    outwindow.clear()
+
+    for r in sequence:
+        rowposition = table.rowCount()
+        table.insertRow(rowposition)
+        table.setItem(rowposition, 0, QTableWidgetItem(r))
+        table.setItem(rowposition, 1, QTableWidgetItem("queued"))
+        rowpositions[r] = rowposition
+
+    speeduptable = {}
+    for r in sequence:
+        rowposition = rowpositions[r]
+        table.setItem(rowposition, 1, QTableWidgetItem("running"))
+        t0 = time.time()
+        call_to(["feflow62c.exe", modelpath, "threads "+r], outwindow)
+        dt = time.time() - t0
+        table.setItem(rowposition, 1, QTableWidgetItem("complete"))
+        timeItem = QTableWidgetItem(str(dt))
+        table.setItem(rowposition, 2, timeItem)
+        speeduptable[int(r)] = dt
+
+        logfile.write("threads="+r+"\t"+str(dt))
+
+    logfile.close()
 
 
-def onIterationChanged():
-    updatedata()
-
-
-def onStateChangedDevBar():
-    updatedata()
-
-
-def onStateChangedBoundBracket():
-    updatedata()
-
-
-def onStateChangedPriorUncert():
-    updatedata()
-
-
-def onStateChangedPosteriorUncert():
-    updatedata()
-
-
-def onPushButtonRunGenlinpredPressed():
-    calculatelinearuncertainty()
 
 def call_to(args, target):
-    prompt = check_output(args)
-    target.appendPlainText(str(prompt.decode('UTF-8')))
+    try:
+        prompt = check_output(args, stderr=STDOUT)
+        target.appendPlainText(str(prompt.decode('UTF-8')))
+    except CalledProcessError:
+        target.appendPlainText("Error Running Model!")
 
 
 def calculatelinearuncertainty():
@@ -305,32 +336,20 @@ def updatedata():
 
 # Initialize User Interface:
 app = QApplication(sys.argv)
-Dialog = loadUi('PIDashboard.ui')
+Dialog = loadUi('ParallelPerformanceTest.ui')
 
 figure = Figure()
 canvas = FigureCanvas(figure)
 
 l = Dialog.gridLayout_PREDVAR
-sc = MyStaticMplCanvas(Dialog, width=5, height=4, dpi=100)
+sc = SpeedUpPlotCanvas(Dialog, width=5, height=4, dpi=100)
 l.addWidget(sc)
 
 figure.add_subplot(111)
 canvas.draw()
 
 Dialog.toolButtonSelectInputFile.clicked.connect(onselectsenfile)
-Dialog.toolButtonSelectInputFile_2.clicked.connect(onselectpstfile)
-Dialog.pushButtonRefresh.clicked.connect(onrefresh)
-Dialog.pushButtonRunGenlinpred.clicked.connect(onPushButtonRunGenlinpredPressed)
-Dialog.spinBox_IterationNumber.valueChanged.connect(onIterationChanged)
-Dialog.checkBox_BoundBrackets.stateChanged.connect(onStateChangedBoundBracket)
-Dialog.checkBox_Deviation.stateChanged.connect(onStateChangedDevBar)
-Dialog.checkBox_PreCalParamUncert.stateChanged.connect(onStateChangedPriorUncert)
-Dialog.checkBox_PostCalParamUncert.stateChanged.connect(onStateChangedPosteriorUncert)
-Dialog.treeWidgetParameterState.setColumnWidth(0, 100)
-Dialog.treeWidgetParameterState.setColumnWidth(1, 70)
-Dialog.treeWidgetParameterState.setColumnWidth(2, 70)
-Dialog.treeWidgetParameterState.setColumnWidth(3, 70)
-Dialog.label_senFileNotReadable.setVisible(False)
+Dialog.pushButtonRunSingleInstanceTest.clicked.connect(onrunsingleinstancetest)
 
 # Activate user interface:
 Dialog.show()

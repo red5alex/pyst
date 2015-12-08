@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1183</width>
-    <height>730</height>
+    <width>1165</width>
+    <height>801</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -134,7 +134,7 @@
      <rect>
       <x>20</x>
       <y>100</y>
-      <width>1081</width>
+      <width>1091</width>
       <height>581</height>
      </rect>
     </property>
@@ -220,21 +220,17 @@
      <attribute name="title">
       <string>PST File</string>
      </attribute>
-     <widget class="QPlainTextEdit" name="plainTextEdit_PstFile">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>1127</width>
-        <height>547</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Courier New</family>
-       </font>
-      </property>
-     </widget>
+     <layout class="QGridLayout" name="gridLayout_8">
+      <item row="0" column="0">
+       <widget class="QPlainTextEdit" name="plainTextEdit_PstFile">
+        <property name="font">
+         <font>
+          <family>Courier New</family>
+         </font>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
@@ -302,6 +298,11 @@
          <attribute name="title">
           <string>PREDVAR1</string>
          </attribute>
+         <layout class="QGridLayout" name="gridLayout_9">
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_PREDVAR"/>
+          </item>
+         </layout>
         </widget>
        </widget>
       </item>
@@ -530,7 +531,7 @@ background-color:rgb(100,100,100);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1183</width>
+     <width>1165</width>
      <height>21</height>
     </rect>
    </property>
